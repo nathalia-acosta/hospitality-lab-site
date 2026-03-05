@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Grazie – Hospitality Lab</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #080808;
+      --white: #F5F0EA;
+      --gold: #C9A96E;
+      --gold-light: #E8D5B0;
+      --navy: #1A1A2E;
+      --cream: #F0EBE3;
+      --gray: #666666;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body{
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.35;
+    }
+
+    /* ── GOLD LINE TOP ── */
+    .gold-bar {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 24px 60px;
+      border-bottom: 1px solid rgba(201,169,110,0.15);
+    }
+
+    .logo{
+      font-family:'DM Serif Display', serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .logo span{
+      font-style: italic;
+      color: var(--white);
+    }
+    .nav-tag{
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .wrap{
+      position: relative;
+      padding: 90px 60px;
+      display: grid;
+      place-items: center;
+      min-height: calc(100vh - 74px);
+      overflow: hidden;
+    }
+
+    /* Decorative grid dots */
+    .wrap::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: 12%;
+      width: 360px;
+      height: 360px;
+      background-image: radial-gradient(circle, rgba(201,169,110,0.2) 1px, transparent 1px);
+      background-size: 22px 22px;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    /* subtle vertical gold line */
+    .wrap::before{
+      content:'';
+      position:absolute;
+      left: 50%;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, rgba(201,169,110,0.22), transparent);
+      z-index: 0;
+      pointer-events:none;
+    }
+
+    .card{
+      position: relative;
+      z-index: 1;
+      width: min(820px, 100%);
+      border: 1px solid rgba(201,169,110,0.22);
+      background: linear-gradient(145deg, rgba(26,26,46,0.55), rgba(8,8,8,0.75));
+      box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+      padding: 56px 54px;
+      overflow: hidden;
+    }
+
+    .card::before{
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.9;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+      border-left: 2px solid var(--gold);
+      padding-left: 14px;
+    }
+
+    h1{
+      font-family:'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 7vw, 84px);
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+    }
+
+    h1 .gold-word{ color: var(--gold); }
+
+    .subtitle{
+      font-family:'DM Serif Display', serif;
+      font-style: italic;
+      font-size: clamp(18px, 2.2vw, 26px);
+      color: var(--gold-light);
+      line-height: 1.35;
+      margin-bottom: 26px;
+    }
+
+    .desc{
+      font-size: 15px;
+      line-height: 1.85;
+      color: rgba(245,240,234,0.70);
+      margin-bottom: 30px;
+      max-width: 64ch;
+    }
+
+    .desc strong{ color: var(--white); font-weight: 500; }
+
+    .actions{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .btn-primary{
+      display:inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 18px 36px;
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary::after{
+      content:'';
+      position:absolute;
+      inset: 3px;
+      border: 1px solid rgba(8,8,8,0.3);
+      pointer-events: none;
+    }
+
+    .btn-primary:hover{
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,169,110,0.3);
+    }
+
+    .btn-secondary{
+      display:inline-block;
+      color: var(--white);
+      border: 1px solid rgba(201,169,110,0.30);
+      padding: 16px 26px;
+      text-decoration: none;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover{
+      border-color: rgba(201,169,110,0.55);
+      background: rgba(201,169,110,0.08);
+      transform: translateY(-1px);
+    }
+
+    .note{
+      margin-top: 16px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--gray);
+    }
+
+    footer{
+      border-top: 1px solid rgba(201,169,110,0.15);
+      padding: 24px 60px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: var(--black);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo{
+      font-family:'DM Serif Display', serif;
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-copy{
+      font-size: 12px;
+      color: var(--gray);
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card > * { animation: fadeUp 0.8s ease both; }
+    .card .eyebrow { animation-delay: 0.05s; }
+    .card h1 { animation-delay: 0.15s; }
+    .card .subtitle { animation-delay: 0.25s; }
+    .card .desc { animation-delay: 0.35s; }
+    .card .actions { animation-delay: 0.45s; }
+    .card .note { animation-delay: 0.55s; }
+
+    @media (max-width: 900px){
+      nav{ padding: 20px 28px; }
+      .wrap{ padding: 60px 28px; }
+      .wrap::before, .wrap::after{ display:none; }
+      .card{ padding: 40px 28px; }
+      footer{ padding: 20px 28px; flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="gold-bar"></div>
+
+  <nav>
+    <div class="logo">Hospitality Lab <span>by Nathalia Acosta</span></div>
+    <div class="nav-tag">Conferma · Success</div>
+  </nav>
+
+  <main class="wrap">
+    <section class="card" aria-labelledby="thanks-title">
+      <div class="eyebrow">Richiesta ricevuta</div>
+
+      <h1 id="thanks-title">
+        Grazie.
+        <span class="gold-word">Perfetto.</span>
+      </h1>
+
+      <p class="subtitle">
+        Controlla la tua inbox — la guida è in arrivo.
+      </p>
+
+      <p class="desc">
+        Se non vedi l’email entro pochi minuti, controlla anche <strong>Spam</strong> o <strong>Promozioni</strong>.
+        Nel frattempo, puoi tornare alla pagina principale o contattarmi direttamente.
+      </p>
+
+      <div class="actions">
+        <a class="btn-primary" href="index.html#form">Torna al sito</a>
+        <a class="btn-secondary" href="mailto:hello@hospitalitylab.co">Scrivimi</a>
+      </div>
+
+      <p class="note">✦ Zero spam. Privacy-first. Hospitality Lab.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo">Hospitality Lab · by Nathalia Acosta</div>
+    <div class="footer-copy">© 2026 · Automatizzazione intelligente per l'hospitality</div>
+  </footer>
+</body>
+</html>
