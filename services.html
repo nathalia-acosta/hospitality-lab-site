@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospitality Lab · Nathalia Acosta</title>
+  <meta name="description" content="Automazione intelligente + IA per hotel e ristoranti che vogliono riempire le camere… non solo i feed." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS ─────────────────────────── */
+    :root {
+      --ink:    #080808;
+      --cream:  #F5F0EA;
+      --gold:   #C9A96E;
+      --gold-lt:#E8D5B0;
+      --dim:    #1a1a1a;
+      --mid:    #2e2a24;
+      --muted:  #7a7060;
+
+      --bebas: 'Bebas Neue', sans-serif;
+      --serif: 'DM Serif Display', serif;
+      --sans:  'DM Sans', sans-serif;
+    }
+
+    /* ── RESET ──────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* ── NOISE OVERLAY ──────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: .6;
+    }
+
+    /* ── UTILITY ────────────────────────── */
+    .gold { color: var(--gold); }
+    .label {
+      font-family: var(--sans);
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: .2rem .7rem;
+      border-radius: 2px;
+    }
+    .tag-dark {
+      background: rgba(201,169,110,.12);
+      border-color: rgba(201,169,110,.4);
+    }
+    .section-num {
+      font-family: var(--bebas);
+      font-size: 1rem;
+      letter-spacing: .3em;
+      color: var(--gold);
+      opacity: .7;
+    }
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      opacity: .5;
+      margin: 1rem 0;
+    }
+
+    /* ── NAV ────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 1.5rem;
+      background: rgba(8,8,8,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,169,110,.15);
+    }
+    .nav-brand {
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .nav-brand span { color: var(--gold); }
+    .nav-cta {
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,169,110,.5);
+      padding: .4rem 1rem;
+      border-radius: 2px;
+      transition: background .25s, color .25s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--ink); }
+
+    /* ── HERO ───────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 7rem 1.5rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-dots {
+      position: absolute; top: 20px; right: 20px;
+      display: grid; grid-template-columns: repeat(6, 6px); gap: 6px;
+      opacity: .25;
+    }
+    .hero-grid-dots span {
+      width: 2px; height: 2px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: block;
+    }
+    .hero-bar {
+      position: absolute; left: 0; top: 15%; bottom: 10%;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      opacity: .4;
+    }
+    .hero-eyebrow { margin-bottom: 1rem; }
+    .hero-title {
+      font-family: var(--bebas);
+      font-size: clamp(3.8rem, 13vw, 10rem);
+      line-height: .9;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--gold);
+      display: block;
+    }
+    .hero-tagline {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(.9rem, 2.5vw, 1.15rem);
+      color: var(--gold-lt);
+      max-width: 420px;
+      line-height: 1.55;
+      margin-bottom: 2rem;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .75rem;
+      margin-bottom: 2.5rem;
+    }
+    @media(min-width:500px) {
+      .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    }
+    .stat-card {
+      border: 1px solid rgba(201,169,110,.2);
+      padding: .75rem;
+      background: rgba(201,169,110,.05);
+      border-radius: 3px;
+    }
+    .stat-num {
+      font-family: var(--bebas);
+      font-size: 1.8rem;
+      letter-spacing: .04em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: .58rem;
+      font-weight: 400;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: .2rem;
+    }
+    .hero-cta-row {
+      display: flex; gap: .75rem; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: .85rem 1.8rem;
+      border-radius: 2px;
+      transition: background .2s, transform .2s;
+      border: none; cursor: pointer;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .btn-ghost {
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: .85rem 1.8rem;
+      border: 1px solid rgba(245,240,234,.3);
+      border-radius: 2px;
+      transition: border-color .2s, color .2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── SECTIONS ───────────────────────── */
+    section { padding: 5rem 1.5rem; }
+    .section-header { margin-bottom: 2.5rem; }
+    .section-title {
+      font-family: var(--bebas);
+      font-size: clamp(2.2rem, 8vw, 4.5rem);
+      letter-spacing: .06em;
+      line-height: .95;
+      text-transform: uppercase;
+    }
+
+    /* ── CONSULENZA ─────────────────────── */
+    #consulenza { background: var(--dim); }
+    .flagship-card {
+      border: 1px solid rgba(201,169,110,.3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .flagship-top {
+      background: rgba(201,169,110,.07);
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(201,169,110,.15);
+    }
+    .flagship-title {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      line-height: 1.2;
+      margin: .75rem 0;
+    }
+    .flagship-body { padding: 1.5rem; }
+    .feature-list { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 1.5rem; }
+    .feature-list li {
+      font-size: .85rem;
+      color: var(--cream);
+      opacity: .8;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .feature-list li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--gold);
+      font-size: .8rem;
+    }
+    .result-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .pill {
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: .3rem .8rem;
+      border-radius: 50px;
+      background: rgba(201,169,110,.12);
+      color: var(--gold);
+      border: 1px solid rgba(201,169,110,.3);
+    }
+    .flagship-note {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: .82rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(201,169,110,.1);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+
+    /* ── PACKAGE GRID ───────────────────── */
+    .pack-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media(min-width:640px) {
+      .pack-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .pack-card {
+      border: 1px solid rgba(201,169,110,.2);
+      border-radius: 4px;
+      padding: 1.5rem;
+      background: rgba(201,169,110,.03);
+      display: flex;
+      flex-direction: column;
+      transition: border-color .25s, background .25s;
+    }
+    .pack-card:hover {
+      border-color: rgba(201,169,110,.5);
+      background: rgba(201,169,110,.07);
+    }
+    .pack-card.featured {
+      border-color: var(--gold);
+      background: rgba(201,169,110,.08);
+    }
+    .pack-type { margin-bottom: .5rem; }
+    .pack-name {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .pack-features { flex: 1; margin-bottom: 1.25rem; }
+    .pack-features li {
+      font-size: .8rem;
+      color: var(--cream);
+      opacity: .75;
+      padding: .3rem 0 .3rem 1.2rem;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .pack-features li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--gold);
+      opacity: .7;
+    }
+
+    /* ── AUTONOMOUS AGENT ───────────────── */
+    #agent { background: var(--ink); }
+    .agent-card {
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      overflow: hidden;
+      background: rgba(201,169,110,.04);
+    }
+    .agent-header {
+      padding: 1.75rem 1.5rem;
+      border-bottom: 1px solid rgba(201,169,110,.2);
+      background: rgba(201,169,110,.07);
+    }
+    .agent-title {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      line-height: 1.2;
+      margin: .75rem 0 .5rem;
+    }
+    .agent-body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media(min-width:600px) {
+      .agent-body { grid-template-columns: 1fr 1fr; }
+    }
+    .agent-col-title {
+      font-family: var(--sans);
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .85rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .agent-col-title::before {
+      content: '★';
+      font-size: .5rem;
+    }
+    .agent-includes {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid rgba(201,169,110,.15);
+      background: rgba(201,169,110,.05);
+    }
+    .includes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem;
+      margin-top: .75rem;
+    }
+    .includes-grid li {
+      font-size: .78rem;
+      color: var(--cream);
+      opacity: .8;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .includes-grid li::before {
+      content: '✓';
+      position: absolute; left: 0;
+      color: var(--gold);
+      font-size: .7rem;
+    }
+    .tools-row {
+      display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .75rem;
+    }
+    .tool-tag {
+      font-size: .6rem;
+      letter-spacing: .1em;
+      padding: .25rem .6rem;
+      background: rgba(201,169,110,.1);
+      color: var(--gold-lt);
+      border-radius: 2px;
+      border: 1px solid rgba(201,169,110,.25);
+    }
+
+    /* ── CONTACT ────────────────────────── */
+    #contact {
+      background: var(--cream);
+      color: var(--ink);
+    }
+    #contact .label { color: #7a6040; }
+    #contact .section-title { color: var(--ink); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    @media(min-width:640px) {
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .contact-info { display: flex; flex-direction: column; gap: .85rem; }
+    .contact-row {
+      display: flex; align-items: flex-start; gap: .75rem;
+    }
+    .contact-ico {
+      width: 28px; height: 28px;
+      background: var(--ink);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
+    .contact-ico svg { width: 13px; height: 13px; fill: var(--gold); }
+    .contact-detail small {
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #7a6040;
+      display: block;
+      margin-bottom: .1rem;
+    }
+    .contact-detail a, .contact-detail span {
+      font-size: .9rem;
+      color: var(--ink);
+    }
+    .contact-detail a:hover { color: #7a6040; }
+    .contact-cta-box {
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 4px;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-cta-box .serif-quote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: var(--gold-lt);
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: .9rem 1.8rem;
+      border-radius: 2px;
+      display: inline-block;
+      transition: background .2s;
+      align-self: flex-start;
+    }
+    .btn-gold:hover { background: var(--gold-lt); }
+
+    /* ── FOOTER ─────────────────────────── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(201,169,110,.15);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    @media(min-width:640px) {
+      footer { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+    .footer-brand {
+      font-family: var(--bebas);
+      font-size: 1rem;
+      letter-spacing: .2em;
+      color: var(--gold);
+    }
+    .footer-sub {
+      font-size: .65rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .footer-copy {
+      font-size: .65rem;
+      color: var(--muted);
+      letter-spacing: .05em;
+    }
+
+    /* ── ANIMATIONS ─────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp .7s ease both; }
+    .d1 { animation-delay: .1s; }
+    .d2 { animation-delay: .25s; }
+    .d3 { animation-delay: .4s; }
+    .d4 { animation-delay: .55s; }
+    .d5 { animation-delay: .7s; }
+
+    /* ── SCROLL REVEAL ──────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── SECTION SEPARATOR ──────────────── */
+    .sep {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,169,110,.3), transparent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">Hospitality <span>Lab</span> · Nathalia Acosta</div>
+    <a class="nav-cta" href="mailto:nathalia.acostav@gmail.com">Contatto</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bar"></div>
+    <div class="hero-grid-dots">
+      <!-- dots grid -->
+      <script>
+        document.currentScript.insertAdjacentHTML('afterend',
+          Array(36).fill('<span></span>').join('')
+        );
+      </script>
+    </div>
+
+    <div class="hero-eyebrow fade-up d1">
+      <span class="label">Soluzioni su misura 2026 · Hotel &amp; Ristoranti Indipendenti</span>
+    </div>
+
+    <h1 class="hero-title fade-up d2">
+      I Nostri<br><em>Servizi</em>
+    </h1>
+
+    <p class="hero-tagline fade-up d3">
+      Automazione intelligente + IA per hotel e ristoranti che vogliono riempire le camere… non solo i feed.
+    </p>
+
+    <div class="hero-stats fade-up d4">
+      <div class="stat-card">
+        <div class="stat-num">+30%</div>
+        <div class="stat-label">Prenotazioni dirette in 90 gg</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">−25%</div>
+        <div class="stat-label">Commissioni OTA risparmiate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4.8★</div>
+        <div class="stat-label">Google Rating medio clienti</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">−70%</div>
+        <div class="stat-label">Lavoro manuale grazie all'IA</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Copertura IA autonoma</div>
+      </div>
+    </div>
+
+    <div class="hero-cta-row fade-up d5">
+      <a class="btn-primary" href="#contact">Richiedi un preventivo</a>
+      <a class="btn-ghost" href="#servizi">Scopri i servizi</a>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- 01 CONSULENZA -->
+  <section id="servizi" style="padding-top:4rem;">
+    <div class="section-header reveal">
+      <span class="section-num">01 ·</span>
+      <h2 class="section-title">Consulenza<br>Strategica</h2>
+    </div>
+
+    <div class="flagship-card reveal">
+      <div class="flagship-top">
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+          <span class="tag">★ Flagship</span>
+          <span class="tag tag-dark">Punto di Partenza</span>
+        </div>
+        <h3 class="flagship-title">Consulenza Strategica Personalizzata<br>per la Digitalizzazione</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+          <span class="pill">+20–30% prenotazioni dirette</span>
+          <span class="pill">Riduzione dipendenza OTA</span>
+          <span class="pill">Piano IA pronto all'uso</span>
+        </div>
+      </div>
+      <div class="flagship-body">
+        <ul class="feature-list">
+          <li>Audit digitale completo — sito, social, reputazione, booking engine</li>
+          <li>Diagnosi e piano strategico personalizzato</li>
+          <li>Proposte IA e automazione (WhatsApp, prenotazioni smart, menù digitale)</li>
+          <li>Roadmap 30–90 giorni con priorità e metriche di successo</li>
+        </ul>
+        <p class="flagship-note">
+          Ideale per iniziare: ricevi una diagnosi chiara e una roadmap concreta prima di qualsiasi investimento ricorrente.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- 02 AUTOMAZIONE -->
+  <section id="automazione" style="background:var(--dim);">
+    <div class="section-header reveal">
+      <span class="section-num">02 ·</span>
+      <h2 class="section-title">Pacchetti<br>Automazione</h2>
+    </div>
+
+    <div class="pack-grid">
+      <!-- STARTER -->
+      <div class="pack-card reveal">
+        <div class="pack-type"><span class="label">Starter</span></div>
+        <h3 class="pack-name">Automazione<br>di Base</h3>
+        <ul class="pack-features feature-list">
+          <li>WhatsApp automation 24/7 — risposte, conferme, FAQ, upsell</li>
+          <li>Integrazione con motore di prenotazione</li>
+          <li>Risposte IA a Google/TripAdvisor</li>
+          <li>Menù digitale QR Code</li>
+          <li>Flusso pre-soggiorno base</li>
+          <li>Setup + 1 sessione di formazione</li>
+          <li>Report mensile base</li>
+        </ul>
+        <div class="result-pills">
+          <span class="pill">−60/80% risposte manuali</span>
+          <span class="pill">+0.3 Google Rating</span>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div class="pack-card featured reveal">
+        <div class="pack-type"><span class="label">Pro ★ Più Scelto</span></div>
+        <h3 class="pack-name">Automazione<br>Avanzata</h3>
+        <ul class="pack-features feature-list">
+          <li>Flussi WhatsApp avanzati — prenotazioni dirette, cart recovery</li>
+          <li>Integrazione CRM completa</li>
+          <li>Reputation management professionale</li>
+          <li>Flussi pre e post-soggiorno completi</li>
+          <li>Ottimizzazione Google My Business</li>
+          <li>2 strategy call/mese + KPI Dashboard</li>
+        </ul>
+        <div class="result-pills">
+          <span class="pill">+20–40% prenotazioni dirette</span>
+          <span class="pill">−70% tempo gestione</span>
+        </div>
+      </div>
+
+      <!-- REVENUE -->
+      <div class="pack-card reveal">
+        <div class="pack-type"><span class="label">Revenue</span></div>
+        <h3 class="pack-name">Automazione<br>Revenue-Focused</h3>
+        <ul class="pack-features feature-list">
+          <li>IA upsell dinamico — upgrade, pacchetti personalizzati</li>
+          <li>Integrazione PMS completa</li>
+          <li>Flussi di remarketing automatizzati</li>
+          <li>Analisi IA predittiva base</li>
+          <li>Risposte multi-lingua automatiche</li>
+          <li>Audit trimestrale + supporto prioritario</li>
+        </ul>
+        <div class="result-pills">
+          <span class="pill">+30–60% revenue diretto</span>
+          <span class="pill">Sistema autonomo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- 03 GROWTH MARKETING -->
+  <section id="marketing">
+    <div class="section-header reveal">
+      <span class="section-num">03 ·</span>
+      <h2 class="section-title">Pacchetti<br>Growth Marketing</h2>
+    </div>
+
+    <div class="pack-grid">
+      <!-- BASIC -->
+      <div class="pack-card reveal">
+        <div class="pack-type"><span class="label">Basic</span></div>
+        <h3 class="pack-name">Visibilità<br>&amp; Lead Capture</h3>
+        <ul class="pack-features feature-list">
+          <li>Audit digitale iniziale</li>
+          <li>Strategia mensile + calendario editoriale</li>
+          <li>Gestione Instagram/Facebook — 8–10 post/reel al mese</li>
+          <li>Ottimizzazione bio e SEO di base</li>
+          <li>1 campagna Meta Ads semplice</li>
+          <li>Report mensile base</li>
+        </ul>
+        <div class="result-pills">
+          <span class="pill">Visibilità organica</span>
+          <span class="pill">Lead capture attivo</span>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div class="pack-card featured reveal">
+        <div class="pack-type"><span class="label">Pro ★ Più Scelto</span></div>
+        <h3 class="pack-name">Crescita Prenotazioni<br>Dirette</h3>
+        <ul class="pack-features feature-list">
+          <li>Strategia 360° — web, social, ads, funnel</li>
+          <li>Social management completo — Reels, Stories, UGC</li>
+          <li>SEO avanzato + TikTok</li>
+          <li>Meta Ads + Google Ads avanzati (lookalike, retargeting)</li>
+          <li>Landing page + ottimizzazione funnel</li>
+          <li>Report KPI dettagliato + 1 strategy call/mese</li>
+        </ul>
+        <div class="result-pills">
+          <span class="pill">+30–50% prenotazioni dirette</span>
+          <span class="pill">−15–30% commissioni OTA</span>
+        </div>
+      </div>
+
+      <!-- REVENUE -->
+      <div class="pack-card reveal">
+        <div class="pack-type"><span class="label">Revenue</span></div>
+        <h3 class="pack-name">Scale Revenue<br>Digitale</h3>
+        <ul class="pack-features feature-list">
+          <li>Email automation — pre/post-soggiorno, win-back</li>
+          <li>Flussi automatizzati e remarketing avanzato</li>
+          <li>CRO web — heatmap, A/B testing</li>
+          <li>KPI profondi: ADR, RevPAR, analisi avanzata</li>
+          <li>Strategia avanzata trimestrale</li>
+        </ul>
+        <div class="result-pills">
+          <span class="pill">Revenue digitale scalato</span>
+          <span class="pill">Profittabilità massimizzata</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- 04 AGENT -->
+  <section id="agent">
+    <div class="section-header reveal">
+      <span class="section-num">04 ·</span>
+      <h2 class="section-title">Agente IA<br>Autonomo</h2>
+    </div>
+
+    <div class="agent-card reveal">
+      <div class="agent-header">
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;">
+          <span class="tag">★ Premium</span>
+          <span class="tag tag-dark">Implementazione Chiavi in Mano</span>
+        </div>
+        <h3 class="agent-title">Autonomous Hospitality Agent —<br>Implementazione Chiavi in Mano</h3>
+      </div>
+
+      <div class="agent-body">
+        <div>
+          <div class="agent-col-title">Agente Prenotazioni</div>
+          <ul class="feature-list">
+            <li>Gestisce WhatsApp/Instagram in autonomia</li>
+            <li>Verifica disponibilità in tempo reale</li>
+            <li>Conferma e incassa deposito via Stripe</li>
+            <li>Aggiorna il calendario automaticamente</li>
+          </ul>
+        </div>
+        <div>
+          <div class="agent-col-title">Agente Reputazione</div>
+          <ul class="feature-list">
+            <li>Monitora e risponde a recensioni 24/7</li>
+            <li>Google/TripAdvisor in automatico</li>
+            <li>Rileva crisi con alert immediati</li>
+            <li>Upsell post-soggiorno automatico</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="agent-includes">
+        <span class="label">Include</span>
+        <ul class="includes-grid">
+          <li>Audit agentico approfondito</li>
+          <li>Build + customizzazione agenti</li>
+          <li>Test 2–4 settimane</li>
+          <li>2–3 sessioni di handover + training</li>
+          <li>90 giorni supporto post-lancio</li>
+          <li>Bonus: roadmap + mini-corso</li>
+        </ul>
+        <div class="tools-row" style="margin-top:1rem;">
+          <span class="label" style="width:100%;margin-bottom:.4rem;">Sistema completamente autonomo · Tools:</span>
+          <span class="tool-tag">Gumloop</span>
+          <span class="tool-tag">n8n</span>
+          <span class="tool-tag">Claude AI</span>
+          <span class="tool-tag">Stripe</span>
+          <span class="tool-tag">WhatsApp</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <span class="label">Soluzioni su misura</span>
+      <h2 class="section-title" style="color:var(--ink);">Parliamo<br>del Tuo Progetto</h2>
+      <p style="font-size:.85rem;color:#555;margin-top:.75rem;max-width:380px;">
+        Italia · Svizzera · Contattaci per un preventivo su misura
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="contact-row">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <div class="contact-detail">
+            <small>Email</small>
+            <a href="mailto:nathalia.acostav@gmail.com">nathalia.acostav@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          </div>
+          <div class="contact-detail">
+            <small>Telefono / WhatsApp</small>
+            <a href="tel:+393755586968">+39 375 558 6968</a>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          </div>
+          <div class="contact-detail">
+            <small>Dove operiamo</small>
+            <span>Italia · Svizzera · Remoto</span>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem;">
+          <div class="divider"></div>
+          <p style="font-family:'DM Serif Display',serif;font-style:italic;font-size:.9rem;color:#555;line-height:1.5;">
+            "La differenza tra un ristorante pieno e uno vuoto oggi non è il cibo… è chi li vede prima."
+          </p>
+        </div>
+      </div>
+
+      <div class="contact-cta-box reveal">
+        <span class="label" style="color:var(--gold);">Prenota una call gratuita</span>
+        <p class="serif-quote">
+          Ricevi una diagnosi chiara e una roadmap concreta prima di qualsiasi investimento ricorrente.
+        </p>
+        <ul class="feature-list" style="color:var(--cream);">
+          <li>Audit digitale gratuito (30 min)</li>
+          <li>Piano strategico personalizzato</li>
+          <li>Preventivo su misura senza impegno</li>
+        </ul>
+        <a class="btn-gold" href="mailto:nathalia.acostav@gmail.com?subject=Richiesta%20Preventivo%20Hospitality%20Lab">
+          Scrivimi ora →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <div class="footer-brand">Hospitality Lab · Nathalia Acosta</div>
+      <div class="footer-sub" style="margin-top:.3rem;">Fondatrice · Automazione Intelligente per l'Hospitality</div>
+    </div>
+    <div class="footer-copy">© 2026 · Italia · Svizzera</div>
+  </footer>
+
+  <!-- SCROLL REVEAL JS -->
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
