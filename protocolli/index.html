@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistemi di Redenzione — Hospitality Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nero: #080808;
+  --crema: #F5F0EA;
+  --crema-soft: #F0EBE3;
+  --oro: #C9A96E;
+  --oro-chiaro: #E8D5B0;
+  --grigio: #666666;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+/* CURSOR — only hidden when JS cursor is active */
+body{background:var(--crema);color:var(--nero);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:auto;}
+body.cursor-ready{cursor:none;}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.45;}
+
+/* CURSOR */
+.cursor{position:fixed;width:8px;height:8px;background:var(--oro);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:multiply;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,169,110,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.25,.46,.45,.94),height .35s cubic-bezier(.25,.46,.45,.94),border-color .3s;}
+.cursor.hov{width:14px;height:14px;}
+.cursor-ring.hov{width:56px;height:56px;border-color:rgba(201,169,110,.8);}
+
+/* PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));z-index:9999;}
+
+/* HEADER */
+header{padding:24px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,169,110,.2);position:sticky;top:0;background:rgba(245,240,234,.93);backdrop-filter:blur(16px);z-index:100;transition:transform .4s ease,box-shadow .4s ease;}
+header.scrolled{box-shadow:0 4px 32px rgba(8,8,8,.06);}
+header.hidden{transform:translateY(-100%);}
+.logo-block{display:flex;flex-direction:column;gap:2px;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--nero);line-height:1;}
+.logo-sub{font-size:9px;letter-spacing:4px;color:var(--oro);text-transform:uppercase;}
+.header-badge{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--grigio);border:1px solid rgba(201,169,110,.3);padding:6px 14px;border-radius:20px;transition:border-color .3s,color .3s;cursor:none;}
+.header-badge:hover{border-color:var(--oro);color:var(--oro);}
+
+/* HERO */
+.hero{padding:64px 32px 48px;position:relative;overflow:hidden;}
+.hero-orb{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.08) 0%,transparent 70%);right:-100px;top:-80px;animation:orbFloat 8s ease-in-out infinite;pointer-events:none;}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(-18px,14px) scale(1.04);}66%{transform:translate(10px,-10px) scale(.97);}}
+.hero::after{content:'LAB';position:absolute;right:-10px;top:10px;font-family:'Bebas Neue',sans-serif;font-size:220px;color:var(--oro);opacity:.04;letter-spacing:8px;pointer-events:none;line-height:1;animation:symbolDrift 14s ease-in-out infinite;}
+@keyframes symbolDrift{0%,100%{transform:rotate(0deg) scale(1);opacity:.04;}50%{transform:rotate(1.5deg) scale(1.015);opacity:.065;}}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:20px;font-weight:500;animation:fadeIn .7s .2s ease both;}
+.eyebrow-line{display:inline-block;width:0;height:1px;background:var(--oro);animation:lineGrow .6s .85s ease forwards;}
+@keyframes lineGrow{to{width:28px;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-h1-wrap{overflow:hidden;display:block;font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,72px);line-height:.9;letter-spacing:2px;color:var(--nero);}
+.hero-h1-wrap .inner{display:block;animation:slideUp .85s .35s cubic-bezier(.16,1,.3,1) both;}
+.hero-h2-wrap{overflow:hidden;display:block;color:var(--oro);font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(32px,5.5vw,48px);line-height:1.15;}
+.hero-h2-wrap .inner{display:block;animation:slideUp .85s .5s cubic-bezier(.16,1,.3,1) both;}
+@keyframes slideUp{from{transform:translateY(110%);}to{transform:translateY(0);}}
+
+.hero-desc{margin-top:28px;font-size:14px;line-height:1.8;color:#444;max-width:520px;font-weight:300;animation:fadeIn .8s .75s ease both;}
+.hero-desc strong{color:var(--nero);font-weight:500;}
+.hero-sub-copy{margin-top:14px;font-family:'DM Serif Display',serif;font-style:italic;font-size:15px;color:var(--grigio);max-width:480px;animation:fadeIn .8s .9s ease both;border-left:2px solid rgba(201,169,110,.3);padding-left:14px;}
+.hero-divider{width:0;height:1px;background:linear-gradient(to right,var(--oro),transparent);margin-top:48px;opacity:.35;animation:expandW 1s 1.05s ease forwards;}
+@keyframes expandW{to{width:100%;}}
+
+@media(min-width:768px){
+  .hero{padding:72px 10% 56px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto;column-gap:64px;align-items:start;}
+  .hero-eyebrow{grid-column:1/3;}
+  .hero-h1-wrap,.hero-h2-wrap{grid-column:1/2;}
+  .hero-desc,.hero-sub-copy{grid-column:2/3;margin-top:0;}
+  .hero-desc{padding-top:8px;}
+  .hero-divider{grid-column:1/3;margin-top:40px;}
+  .hero::after{font-size:280px;right:5%;}
+}
+/* METRICS */
+.metrics{display:flex;overflow-x:auto;padding:0 32px;scrollbar-width:none;border-bottom:1px solid rgba(201,169,110,.15);}
+.metrics::-webkit-scrollbar{display:none;}
+.metric-item{flex:0 0 auto;padding:22px 26px;border-right:1px solid rgba(201,169,110,.15);min-width:140px;position:relative;overflow:hidden;cursor:none;}
+.metric-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--oro),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.metric-item:hover::after{transform:scaleX(1);}
+.metric-item:last-child{border-right:none;}
+.metric-num{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;color:var(--oro);line-height:1;transition:letter-spacing .35s ease;}
+.metric-item:hover .metric-num{letter-spacing:4px;}
+.metric-label{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--grigio);margin-top:4px;}
+
+/* TRUST MARQUEE */
+.trust-wrap{overflow:hidden;border-top:1px solid rgba(201,169,110,.12);border-bottom:1px solid rgba(201,169,110,.12);background:rgba(201,169,110,.04);padding:14px 0;}
+.trust-track{display:flex;width:max-content;animation:marquee 24s linear infinite;}
+.trust-track:hover{animation-play-state:paused;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.trust-item{flex:0 0 auto;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--grigio);font-weight:500;white-space:nowrap;padding:0 28px;display:flex;align-items:center;gap:28px;}
+.trust-item::after{content:'✦';color:var(--oro);font-size:7px;opacity:.6;}
+
+/* SECTION HEADER */
+.section-header{padding:52px 32px 24px;}
+.section-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.section-tag::before{content:'';width:20px;height:1px;background:var(--oro);}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:2px;line-height:1;color:var(--nero);}
+.section-subtitle{font-family:'DM Serif Display',serif;font-style:italic;font-size:16px;color:var(--grigio);margin-top:6px;}
+
+/* PROTO NUM */
+.proto-num{display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:3px;font-weight:600;color:#8B6535;margin-bottom:2px;text-transform:uppercase;}
+.proto-num::before{content:'';width:14px;height:1px;background:#8B6535;}
+
+/* CARDS GRID */
+.cards-grid{display:flex;flex-direction:column;gap:16px;padding:0 32px 8px;}
+
+.card-base{background:white;border-radius:20px;padding:22px 22px 20px;border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden;cursor:none;transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s ease,border-color .4s ease;}
+.card-base::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,1,.3,1);}
+.card-base:hover::before{transform:scaleX(1);}
+.card-base:hover{transform:translateY(-5px);box-shadow:0 22px 50px rgba(8,8,8,.09);border-color:rgba(201,169,110,.28);}
+.card-base::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(201,169,110,.05) 50%,transparent 62%);transform:translateX(-100%);transition:transform .7s ease;}
+.card-base:hover::after{transform:translateX(100%);}
+
+.card-icon-wrap{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(232,213,176,.06));border:1px solid rgba(201,169,110,.18);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;transition:transform .35s cubic-bezier(.16,1,.3,1);}
+.card-base:hover .card-icon-wrap{transform:rotate(-8deg) scale(1.12);}
+
+.card-tag{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;font-weight:300;margin-bottom:8px;}
+.card-title{font-family:'DM Serif Display',serif;font-size:24px;line-height:1.15;color:var(--nero);margin-bottom:3px;}
+.card-title-sub{font-size:11px;letter-spacing:0.5px;text-transform:none;color:#999;font-weight:300;margin-bottom:12px;font-style:italic;}
+.card-desc{font-size:13px;line-height:1.65;color:#555;font-weight:300;margin-bottom:14px;}
+
+/* SIN BADGE */
+.card-sin-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#7A5C2E;background:rgba(139,101,53,.1);border:1px solid rgba(139,101,53,.25);padding:5px 12px;border-radius:20px;margin-bottom:14px;font-weight:600;}
+.card-sin-badge::before{content:'✦';font-size:7px;}
+
+/* INCLUDES — always visible */
+.card-includes{list-style:none;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;}
+.card-includes li{font-size:12.5px;color:#444;font-weight:400;display:flex;align-items:flex-start;gap:9px;line-height:1.4;opacity:1;transform:none;}
+.card-includes li::before{content:'→';color:var(--oro);flex-shrink:0;font-size:11px;margin-top:2px;}
+
+/* Hover stagger — purely additive, never hides */
+@media(hover:hover){
+  .card-base:hover .card-includes li,
+  .card-premium:hover .card-includes li{opacity:1;transform:translateX(0);}
+}
+
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(201,169,110,.1);}
+.card-price{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1px;color:var(--nero);line-height:1;}
+.card-price span{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--grigio);font-weight:300;margin-left:3px;}
+
+/* BUTTONS */
+.btn-buy,.btn-buy-gold{display:inline-block;padding:12px 22px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;cursor:none;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease,color .3s;border:none;}
+.btn-buy{background:var(--nero);color:var(--crema);}
+.btn-buy-gold{background:transparent;color:var(--oro);border:1px solid rgba(201,169,110,.35);}
+.btn-fill{position:absolute;inset:0;pointer-events:none;transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1);}
+.btn-buy .btn-fill{background:var(--oro);}
+.btn-buy-gold .btn-fill{background:var(--oro);}
+.btn-buy:hover .btn-fill,.btn-buy-gold:hover .btn-fill{transform:translateX(0);}
+.btn-buy:hover{color:var(--nero);box-shadow:0 8px 24px rgba(201,169,110,.3);}
+.btn-buy-gold:hover{color:var(--nero);border-color:var(--oro);box-shadow:0 8px 28px rgba(201,169,110,.25);}
+.btn-label{position:relative;z-index:1;}
+.flagship .btn-buy-gold{background:var(--oro);color:var(--nero);border-color:var(--oro);}
+.flagship .btn-buy-gold .btn-fill{background:rgba(255,255,255,.2);}
+
+/* GUARANTEE */
+.guarantee{margin:4px 32px 20px;padding:16px 20px;border:1px dashed rgba(201,169,110,.28);border-radius:14px;background:rgba(201,169,110,.04);display:flex;gap:14px;align-items:flex-start;transition:border-color .3s;}
+.guarantee:hover{border-color:rgba(201,169,110,.55);}
+.guarantee-icon{font-size:18px;flex-shrink:0;}
+.guarantee-text{font-size:12.5px;line-height:1.65;color:#555;}
+.guarantee-text strong{color:var(--nero);font-weight:500;display:block;margin-bottom:3px;}
+
+/* DIVIDER */
+.section-divider{margin:36px 32px;position:relative;display:flex;align-items:center;gap:16px;}
+.section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,169,110,.3),transparent);}
+.section-divider-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);white-space:nowrap;font-weight:500;}
+
+/* PREMIUM SECTION */
+.premium-section{background:var(--nero);padding:52px 0 64px;position:relative;overflow:hidden;}
+.premium-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(201,169,110,.09) 0%,transparent 55%),radial-gradient(ellipse at 15% 90%,rgba(201,169,110,.05) 0%,transparent 50%);animation:premiumPulse 5s ease-in-out infinite alternate;}
+@keyframes premiumPulse{from{opacity:.7;}to{opacity:1;}}
+.premium-section::after{content:'REDENZIONE';position:absolute;right:-40px;bottom:10px;font-family:'Bebas Neue',sans-serif;font-size:110px;color:white;opacity:.022;letter-spacing:10px;pointer-events:none;animation:textDrift 18s linear infinite;}
+@keyframes textDrift{from{transform:translateX(0);}to{transform:translateX(-80px);}}
+
+.particle{position:absolute;border-radius:50%;background:var(--oro);pointer-events:none;opacity:0;animation:pfloat linear infinite;}
+@keyframes pfloat{0%{transform:translateY(110%) rotate(0deg);opacity:0;}8%{opacity:.25;}92%{opacity:.12;}100%{transform:translateY(-5%) rotate(540deg);opacity:0;}}
+
+.premium-header{padding:0 32px 28px;position:relative;}
+.premium-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.premium-tag::before{content:'✦';font-size:8px;}
+.premium-title{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:2px;color:var(--crema);line-height:1;}
+.premium-subtitle{font-family:'DM Serif Display',serif;font-style:italic;font-size:15px;color:rgba(245,240,234,.4);margin-top:6px;}
+
+.cards-premium{display:flex;flex-direction:column;gap:20px;padding:0 32px;}
+
+.card-premium{background:rgba(255,255,255,.03);border:1px solid rgba(201,169,110,.18);border-radius:22px;padding:24px 24px 22px;position:relative;overflow:hidden;cursor:none;transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .4s ease,background .4s ease;}
+.card-premium:hover{transform:translateY(-5px);border-color:rgba(201,169,110,.5);background:rgba(255,255,255,.05);}
+.card-premium::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--oro),transparent);transform:scaleX(0);transition:transform .55s ease;}
+.card-premium:hover::before{transform:scaleX(1);}
+.card-premium::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,.07) 0%,transparent 55%);opacity:0;transition:opacity .5s ease;pointer-events:none;}
+.card-premium:hover::after{opacity:1;}
+
+.card-premium.flagship{background:linear-gradient(135deg,rgba(201,169,110,.07) 0%,rgba(255,255,255,.02) 100%);border-color:rgba(201,169,110,.28);}
+.flagship-badge{position:absolute;top:18px;right:18px;background:var(--oro);color:var(--nero);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:5px 12px;border-radius:20px;animation:badgePulse 2.5s ease-in-out infinite;}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.45);}50%{box-shadow:0 0 0 7px rgba(201,169,110,0);}}
+
+.card-premium .proto-num{color:rgba(201,169,110,.8);font-weight:600;letter-spacing:3px;font-size:10px;}
+.card-premium .proto-num::before{background:rgba(201,169,110,.6);}
+.card-premium .card-tag{color:rgba(245,240,234,.3);font-size:9px;font-weight:300;letter-spacing:2px;}
+.card-premium .card-title{color:var(--crema);font-size:25px;}
+.card-premium .card-title-sub{color:rgba(245,240,234,.3);font-size:11px;font-weight:300;letter-spacing:.5px;text-transform:none;font-style:italic;}
+.card-premium .card-desc{color:rgba(245,240,234,.5);font-size:13.5px;}
+.card-premium .card-footer{border-top-color:rgba(201,169,110,.1);}
+.card-premium .card-includes li{color:rgba(245,240,234,.7);font-size:13px;}
+.card-premium .card-price{font-size:42px;color:var(--oro);}
+.card-premium .card-price span{color:rgba(201,169,110,.45);}
+.card-premium .card-sin-badge{color:rgba(201,169,110,.9);background:rgba(201,169,110,.08);border-color:rgba(201,169,110,.22);font-weight:600;font-size:9px;}
+
+.premium-note{margin:24px 32px 0;padding:16px 20px;border:1px solid rgba(201,169,110,.1);border-radius:14px;display:flex;gap:14px;align-items:flex-start;}
+.premium-note-icon{font-size:16px;flex-shrink:0;margin-top:2px;}
+.premium-note-text{font-size:12.5px;color:rgba(245,240,234,.38);line-height:1.65;font-style:italic;}
+
+/* MANIFESTO */
+.manifesto-section{padding:60px 32px;background:var(--crema-soft);position:relative;overflow:hidden;}
+.manifesto-ring{position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(201,169,110,.1);animation:ringPulse 4s ease-in-out infinite;pointer-events:none;}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.5;}50%{transform:scale(1.07);opacity:.2;}}
+.manifesto-quote{font-family:'DM Serif Display',serif;font-size:clamp(18px,5vw,24px);line-height:1.5;color:var(--nero);margin-bottom:20px;position:relative;padding-left:20px;}
+.manifesto-quote::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;background:linear-gradient(to bottom,var(--oro),var(--oro-chiaro));border-radius:2px;}
+.manifesto-quote em{color:var(--oro);font-style:italic;}
+.manifesto-body{font-size:14px;line-height:1.8;color:#555;font-weight:300;margin-bottom:28px;}
+.value-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--nero);border:1px solid rgba(8,8,8,.2);padding:7px 16px;border-radius:100px;font-weight:500;transition:background .3s,color .3s,border-color .3s;cursor:none;}
+.pill:hover{background:var(--nero);color:var(--crema);border-color:var(--nero);}
+
+/* ALCHIMIA */
+.alchimia-section{background:var(--nero);padding:52px 32px;position:relative;overflow:hidden;border-top:1px solid rgba(201,169,110,.1);}
+.alchimia-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,169,110,.07) 0%,transparent 65%);animation:premiumPulse 6s ease-in-out infinite alternate;}
+.alchimia-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:10px;position:relative;}
+.alchimia-tag::before{content:'⚗';font-size:12px;}
+.alchimia-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:2px;color:var(--crema);line-height:1;position:relative;margin-bottom:6px;}
+.alchimia-subtitle{font-family:'DM Serif Display',serif;font-style:italic;font-size:17px;color:var(--oro);margin-bottom:18px;position:relative;}
+.alchimia-desc{font-size:13.5px;line-height:1.75;color:rgba(245,240,234,.45);font-weight:300;max-width:360px;position:relative;margin-bottom:28px;}
+.alchimia-cta{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.6);font-weight:500;border-bottom:1px solid rgba(201,169,110,.2);padding-bottom:4px;text-decoration:none;position:relative;transition:color .3s,border-color .3s;cursor:none;}
+.alchimia-cta:hover{color:var(--oro);border-color:var(--oro);}
+.alchimia-cta::after{content:'→';margin-left:4px;}
+
+/* AUTHOR */
+.author-section{padding:56px 32px 48px;background:white;border-top:1px solid rgba(201,169,110,.12);}
+.author-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:24px;display:flex;align-items:center;gap:10px;}
+.author-tag::before{content:'';width:20px;height:1px;background:var(--oro);}
+.author-avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--oro),var(--oro-chiaro));display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--nero);margin-bottom:18px;animation:avatarGlow 3s ease-in-out infinite;}
+@keyframes avatarGlow{0%,100%{box-shadow:0 0 0 3px rgba(201,169,110,.2);}50%{box-shadow:0 0 0 7px rgba(201,169,110,.08),0 0 20px rgba(201,169,110,.1);}}
+.author-name{font-family:'DM Serif Display',serif;font-size:24px;color:var(--nero);margin-bottom:4px;}
+.author-role{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:16px;}
+.author-bio{font-size:14px;line-height:1.8;color:#555;font-weight:300;}
+
+/* FOOTER CTA */
+.footer-cta{background:var(--nero);padding:56px 32px 64px;text-align:center;position:relative;overflow:hidden;}
+.footer-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(201,169,110,.12) 0%,transparent 65%);animation:premiumPulse 4s ease-in-out infinite alternate;}
+.footer-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:16px;position:relative;}
+.footer-headline{font-family:'DM Serif Display',serif;font-size:28px;line-height:1.4;color:var(--crema);margin-bottom:28px;position:relative;}
+.footer-headline em{color:var(--oro);font-style:italic;}
+.btn-whatsapp{display:inline-flex;align-items:center;gap:12px;background:var(--oro);color:var(--nero);text-decoration:none;padding:16px 28px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;position:relative;overflow:hidden;cursor:none;transition:transform .3s,box-shadow .3s;}
+.btn-whatsapp::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-101%);transition:transform .5s ease;}
+.btn-whatsapp:hover::before{transform:translateX(101%);}
+.btn-whatsapp:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,169,110,.35);}
+.btn-whatsapp svg,.btn-wa-label{position:relative;z-index:1;}
+.footer-bottom{margin-top:48px;padding-top:24px;border-top:1px solid rgba(245,240,234,.07);position:relative;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:4px;color:rgba(245,240,234,.22);margin-bottom:8px;}
+.footer-contacts{font-size:11px;color:rgba(245,240,234,.16);font-weight:300;line-height:1.9;}
+
+/* SCROLL REVEAL — purely additive, never hides content */
+.sr,.sr-l{ opacity:1; transform:none; }
+
+
+.cursor-ready a,.cursor-ready button,.cursor-ready .pill,.cursor-ready .metric-item,.cursor-ready .header-badge,.cursor-ready .card-base,.cursor-ready .card-premium,.cursor-ready .alchimia-cta,.cursor-ready .btn-buy,.cursor-ready .btn-buy-gold,.cursor-ready .btn-whatsapp{cursor:none;}
+@media(max-width:768px){body,body.cursor-ready{cursor:auto!important;}.cursor,.cursor-ring{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <div class="logo-block">
+    <span class="logo-name">Hospitality Lab</span>
+    <span class="logo-sub">by Nathalia Acosta</span>
+  </div>
+  <span class="header-badge">Sistemi di Redenzione</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb"></div>
+  <div class="hero-eyebrow"><span class="eyebrow-line"></span>Hospitality Lab · I Protocolli</div>
+  <div class="hero-h1-wrap"><span class="inner">Sistemi di</span></div>
+  <div class="hero-h2-wrap"><span class="inner">Redenzione</span></div>
+  <p class="hero-desc">Non sono corsi. Non sono consulenze. Sono <strong>sistemi operativi</strong> — costruiti per hotel e ristoranti indipendenti che hanno già capito il problema e cercano la soluzione esatta.</p>
+  <p class="hero-sub-copy">Per hotel e ristoranti che non vogliono più dipendere da nessuno.</p>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="metric-item"><div class="metric-num" data-count="4">4</div><div class="metric-label">Protocolli attivi</div></div>
+  <div class="metric-item"><div class="metric-num">€7</div><div class="metric-label">Si parte da</div></div>
+  <div class="metric-item"><div class="metric-num" data-count="100" data-suffix="%">100%</div><div class="metric-label">Uso immediato</div></div>
+  <div class="metric-item"><div class="metric-num">IT</div><div class="metric-label">In italiano</div></div>
+</div>
+
+<!-- TRUST MARQUEE -->
+<div class="trust-wrap">
+  <div class="trust-track">
+    <div class="trust-item">Download istantaneo</div>
+    <div class="trust-item">Hotel 3–4 stelle</div>
+    <div class="trust-item">Lago di Como &amp; Svizzera</div>
+    <div class="trust-item">Nessun abbonamento</div>
+    <div class="trust-item">Risultati misurabili</div>
+    <div class="trust-item">Consegna in 15 minuti</div>
+    <div class="trust-item">Zero dipendenza OTA</div>
+    <div class="trust-item">Download istantaneo</div>
+    <div class="trust-item">Hotel 3–4 stelle</div>
+    <div class="trust-item">Lago di Como &amp; Svizzera</div>
+    <div class="trust-item">Nessun abbonamento</div>
+    <div class="trust-item">Risultati misurabili</div>
+    <div class="trust-item">Consegna in 15 minuti</div>
+    <div class="trust-item">Zero dipendenza OTA</div>
+  </div>
+</div>
+
+<!-- SEZIONE 01 -->
+<div class="section-header sr">
+  <div class="section-tag">01 · I Protocolli</div>
+  <div class="section-title">Redenzione Immediata</div>
+  <div class="section-subtitle">Sistemi precisi per correggere la rotta oggi</div>
+</div>
+
+<div class="cards-grid">
+
+  <div class="card-base sr">
+    <div class="proto-num">Protocollo 01</div>
+    <div class="card-tag">Guida PDF · Uso immediato</div>
+    <div class="card-sin-badge">Sconfigge: Dipendenza OTA</div>
+    <div class="card-title">Symmetry System</div>
+    <div class="card-title-sub">Recupera il controllo diretto</div>
+    <p class="card-desc">La guida che nessun consulente ti vuole dare. Come ribilanciare il tuo canale di distribuzione e ridurre le commissioni Booking.com in 30 giorni — con azioni concrete e misurabili.</p>
+    <ul class="card-includes">
+      <li>Strategia 30 giorni step-by-step</li>
+      <li>Checklist dipendenza OTA (auto-diagnosi)</li>
+      <li>5 leve di conversione diretta pronte all'uso</li>
+      <li>Calcolo risparmio commissioni personalizzabile</li>
+    </ul>
+    <div class="card-footer">
+      <div class="card-price">€9 <span>una tantum</span></div>
+      <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Voglio%20acquistare%20il%20Protocollo%2001%20%E2%80%93%20Symmetry%20System%20(%E2%82%AC9)" class="btn-buy" target="_blank"><span class="btn-fill"></span><span class="btn-label">Attiva →</span></a>
+    </div>
+  </div>
+
+  <div class="card-base sr" style="transition-delay:.1s">
+    <div class="proto-num">Protocollo 02</div>
+    <div class="card-tag">Checklist · Stagionale</div>
+    <div class="card-sin-badge">Sconfigge: Revenue non ottimizzato</div>
+    <div class="card-title">Seasonal Alchemy</div>
+    <div class="card-title-sub">Massimizza ogni stagione</div>
+    <p class="card-desc">La checklist stagionale per massimizzare il revenue del Lago di Como. Ottimizza prezzi, pacchetti e disponibilità nei momenti chiave dell'anno — senza lasciare soldi sul tavolo.</p>
+    <ul class="card-includes">
+      <li>Calendario stagionale Lago di Como 2026</li>
+      <li>Matrice prezzi per alta/bassa stagione</li>
+      <li>Template pacchetti esperienziali</li>
+      <li>KPI da monitorare ogni settimana</li>
+    </ul>
+    <div class="card-footer">
+      <div class="card-price">€7 <span>una tantum</span></div>
+      <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Voglio%20acquistare%20il%20Protocollo%2002%20%E2%80%93%20Seasonal%20Alchemy%20(%E2%82%AC7)" class="btn-buy" target="_blank"><span class="btn-fill"></span><span class="btn-label">Attiva →</span></a>
+    </div>
+  </div>
+
+</div>
+
+<div class="guarantee sr">
+  <div class="guarantee-icon">🔒</div>
+  <div class="guarantee-text">
+    <strong>Acquisto sicuro · Consegna immediata</strong>
+    Ricevi il protocollo via WhatsApp o email entro 15 minuti. Pagamento sicuro via Stripe o PayPal.
+  </div>
+</div>
+
+<div class="section-divider sr"><span class="section-divider-label">✦ Protocolli Avanzati ✦</span></div>
+
+<!-- SEZIONE 02 — PREMIUM -->
+<section class="premium-section" id="premiumSection">
+  <div class="premium-header sr">
+    <div class="premium-tag">02 · Protocolli Avanzati</div>
+    <div class="premium-title">Trasformazione Sistemica</div>
+    <div class="premium-subtitle">Per chi vuole risultati profondi, non correzioni temporanee</div>
+  </div>
+
+  <div class="cards-premium">
+
+    <div class="card-premium sr">
+      <div class="proto-num">Protocollo 03</div>
+      <div class="card-tag">Kit Professionale · Template + Guida</div>
+      <div class="card-sin-badge">Sconfigge: Reputazione non gestita</div>
+      <div class="card-title">Reputation Blueprint</div>
+      <div class="card-title-sub">Dai feed alle prenotazioni</div>
+      <p class="card-desc">Il sistema completo per trasformare le recensioni nel tuo canale di acquisizione più potente. Ogni piattaforma, ogni risposta, ogni opportunità — codificata in un protocollo replicabile.</p>
+      <ul class="card-includes">
+        <li>40+ template risposta recensioni (positive, negative, neutre)</li>
+        <li>Protocollo risposta crisi reputazionale</li>
+        <li>Strategia per aumentare il volume recensioni +200%</li>
+        <li>Script WhatsApp post-soggiorno per raccogliere feedback</li>
+        <li>Dashboard monitoraggio reputazione (Google Sheets)</li>
+      </ul>
+      <div class="card-footer">
+        <div class="card-price">€34 <span>una tantum</span></div>
+        <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Voglio%20acquistare%20il%20Protocollo%2003%20%E2%80%93%20Reputation%20Blueprint%20(%E2%82%AC34)" class="btn-buy-gold" target="_blank"><span class="btn-fill"></span><span class="btn-label">Attiva →</span></a>
+      </div>
+    </div>
+
+    <div class="card-premium flagship sr" style="transition-delay:.12s">
+      <div class="flagship-badge">✦ Flagship</div>
+      <div class="proto-num">Protocollo 04</div>
+      <div class="card-tag">Sistema Completo · Operativo dal Giorno 1</div>
+      <div class="card-sin-badge">Sconfigge: Tutti e 7 i Peccati</div>
+      <div class="card-title">Autonomous Hotel System</div>
+      <div class="card-title-sub">Il protocollo totale di redenzione</div>
+      <p class="card-desc">Il sistema operativo completo per hotel indipendenti. Riduce il lavoro manuale del 70%, aumenta le prenotazioni dirette e trasforma il caos in un servizio premium — senza assumere nessuno.</p>
+      <ul class="card-includes">
+        <li>Protocollo 01 + 02 inclusi (Symmetry System + Seasonal Alchemy)</li>
+        <li>Mappa completa automazioni WhatsApp (flussi pre/post soggiorno)</li>
+        <li>Protocollo 03 incluso (Reputation Blueprint completo)</li>
+        <li>Template menù digitale QR + ottimizzazione Google My Business</li>
+        <li>Piano strategico 90 giorni personalizzabile</li>
+      </ul>
+      <div class="card-footer">
+        <div class="card-price">€50 <span>una tantum</span></div>
+        <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Voglio%20acquistare%20il%20Protocollo%2004%20%E2%80%93%20Autonomous%20Hotel%20System%20(%E2%82%AC50)" class="btn-buy-gold" target="_blank"><span class="btn-fill"></span><span class="btn-label">Attiva il Sistema →</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="premium-note sr">
+    <div class="premium-note-icon">💡</div>
+    <p class="premium-note-text">"Non offriamo aspirine per i tuoi problemi digitali. Nel Lab abbiamo decodificato i 7 Peccati Mortali che affondano gli hotel indipendenti e creato Protocolli di Automazione progettati per trasformare il caos in un servizio premium." — Nathalia</p>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto-section">
+  <div class="manifesto-ring"></div>
+  <div class="section-tag sr-l">Perché questi sistemi funzionano</div>
+  <div class="manifesto-quote sr">Non sono e-book generici.<br>Sono <em>protocolli collaudati</em> sul campo —<br>qui, sul Lago di Como.</div>
+  <p class="manifesto-body sr" style="transition-delay:.1s">Ogni protocollo nasce da un problema reale, testato direttamente con hotel e ristoranti indipendenti in Lombardia e Svizzera. Niente teoria importata da un corso americano — solo metodi costruiti per la stagionalità del lago, la clientela svizzera, e le specificità degli operatori locali.</p>
+  <div class="value-pills sr" style="transition-delay:.2s">
+    <span class="pill">Operativo dal giorno 1</span>
+    <span class="pill">In italiano</span>
+    <span class="pill">Lago di Como</span>
+    <span class="pill">Risultati in 30 gg</span>
+    <span class="pill">Zero tecnicismi</span>
+    <span class="pill">Geek &amp; Preciso</span>
+  </div>
+</section>
+
+<!-- L'ALCHIMIA -->
+<section class="alchimia-section">
+  <div class="alchimia-tag sr">Il passo successivo</div>
+  <div class="alchimia-title sr" style="transition-delay:.08s">L'Alchimia</div>
+  <div class="alchimia-subtitle sr" style="transition-delay:.13s">Transformation Path · Consulenza Privata</div>
+  <p class="alchimia-desc sr" style="transition-delay:.18s">I Protocolli ti danno gli strumenti. L'Alchimia trasforma la tua struttura dall'interno — strategia personalizzata, implementazione guidata, risultati garantiti.</p>
+  <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Voglio%20saperne%20di%20pi%C3%B9%20su%20L'Alchimia" class="alchimia-cta sr" style="transition-delay:.24s" target="_blank">Scopri L'Alchimia</a>
+</section>
+
+<!-- AUTHOR -->
+<section class="author-section">
+  <div class="author-tag sr-l">Chi c'è dietro i Protocolli</div>
+  <div class="author-avatar sr">N</div>
+  <div class="author-name sr" style="transition-delay:.08s">Nathalia Acosta Vélez</div>
+  <div class="author-role sr" style="transition-delay:.13s">Fondatrice · Hospitality Lab</div>
+  <p class="author-bio sr" style="transition-delay:.18s">Consulente digitale specializzata in revenue strategy, automazione e IA per l'ospitalità indipendente. Lavora con hotel e ristoranti 3–4 stelle in Lombardia e Svizzera per eliminare la dipendenza dalle OTA e costruire sistemi autonomi di prenotazione diretta.</p>
+</section>
+
+<!-- FOOTER -->
+<section class="footer-cta">
+  <div class="footer-eyebrow sr">Non sai da dove iniziare?</div>
+  <h2 class="footer-headline sr" style="transition-delay:.1s">Parliamo.<br><em>Ti indico il Protocollo giusto.</em></h2>
+  <div class="sr" style="transition-delay:.2s">
+    <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Ho%20visto%20i%20Sistemi%20di%20Redenzione%20e%20vorrei%20un%20consiglio" class="btn-whatsapp" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span class="btn-wa-label">Scrivimi su WhatsApp</span>
+    </a>
+  </div>
+  <div class="footer-bottom sr" style="transition-delay:.3s">
+    <div class="footer-logo">HOSPITALITY LAB · BY NATHALIA ACOSTA</div>
+    <div class="footer-contacts"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97f9f6e3fff6fbfef6b9f6f4f8e4e3f6e1d7f0faf6fefbb9f4f8fa">[email&#160;protected]</a> · +39 375 558 69 68<br>Italia · Svizzera · Lago di Como</div>
+  </div>
+</section>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  // CURSOR
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0,cursorActive=false;
+
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=mx+'px';cur.style.top=my+'px';
+    if(!cursorActive){
+      cursorActive=true;
+      document.body.classList.add('cursor-ready');
+      cur.style.opacity='1';
+      ring.style.opacity='1';
+    }
+  });
+  cur.style.opacity='0';
+  ring.style.opacity='0';
+  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.pill,.metric-item,.header-badge,.card-base,.card-premium,.alchimia-cta').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.classList.add('hov');ring.classList.add('hov');});
+    el.addEventListener('mouseleave',()=>{cur.classList.remove('hov');ring.classList.remove('hov');});
+  });
+
+  // PROGRESS
+  const pb=document.getElementById('progressBar');
+  window.addEventListener('scroll',()=>{pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+
+  // HEADER
+  const hdr=document.getElementById('mainHeader');let last=0;
+  window.addEventListener('scroll',()=>{const c=window.scrollY;hdr.classList.toggle('scrolled',c>80);hdr.classList.toggle('hidden',c>last&&c>220);last=c;},{passive:true});
+
+  // SCROLL REVEAL — adds .in progressively, content already visible without it
+  const srEls=document.querySelectorAll('.sr,.sr-l');
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:0,rootMargin:'0px'});
+    srEls.forEach(el=>io.observe(el));
+  }
+
+  // COUNT-UP
+  const cio=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const el=e.target,t=+el.dataset.count,s=el.dataset.suffix||'';
+      let st=null;
+      (function step(ts){if(!st)st=ts;const p=Math.min((ts-st)/1100,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(ease*t)+s;if(p<1)requestAnimationFrame(step);})(performance.now());
+      cio.unobserve(el);
+    });
+  },{threshold:.5});
+  document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+  // PARTICLES
+  const ps=document.getElementById('premiumSection');
+  for(let i=0;i<14;i++){
+    const p=document.createElement('div');p.className='particle';
+    const sz=Math.
