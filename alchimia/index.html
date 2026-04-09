@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Alchimia — Transformation Path · Hospitality Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nero:#080808;
+  --crema:#F5F0EA;
+  --crema-soft:#F0EBE3;
+  --oro:#C9A96E;
+  --oro-chiaro:#E8D5B0;
+  --grigio:#666666;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--nero);color:var(--crema);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:auto;}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.5;}
+
+/* CURSOR */
+.cursor{position:fixed;width:8px;height:8px;background:var(--oro);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);opacity:0;mix-blend-mode:screen;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,169,110,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);opacity:0;transition:width .35s cubic-bezier(.25,.46,.45,.94),height .35s cubic-bezier(.25,.46,.45,.94),border-color .3s;}
+.cursor.hov{width:14px;height:14px;}
+.cursor-ring.hov{width:52px;height:52px;border-color:rgba(201,169,110,.7);}
+body.cursor-ready{cursor:none;}
+.cursor-ready a,.cursor-ready button,.cursor-ready .pill-tag,.cursor-ready .tier-card{cursor:none;}
+
+/* PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));z-index:9999;}
+
+/* HEADER */
+header{padding:22px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,169,110,.12);position:sticky;top:0;background:rgba(8,8,8,.92);backdrop-filter:blur(16px);z-index:100;transition:transform .4s ease,box-shadow .4s ease;}
+header.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.4);}
+header.hidden{transform:translateY(-100%);}
+.logo-block{display:flex;flex-direction:column;gap:2px;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--crema);line-height:1;}
+.logo-sub{font-size:9px;letter-spacing:4px;color:var(--oro);text-transform:uppercase;}
+.header-badge{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.5);border:1px solid rgba(201,169,110,.2);padding:6px 14px;border-radius:20px;transition:border-color .3s,color .3s;}
+.header-badge:hover{border-color:var(--oro);color:var(--oro);}
+.header-back{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,240,234,.3);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .3s;}
+.header-back::before{content:'←';}
+.header-back:hover{color:var(--oro);}
+
+/* ── HERO ── */
+.hero{min-height:92vh;padding:80px 32px 64px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;}
+
+/* Animated background */
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(201,169,110,.07) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(201,169,110,.04) 0%,transparent 50%);animation:bgShift 10s ease-in-out infinite alternate;}
+@keyframes bgShift{from{opacity:.8;}to{opacity:1;}}
+
+/* Gold lines decoration */
+.hero-lines{position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(201,169,110,.15),transparent);pointer-events:none;}
+.hero-lines::before{content:'';position:absolute;right:40px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(201,169,110,.06),transparent);}
+
+.hero-content{position:relative;max-width:680px;}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.6);margin-bottom:24px;font-weight:500;animation:fadeIn .7s .2s ease both;}
+.eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--oro);opacity:.6;animation:dotPulse 2s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
+
+/* Main title */
+.hero-pre{font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(16px,2.5vw,22px);color:rgba(201,169,110,.6);margin-bottom:4px;animation:fadeIn .7s .3s ease both;letter-spacing:.5px;}
+.hero-title-wrap{overflow:hidden;margin-bottom:6px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,16vw,140px);line-height:.85;letter-spacing:3px;color:var(--crema);display:block;animation:slideUp .9s .4s cubic-bezier(.16,1,.3,1) both;}
+.hero-title-accent{display:block;font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(28px,5vw,52px);color:var(--oro);line-height:1.2;animation:slideUp .9s .55s cubic-bezier(.16,1,.3,1) both;}
+@keyframes slideUp{from{transform:translateY(110%);}to{transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-hook{margin-top:32px;font-family:'DM Serif Display',serif;font-size:clamp(17px,2.8vw,22px);line-height:1.55;color:rgba(245,240,234,.75);max-width:560px;animation:fadeIn .8s .7s ease both;}
+.hero-hook em{color:var(--oro);font-style:italic;}
+
+.hero-sub{margin-top:18px;font-size:14px;line-height:1.8;color:rgba(245,240,234,.4);max-width:480px;font-weight:300;animation:fadeIn .8s .85s ease both;}
+
+.hero-cta-wrap{margin-top:40px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;animation:fadeIn .8s 1s ease both;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--oro);color:var(--nero);text-decoration:none;padding:16px 28px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease;}
+.btn-primary::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-101%);transition:transform .5s ease;}
+.btn-primary:hover::before{transform:translateX(101%);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,169,110,.3);}
+.btn-primary svg,.btn-primary span{position:relative;z-index:1;}
+
+.btn-ghost{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,240,234,.4);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .3s;padding:16px 4px;font-weight:500;}
+.btn-ghost::after{content:'↓';}
+.btn-ghost:hover{color:var(--oro);}
+
+/* Urgency badge */
+.urgency-badge{margin-top:28px;display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.7);border:1px solid rgba(201,169,110,.18);padding:8px 16px;border-radius:20px;font-weight:500;animation:fadeIn .8s 1.1s ease both;}
+.urgency-dot{width:6px;height:6px;border-radius:50%;background:var(--oro);animation:dotPulse 1.5s ease-in-out infinite;}
+
+.hero-divider{width:0;height:1px;background:linear-gradient(to right,rgba(201,169,110,.3),transparent);margin-top:56px;animation:expandW 1s 1.2s ease forwards;}
+@keyframes expandW{to{width:100%;}}
+
+/* ── HOOK SECTION ── */
+.hook-section{padding:72px 32px;position:relative;background:rgba(245,240,234,.03);border-top:1px solid rgba(201,169,110,.08);}
+.hook-question{font-family:'DM Serif Display',serif;font-size:clamp(22px,4vw,34px);line-height:1.4;color:rgba(245,240,234,.85);margin-bottom:24px;}
+.hook-question em{color:var(--oro);font-style:italic;}
+.hook-body{font-size:14px;line-height:1.85;color:rgba(245,240,234,.45);font-weight:300;max-width:560px;}
+.hook-body strong{color:rgba(245,240,234,.8);font-weight:500;}
+
+/* Pain points */
+.pain-list{margin-top:32px;display:flex;flex-direction:column;gap:12px;}
+.pain-item{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border:1px solid rgba(201,169,110,.08);border-radius:12px;background:rgba(201,169,110,.03);transition:border-color .3s;}
+.pain-item:hover{border-color:rgba(201,169,110,.18);}
+.pain-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.pain-text{font-size:13px;line-height:1.6;color:rgba(245,240,234,.55);}
+.pain-text strong{color:rgba(245,240,234,.8);font-weight:500;display:block;margin-bottom:2px;}
+
+/* ── WHAT IS IT ── */
+.what-section{padding:72px 32px;position:relative;overflow:hidden;}
+.what-section::before{content:'ALCHIMIA';position:absolute;right:-30px;top:20px;font-family:'Bebas Neue',sans-serif;font-size:130px;color:var(--oro);opacity:.025;letter-spacing:8px;pointer-events:none;animation:textDrift 20s linear infinite;}
+@keyframes textDrift{from{transform:translateX(0);}to{transform:translateX(-60px);}}
+
+.section-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.section-tag::before{content:'⚗';font-size:11px;}
+.section-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,56px);letter-spacing:2px;line-height:.95;color:var(--crema);margin-bottom:8px;}
+.section-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:rgba(201,169,110,.7);margin-bottom:28px;}
+
+.what-body{font-size:14px;line-height:1.85;color:rgba(245,240,234,.5);font-weight:300;max-width:560px;margin-bottom:36px;}
+.what-body strong{color:rgba(245,240,234,.85);font-weight:500;}
+
+/* Includes list */
+.includes-list{display:flex;flex-direction:column;gap:0;}
+.include-item{display:flex;align-items:flex-start;gap:16px;padding:18px 0;border-bottom:1px solid rgba(201,169,110,.08);}
+.include-item:last-child{border-bottom:none;}
+.include-num{font-family:'Bebas Neue',sans-serif;font-size:24px;color:rgba(201,169,110,.2);line-height:1;flex-shrink:0;width:32px;}
+.include-content{}
+.include-title{font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:1px;font-weight:500;color:rgba(245,240,234,.85);margin-bottom:4px;text-transform:uppercase;}
+.include-desc{font-size:12.5px;line-height:1.65;color:rgba(245,240,234,.4);font-weight:300;}
+
+/* ── RISULTATI ── */
+.risultati-section{padding:72px 32px;background:rgba(201,169,110,.04);border-top:1px solid rgba(201,169,110,.08);border-bottom:1px solid rgba(201,169,110,.08);}
+.risultati-grid{display:flex;flex-direction:column;gap:16px;margin-top:32px;}
+.risultato-card{padding:24px 22px;border:1px solid rgba(201,169,110,.12);border-radius:16px;background:rgba(255,255,255,.02);position:relative;overflow:hidden;transition:border-color .4s,transform .4s cubic-bezier(.16,1,.3,1);}
+.risultato-card:hover{border-color:rgba(201,169,110,.3);transform:translateY(-3px);}
+.risultato-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--oro),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
+.risultato-card:hover::before{transform:scaleX(1);}
+.risultato-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--oro);line-height:1;letter-spacing:1px;margin-bottom:4px;}
+.risultato-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,234,.5);font-weight:500;margin-bottom:8px;}
+.risultato-desc{font-size:12.5px;line-height:1.6;color:rgba(245,240,234,.35);font-weight:300;}
+
+/* ── TIERS ── */
+.tiers-section{padding:72px 32px 80px;position:relative;overflow:hidden;}
+.tiers-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,.06) 0%,transparent 60%);}
+
+.tier-intro{font-size:14px;line-height:1.8;color:rgba(245,240,234,.45);max-width:480px;margin-top:16px;margin-bottom:40px;font-weight:300;}
+.tier-intro strong{color:rgba(245,240,234,.8);font-weight:500;}
+
+.tiers-grid{display:flex;flex-direction:column;gap:20px;position:relative;}
+
+.tier-card{border-radius:22px;padding:32px 28px;position:relative;overflow:hidden;transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .4s;}
+.tier-card.base{background:rgba(255,255,255,.03);border:1px solid rgba(201,169,110,.15);}
+.tier-card.completa{background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(255,255,255,.02) 100%);border:1px solid rgba(201,169,110,.3);}
+.tier-card:hover{transform:translateY(-5px);}
+.tier-card.completa:hover{border-color:rgba(201,169,110,.55);}
+
+.tier-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--oro),transparent);transform:scaleX(0);transition:transform .5s ease;}
+.tier-card:hover::before{transform:scaleX(1);}
+
+/* Recommended badge */
+.tier-recommended{position:absolute;top:20px;right:20px;background:var(--oro);color:var(--nero);font-size:8px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:5px 12px;border-radius:20px;animation:badgePulse 2.5s ease-in-out infinite;}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.5);}50%{box-shadow:0 0 0 7px rgba(201,169,110,0);}}
+
+.tier-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:8px;}
+.tier-name{font-family:'DM Serif Display',serif;font-size:28px;color:var(--crema);line-height:1.1;margin-bottom:4px;}
+.tier-name-sub{font-size:11px;letter-spacing:.5px;color:rgba(245,240,234,.3);font-weight:300;font-style:italic;margin-bottom:18px;}
+.tier-desc{font-size:13px;line-height:1.7;color:rgba(245,240,234,.5);font-weight:300;margin-bottom:20px;}
+
+.tier-includes{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:8px;}
+.tier-includes li{font-size:13px;color:rgba(245,240,234,.7);display:flex;align-items:flex-start;gap:10px;line-height:1.45;}
+.tier-includes li::before{content:'✓';color:var(--oro);flex-shrink:0;font-size:11px;margin-top:2px;font-weight:600;}
+
+.tier-footer{display:flex;align-items:center;justify-content:space-between;padding-top:22px;border-top:1px solid rgba(201,169,110,.1);}
+.tier-price{display:flex;flex-direction:column;gap:2px;}
+.tier-price-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--oro);line-height:1;letter-spacing:1px;}
+.tier-price-label{font-size:11px;color:rgba(201,169,110,.4);letter-spacing:1px;}
+.tier-price-note{font-size:10px;color:rgba(245,240,234,.25);margin-top:2px;}
+
+.btn-tier{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,color .3s;}
+.btn-tier-ghost{color:var(--oro);border:1px solid rgba(201,169,110,.3);background:transparent;}
+.btn-tier-solid{color:var(--nero);background:var(--oro);border:1px solid var(--oro);}
+.btn-tier-fill{position:absolute;inset:0;pointer-events:none;transform:translateY(101%);transition:transform .4s cubic-bezier(.16,1,.3,1);}
+.btn-tier-ghost .btn-tier-fill{background:var(--oro);}
+.btn-tier-solid .btn-tier-fill{background:rgba(255,255,255,.2);}
+.btn-tier-ghost:hover .btn-tier-fill,.btn-tier-solid:hover .btn-tier-fill{transform:translateY(0);}
+.btn-tier-ghost:hover{color:var(--nero);border-color:var(--oro);box-shadow:0 8px 28px rgba(201,169,110,.2);}
+.btn-tier-solid:hover{box-shadow:0 8px 28px rgba(201,169,110,.3);}
+.btn-tier span{position:relative;z-index:1;}
+
+/* Payment note */
+.payment-note{margin-top:20px;padding:16px 20px;border:1px dashed rgba(201,169,110,.15);border-radius:12px;display:flex;gap:12px;align-items:flex-start;}
+.payment-note-icon{font-size:16px;flex-shrink:0;}
+.payment-note-text{font-size:12px;line-height:1.65;color:rgba(245,240,234,.35);font-style:italic;}
+
+/* ── PROCESSO ── */
+.processo-section{padding:72px 32px;background:rgba(201,169,110,.03);border-top:1px solid rgba(201,169,110,.08);}
+.steps{display:flex;flex-direction:column;gap:0;margin-top:32px;position:relative;}
+.steps::before{content:'';position:absolute;left:18px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(201,169,110,.2),rgba(201,169,110,.05));}
+.step{display:flex;gap:24px;padding-bottom:32px;position:relative;}
+.step:last-child{padding-bottom:0;}
+.step-num{width:36px;height:36px;border-radius:50%;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.25);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--oro);flex-shrink:0;position:relative;z-index:1;}
+.step-content{padding-top:6px;}
+.step-title{font-size:13px;letter-spacing:1px;text-transform:uppercase;font-weight:500;color:rgba(245,240,234,.8);margin-bottom:6px;}
+.step-desc{font-size:13px;line-height:1.7;color:rgba(245,240,234,.4);font-weight:300;}
+.step-tag{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.6);background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.15);padding:3px 10px;border-radius:20px;margin-bottom:6px;}
+
+/* ── DISCLAIMER ── */
+.disclaimer-section{padding:56px 32px;border-top:1px solid rgba(201,169,110,.08);}
+.disclaimer-title{font-family:'DM Serif Display',serif;font-size:20px;color:rgba(245,240,234,.7);margin-bottom:12px;}
+.disclaimer-title em{color:var(--oro);}
+.disclaimer-body{font-size:13px;line-height:1.8;color:rgba(245,240,234,.35);font-weight:300;max-width:520px;}
+.disclaimer-body strong{color:rgba(245,240,234,.6);font-weight:500;}
+
+/* ── AUTHOR ── */
+.author-section{padding:64px 32px 56px;border-top:1px solid rgba(201,169,110,.1);}
+.author-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--oro),var(--oro-chiaro));display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:30px;color:var(--nero);margin-bottom:20px;animation:avatarGlow 3s ease-in-out infinite;}
+@keyframes avatarGlow{0%,100%{box-shadow:0 0 0 3px rgba(201,169,110,.15);}50%{box-shadow:0 0 0 8px rgba(201,169,110,.06),0 0 24px rgba(201,169,110,.12);}}
+.author-name{font-family:'DM Serif Display',serif;font-size:26px;color:var(--crema);margin-bottom:4px;}
+.author-role{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:18px;}
+.author-bio{font-size:14px;line-height:1.85;color:rgba(245,240,234,.45);font-weight:300;max-width:480px;}
+.author-bio strong{color:rgba(245,240,234,.75);font-weight:500;}
+
+/* ── FOOTER CTA ── */
+.footer-cta{padding:72px 32px 80px;text-align:center;position:relative;overflow:hidden;border-top:1px solid rgba(201,169,110,.1);}
+.footer-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(201,169,110,.1) 0%,transparent 65%);animation:footerGlow 5s ease-in-out infinite alternate;}
+@keyframes footerGlow{from{opacity:.6;}to{opacity:1;}}
+.footer-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:18px;position:relative;}
+.footer-headline{font-family:'DM Serif Display',serif;font-size:clamp(22px,5vw,34px);line-height:1.4;color:var(--crema);margin-bottom:10px;position:relative;}
+.footer-headline em{color:var(--oro);font-style:italic;}
+.footer-sub{font-size:13px;color:rgba(245,240,234,.35);margin-bottom:32px;position:relative;font-weight:300;}
+.btn-whatsapp{display:inline-flex;align-items:center;gap:12px;background:var(--oro);color:var(--nero);text-decoration:none;padding:18px 32px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.btn-whatsapp::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-101%);transition:transform .5s ease;}
+.btn-whatsapp:hover::before{transform:translateX(101%);}
+.btn-whatsapp:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,169,110,.35);}
+.btn-whatsapp svg,.btn-wa-text{position:relative;z-index:1;}
+
+.footer-bottom{margin-top:56px;padding-top:24px;border-top:1px solid rgba(245,240,234,.06);position:relative;}
+.footer-nav{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap;}
+.footer-nav a{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,240,234,.2);text-decoration:none;transition:color .3s;}
+.footer-nav a:hover{color:var(--oro);}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(245,240,234,.15);margin-bottom:6px;}
+.footer-contacts{font-size:11px;color:rgba(245,240,234,.12);font-weight:300;line-height:1.9;}
+
+@media(min-width:768px){
+  .hero{padding:100px 10% 72px;}
+  .hook-section,.what-section,.risultati-section,.tiers-section,.processo-section,.disclaimer-section,.author-section,.footer-cta{padding-left:10%;padding-right:10%;}
+  .risultati-grid{flex-direction:row;flex-wrap:wrap;}
+  .risultato-card{flex:1;min-width:180px;}
+  .tiers-grid{flex-direction:row;}
+  .tier-card{flex:1;}
+}
+@media(max-width:767px){
+  .tier-footer{flex-direction:column;align-items:flex-start;gap:16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <div class="logo-block">
+    <span class="logo-name">Hospitality Lab</span>
+    <span class="logo-sub">by Nathalia Acosta</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="/protocolli" class="header-back">I Protocolli</a>
+    <span class="header-badge">L'Alchimia</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Transformation Path · Consulenza Privata</div>
+    <p class="hero-pre">Hospitality Lab presenta</p>
+    <div style="overflow:hidden;">
+      <span class="hero-title">L'Alchimia</span>
+    </div>
+    <div style="overflow:hidden;">
+      <span class="hero-title-accent">Dal caos al sistema che lavora per te</span>
+    </div>
+    <p class="hero-hook">Per meno di quello che perdi <em>in una settimana di commissioni OTA</em>, ti consegno un piano personalizzato che ti ridà il controllo delle tue prenotazioni.</p>
+    <p class="hero-sub">Consulenza strategica 1:1 per hotel e ristoranti indipendenti in Lombardia e Svizzera. In italiano, inglese o tedesco.</p>
+    <div class="hero-cta-wrap">
+      <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Sono%20interessato%20a%20L'Alchimia%20e%20vorrei%20saperne%20di%20più" class="btn-primary" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>Prenota la chiamata gratuita</span>
+      </a>
+      <a href="#tiers" class="btn-ghost">Scopri i prezzi</a>
+    </div>
+    <div class="urgency-badge">
+      <span class="urgency-dot"></span>
+      Prezzi di lancio 2026 · Solo per i primi 10 clienti
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- HOOK -->
+<section class="hook-section">
+  <h2 class="hook-question">
+    Hai già i Protocolli.<br>
+    Ora hai bisogno di qualcuno che <em>li implementi con te</em>.
+  </h2>
+  <p class="hook-body">I Protocolli ti danno gli strumenti. L'Alchimia trasforma la tua struttura dall'interno. <strong>Non è una consulenza generica</strong> — è un percorso costruito attorno al tuo hotel o ristorante specifico, con la tua stagionalità, i tuoi clienti, le tue OTA.</p>
+
+  <div class="pain-list">
+    <div class="pain-item">
+      <span class="pain-icon">📊</span>
+      <div class="pain-text"><strong>Sai che stai perdendo soldi con le OTA</strong>ma non sai da dove iniziare per ridurre la dipendenza senza rischiare prenotazioni.</div>
+    </div>
+    <div class="pain-item">
+      <span class="pain-icon">⚙️</span>
+      <div class="pain-text"><strong>Hai sentito parlare di automazione e IA</strong>ma non hai tempo per capire quali strumenti usare e come integrarli nel tuo flusso di lavoro.</div>
+    </div>
+    <div class="pain-item">
+      <span class="pain-icon">📱</span>
+      <div class="pain-text"><strong>La tua presenza digitale è frammentata</strong>— sito, social, Google, TripAdvisor tutti scollegati, senza una strategia che li faccia lavorare insieme.</div>
+    </div>
+    <div class="pain-item">
+      <span class="pain-icon">🕐</span>
+      <div class="pain-text"><strong>Passi troppe ore in attività manuali</strong>— risposte, conferme, aggiornamenti — che potrebbero essere automatizzate in pochi giorni.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IS IT -->
+<section class="what-section">
+  <div class="section-tag">Cosa include</div>
+  <div class="section-headline">Il Percorso</div>
+  <div class="section-sub">Dall'audit al piano operativo pronto all'uso</div>
+  <p class="what-body">Ogni sessione ha un obiettivo preciso. Non si improvvisa, non si teorizza. Si costruisce un sistema che funziona <strong>quando non sei presente</strong>.</p>
+
+  <div class="includes-list">
+    <div class="include-item">
+      <div class="include-num">01</div>
+      <div class="include-content">
+        <div class="include-title">Audit Digitale Completo</div>
+        <div class="include-desc">Analisi approfondita di sito, social, reputazione online (Google, TripAdvisor), motore di prenotazione, canali di comunicazione e presenza su OTA. Identifichiamo ogni punto di perdita.</div>
+      </div>
+    </div>
+    <div class="include-item">
+      <div class="include-num">02</div>
+      <div class="include-content">
+        <div class="include-title">Diagnosi e Piano Strategico</div>
+        <div class="include-desc">Dove stai perdendo prenotazioni dirette e perché. Piano d'azione con priorità chiare, strumenti specifici e metriche di successo misurabili.</div>
+      </div>
+    </div>
+    <div class="include-item">
+      <div class="include-num">03</div>
+      <div class="include-content">
+        <div class="include-title">Raccomandazioni IA + Automazione</div>
+        <div class="include-desc">Soluzioni concrete per WhatsApp Business, funnel di prenotazione diretta, risposta automatica recensioni, ottimizzazione menù digitale e Google My Business.</div>
+      </div>
+    </div>
+    <div class="include-item">
+      <div class="include-num">04</div>
+      <div class="include-content">
+        <div class="include-title">Roadmap 30-90 Giorni</div>
+        <div class="include-desc">Piano operativo personalizzato con priorità settimanali, strumenti raccomandati, budget indicativo e KPI da monitorare. Tutto pronto da implementare dal giorno successivo.</div>
+      </div>
+    </div>
+    <div class="include-item">
+      <div class="include-num">05</div>
+      <div class="include-content">
+        <div class="include-title">Sessioni di Lavoro 1:1</div>
+        <div class="include-desc">Sessioni online con me (in italiano, inglese o tedesco) per costruire il percorso insieme, rispondere alle tue domande e validare le decisioni strategiche.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISULTATI -->
+<section class="risultati-section">
+  <div class="section-tag">Risultati attesi</div>
+  <div class="section-headline">Cosa cambia<br>in 90 giorni</div>
+  <div class="risultati-grid">
+    <div class="risultato-card">
+      <div class="risultato-num">+30%</div>
+      <div class="risultato-label">Prenotazioni dirette</div>
+      <div class="risultato-desc">Riduzione della dipendenza da Booking.com e TheFork nei primi 60-90 giorni.</div>
+    </div>
+    <div class="risultato-card">
+      <div class="risultato-num">-25%</div>
+      <div class="risultato-label">Commissioni OTA</div>
+      <div class="risultato-desc">Risparmio medio sulle commissioni grazie a strategie di distribuzione diretta.</div>
+    </div>
+    <div class="risultato-card">
+      <div class="risultato-num">-70%</div>
+      <div class="risultato-label">Lavoro manuale</div>
+      <div class="risultato-desc">Riduzione delle attività ripetitive grazie all'automazione WhatsApp e dei flussi digitali.</div>
+    </div>
+    <div class="risultato-card">
+      <div class="risultato-num">4.8★</div>
+      <div class="risultato-label">Google Rating medio</div>
+      <div class="risultato-desc">Miglioramento della reputazione online con un sistema di gestione delle recensioni.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="tiers-section" id="tiers">
+  <div class="section-tag">Scegli il tuo percorso</div>
+  <div class="section-headline">L'Alchimia</div>
+  <div class="section-sub">Prezzi di lancio 2026</div>
+  <p class="tier-intro">Due percorsi, stesso obiettivo: <strong>ridare il controllo delle prenotazioni al tuo hotel o ristorante</strong>. Scegli in base alla profondità di accompagnamento che cerchi.</p>
+
+  <div class="tiers-grid">
+
+    <!-- BASE -->
+    <div class="tier-card base">
+      <div class="tier-tag">Alchimia Base</div>
+      <div class="tier-name">Diagnosi<br>& Roadmap</div>
+      <div class="tier-name-sub">Per chi vuole chiarezza prima di investire</div>
+      <p class="tier-desc">Audit completo, diagnosi precisa e roadmap operativa. Il punto di partenza ideale per capire esattamente dove intervenire.</p>
+      <ul class="tier-includes">
+        <li>Audit digitale completo (sito, social, OTA, reputazione)</li>
+        <li>Diagnosi e identificazione dei punti critici</li>
+        <li>Raccomandazioni IA e automazione personalizzate</li>
+        <li>Roadmap 30-90 giorni pronta all'uso</li>
+        <li>2 sessioni di lavoro 1:1 (online)</li>
+        <li>Report dettagliato consegnato via PDF</li>
+      </ul>
+      <div class="tier-footer">
+        <div class="tier-price">
+          <div class="tier-price-num">€497</div>
+          <div class="tier-price-label">Prezzo di lancio · Pagamento unico</div>
+          <div class="tier-price-note">Possibile in 2 rate senza interessi</div>
+        </div>
+        <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Sono%20interessato%20all'Alchimia%20Base%20a%20€497" class="btn-tier btn-tier-ghost" target="_blank">
+          <span class="btn-tier-fill"></span>
+          <span>Inizia →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- COMPLETA -->
+    <div class="tier-card completa">
+      <div class="tier-recommended">⭐ Consigliata</div>
+      <div class="tier-tag">Alchimia Completa</div>
+      <div class="tier-name">Trasformazione<br>Guidata</div>
+      <div class="tier-name-sub">Per chi vuole implementare, non solo pianificare</div>
+      <p class="tier-desc">Tutto dell'Alchimia Base, più accompagnamento approfondito e strumenti pronti all'uso per implementare da subito.</p>
+      <ul class="tier-includes">
+        <li>Tutto il contenuto dell'Alchimia Base incluso</li>
+        <li>3 sessioni di lavoro 1:1 (invece di 2)</li>
+        <li>1 template di automazione pronto all'uso (WhatsApp o funnel)</li>
+        <li>Revisione e validazione del piano a 30 giorni</li>
+        <li>Supporto via WhatsApp per 2 settimane post-consegna</li>
+      </ul>
+      <div class="tier-footer">
+        <div class="tier-price">
+          <div class="tier-price-num">€697</div>
+          <div class="tier-price-label">Prezzo di lancio · Pagamento unico</div>
+          <div class="tier-price-note">Possibile in 2 rate senza interessi</div>
+        </div>
+        <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Sono%20interessato%20all'Alchimia%20Completa%20a%20€697" class="btn-tier btn-tier-solid" target="_blank">
+          <span class="btn-tier-fill"></span>
+          <span>Inizia →</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="payment-note">
+    <div class="payment-note-icon">💳</div>
+    <p class="payment-note-text">Pagamento sicuro via Stripe o bonifico bancario. Il prezzo non include l'implementazione tecnica successiva — questa si quota separatamente in base alle esigenze specifiche. I prezzi di lancio sono validi per i primi 10 clienti e aumenteranno a €997–€1.497 nella fase di scalamento.</p>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section class="processo-section">
+  <div class="section-tag">Come funziona</div>
+  <div class="section-headline">3 Passi</div>
+  <div class="section-sub">Dalla chiamata al piano operativo</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-tag">Gratuito · 15-20 min</div>
+        <div class="step-title">Chiamata di scoperta</div>
+        <div class="step-desc">Una chiamata veloce per capire la tua situazione attuale, i tuoi obiettivi e verificare che L'Alchimia sia il percorso giusto per te. Nessun impegno.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-tag">Entro 48h</div>
+        <div class="step-title">Proposta personalizzata</div>
+        <div class="step-desc">Se il percorso è adatto, ti invio una proposta con il piano dettagliato, le sessioni programmate e i deliverable specifici per la tua struttura.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-tag">30-90 giorni</div>
+        <div class="step-title">Il percorso inizia</div>
+        <div class="step-desc">Audit, sessioni di lavoro, diagnosi e roadmap. Al termine hai un sistema operativo pronto — non solo consigli teorici.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<section class="disclaimer-section">
+  <div class="section-tag" style="margin-bottom:16px;">Per chi è — e per chi non è</div>
+  <div class="disclaimer-title">L'Alchimia <em>è per te</em> se...</div>
+  <p class="disclaimer-body" style="margin-bottom:20px;color:rgba(245,240,234,.5);">
+    Gestisci un hotel o ristorante indipendente (12–80 camere o locale medio-alto) in Lombardia o Svizzera. Vuoi <strong>risultati misurabili</strong>, non teoria. Sei disposto a investire nel tuo ecosistema digitale con un piano concreto. Apprezzi la comunicazione diretta e il lavoro personalizzato.
+  </p>
+  <div class="disclaimer-title" style="margin-top:24px;">Non è per te se...</div>
+  <p class="disclaimer-body">Cerchi solo gestione dei social a basso costo, non sei disposto a implementare nulla o ti aspetti risultati senza partecipazione attiva al processo.</p>
+</section>
+
+<!-- AUTHOR -->
+<section class="author-section">
+  <div class="section-tag" style="margin-bottom:20px;">Chi conduce il percorso</div>
+  <div class="author-avatar">N</div>
+  <div class="author-name">Nathalia Acosta Vélez</div>
+  <div class="author-role">Fondatrice · Hospitality Lab</div>
+  <p class="author-bio">Consulente digitale specializzata in <strong>revenue strategy, automazione e IA</strong> per l'ospitalità indipendente. Lavora con hotel e ristoranti 3–4 stelle in Lombardia e Svizzera. Multilingüe: italiano, inglese, spagnolo, tedesco/svizzero-tedesco.</p>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <div class="footer-eyebrow">Pronto a iniziare?</div>
+  <h2 class="footer-headline">
+    La chiamata di scoperta<br>è <em>gratuita e senza impegno.</em>
+  </h2>
+  <p class="footer-sub">15 minuti per capire se L'Alchimia è il percorso giusto per te.</p>
+  <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Vorrei%20prenotare%20la%20chiamata%20di%20scoperta%20gratuita%20per%20L'Alchimia" class="btn-whatsapp" target="_blank">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="btn-wa-text">Prenota la chiamata gratuita</span>
+  </a>
+  <div class="footer-bottom">
+    <div class="footer-nav">
+      <a href="/protocolli">I Protocolli</a>
+      <a href="/diagnosi">7 Peccati Mortali</a>
+      <a href="/">Home</a>
+    </div>
+    <div class="footer-logo">HOSPITALITY LAB · BY NATHALIA ACOSTA</div>
+    <div class="footer-contacts">nathalia.acostav@gmail.com · +39 375 558 69 68<br>Italia · Svizzera · Lago di Como</div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // CURSOR
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0,ready=false;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=mx+'px';cur.style.top=my+'px';
+    if(!ready){ready=true;document.body.classList.add('cursor-ready');cur.style.opacity='1';ring.style.opacity='1';}
+  });
+  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.tier-card,.risultato-card,.pain-item').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.classList.add('hov');ring.classList.add('hov');});
+    el.addEventListener('mouseleave',()=>{cur.classList.remove('hov');ring.classList.remove('hov');});
+  });
+
+  // PROGRESS
+  const pb=document.getElementById('progressBar');
+  window.addEventListener('scroll',()=>{pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+
+  // HEADER
+  const hdr=document.getElementById('mainHeader');let last=0;
+  window.addEventListener('scroll',()=>{const c=window.scrollY;hdr.classList.toggle('scrolled',c>80);hdr.classList.toggle('hidden',c>last&&c>220);last=c;},{passive:true});
+})();
+</script>
+</body>
+</html>
