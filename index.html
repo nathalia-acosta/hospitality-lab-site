@@ -116,7 +116,7 @@ header.hidden{transform:translateY(-100%);}
 .section-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
 .section-tag::before{content:'';width:20px;height:1px;background:var(--oro);}
 .section-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,56px);letter-spacing:2px;line-height:.95;color:var(--nero);margin-bottom:8px;}
-.section-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:17px;color:var(--grigio);margin-bottom:32px;}
+.section-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:20px;color:var(--grigio);margin-bottom:32px;}
 
 .problema-grid{display:flex;flex-direction:column;gap:16px;}
 .problema-card{background:white;border-radius:18px;padding:24px 22px;border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .4s;}
@@ -173,19 +173,22 @@ header.hidden{transform:translateY(-100%);}
 
 /* ── PROOF ── */
 .proof-section{padding:72px 32px;background:var(--crema);position:relative;}
-.proof-disclaimer{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grigio-light);margin-bottom:28px;font-style:italic;}
+.proof-disclaimer{font-size:12px;letter-spacing:0;text-transform:none;color:#666;margin-bottom:28px;font-style:italic;font-weight:300;}
 .proof-grid{display:flex;flex-direction:column;gap:16px;}
-.proof-card{background:white;border-radius:18px;padding:24px 22px;border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;}
-.proof-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(8,8,8,.07);}
-.proof-type{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--oro);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.proof-type::before{content:'';width:12px;height:1px;background:var(--oro);}
-.proof-quote{font-family:'DM Serif Display',serif;font-size:17px;line-height:1.5;color:var(--nero);margin-bottom:14px;}
+.proof-card{background:white;border-radius:18px;padding:24px 22px;border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .4s;}
+.proof-card:hover{transform:translateY(-4px);box-shadow:0 20px 48px rgba(8,8,8,.07);border-color:rgba(201,169,110,.28);}
+.proof-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
+.proof-card:hover::before{transform:scaleX(1);}
+.proof-type{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--nero);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.proof-type::before{content:'';width:12px;height:1px;background:var(--nero);}
+.proof-quote{font-size:15px;line-height:1.7;color:#555;font-weight:300;margin-bottom:18px;}
+.proof-quote strong{color:var(--nero);font-weight:500;}
 .proof-quote em{color:var(--oro);font-style:italic;}
-.proof-metrics{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
-.proof-metric{display:flex;flex-direction:column;gap:2px;}
-.proof-metric-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--nero);letter-spacing:1px;line-height:1;}
-.proof-metric-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grigio-light);}
-.proof-source{font-size:11px;color:var(--grigio-light);font-style:italic;}
+.proof-metrics{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:10px;padding-top:14px;border-top:1px solid rgba(201,169,110,.1);}
+.proof-metric{display:flex;flex-direction:column;gap:3px;}
+.proof-metric-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--oro);letter-spacing:1px;line-height:1;}
+.proof-metric-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grigio-light);font-weight:500;}
+.proof-source{font-size:10px;color:var(--grigio-light);margin-top:10px;letter-spacing:.5px;}
 
 /* ── PROCESSO ── */
 .processo-section{padding:72px 32px;background:var(--crema-soft);}
@@ -424,7 +427,7 @@ header.hidden{transform:translateY(-100%);}
   <div class="proof-grid">
     <div class="proof-card">
       <div class="proof-type">Hotel · Lago di Como</div>
-      <p class="proof-quote">Un hotel di <em>40 camere</em> che applica il Protocollo OTA Escape + automazione WhatsApp può aspettarsi una riduzione significativa delle commissioni già nei primi 60 giorni.</p>
+      <p class="proof-quote">Un hotel di <strong>40 camere</strong> che applica il Protocollo OTA Escape + automazione WhatsApp può aspettarsi una riduzione significativa delle commissioni già nei primi 60 giorni.</p>
       <div class="proof-metrics">
         <div class="proof-metric"><div class="proof-metric-num">–28%</div><div class="proof-metric-label">Commissioni OTA</div></div>
         <div class="proof-metric"><div class="proof-metric-num">+35%</div><div class="proof-metric-label">Prenotazioni dirette</div></div>
@@ -434,7 +437,7 @@ header.hidden{transform:translateY(-100%);}
     </div>
     <div class="proof-card">
       <div class="proof-type">Ristorante · Lombardia</div>
-      <p class="proof-quote">Un ristorante medio-alto che riduce la dipendenza da TheFork con un sistema di prenotazione diretta + gestione recensioni può <em>recuperare margine operativo</em> già dal primo mese.</p>
+      <p class="proof-quote">Un ristorante medio-alto che riduce la dipendenza da TheFork con un sistema di prenotazione diretta + gestione recensioni può <strong>recuperare margine operativo</strong> già dal primo mese.</p>
       <div class="proof-metrics">
         <div class="proof-metric"><div class="proof-metric-num">–40%</div><div class="proof-metric-label">Commissioni TheFork</div></div>
         <div class="proof-metric"><div class="proof-metric-num">4.8★</div><div class="proof-metric-label">Google Rating medio</div></div>
