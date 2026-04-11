@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Diagnosi Gratuita — I 7 Peccati Mortali · Hospitality Lab</title>
+<meta name="description" content="Scopri i 7 errori che stanno costando migliaia di euro al tuo hotel o ristorante. Guida gratuita per strutture indipendenti in Lombardia e Svizzera.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nero:#080808;--crema:#F5F0EA;--crema-soft:#F0EBE3;
+  --oro:#C9A96E;--oro-chiaro:#E8D5B0;--grigio:#666;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--crema);color:var(--nero);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:auto;}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.4;}
+
+/* PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));z-index:9999;}
+
+/* HEADER */
+header{padding:20px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(245,240,234,.93);backdrop-filter:blur(16px);z-index:100;border-bottom:1px solid rgba(201,169,110,.15);transition:box-shadow .4s ease;}
+header.scrolled{box-shadow:0 4px 24px rgba(8,8,8,.06);}
+.logo-block{display:flex;flex-direction:column;gap:2px;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--nero);line-height:1;}
+.logo-sub{font-size:9px;letter-spacing:4px;color:var(--oro);text-transform:uppercase;}
+.header-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grigio);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .3s;}
+.header-back::before{content:'←';}
+.header-back:hover{color:var(--oro);}
+
+/* HERO */
+.hero{padding:64px 32px 56px;position:relative;overflow:hidden;text-align:center;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(201,169,110,.06) 0%,transparent 60%);pointer-events:none;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:20px;animation:fadeIn .6s .1s ease both;}
+.eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--oro);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.4);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-title-wrap{overflow:hidden;margin-bottom:4px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,12vw,96px);line-height:.88;letter-spacing:2px;color:var(--nero);display:block;animation:slideUp .8s .2s cubic-bezier(.16,1,.3,1) both;}
+.hero-title-gold{color:var(--oro);font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(28px,7vw,58px);display:block;animation:slideUp .8s .35s cubic-bezier(.16,1,.3,1) both;line-height:1.1;}
+@keyframes slideUp{from{transform:translateY(110%);}to{transform:translateY(0);}}
+
+.hero-desc{font-size:16px;line-height:1.75;color:#555;max-width:560px;margin:24px auto 0;font-weight:300;animation:fadeIn .8s .55s ease both;}
+.hero-desc strong{color:var(--nero);font-weight:500;}
+.hero-divider{width:60px;height:1px;background:linear-gradient(to right,transparent,var(--oro),transparent);margin:36px auto 0;opacity:.5;animation:fadeIn .8s .7s ease both;}
+
+/* SPLIT SECTION */
+.split{display:flex;flex-direction:column;position:relative;}
+@media(min-width:768px){.split{flex-direction:row;min-height:92vh;}}
+
+/* EACH HALF */
+.half{flex:1;padding:48px 40px 56px;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+@media(min-width:768px){.half{padding:56px 52px 64px;}}
+.half-hotel{background:var(--nero);}
+.half-ristorante{background:var(--crema-soft);border-top:1px solid rgba(201,169,110,.15);}
+@media(min-width:768px){
+  .half-hotel{border-right:1px solid rgba(201,169,110,.15);}
+  .half-ristorante{border-top:none;}
+}
+
+/* BG decorations */
+.half-hotel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,169,110,.08) 0%,transparent 55%);pointer-events:none;}
+.half-ristorante::before{content:'';position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;border:1px solid rgba(201,169,110,.1);animation:ringPulse 4s ease-in-out infinite;pointer-events:none;}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.5;}50%{transform:scale(1.08);opacity:.2;}}
+
+.half-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;font-weight:500;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.half-hotel .half-label{color:rgba(201,169,110,.65);}
+.half-label::before{content:'';width:16px;height:1px;}
+.half-hotel .half-label::before{background:rgba(201,169,110,.5);}
+.half-ristorante .half-label{color:var(--oro);}
+.half-ristorante .half-label::before{background:var(--oro);}
+
+.half-num{font-family:'Bebas Neue',sans-serif;font-size:130px;line-height:.82;letter-spacing:2px;margin-bottom:-8px;display:block;}
+.half-hotel .half-num{color:rgba(201,169,110,.15);}
+.half-ristorante .half-num{color:rgba(201,169,110,.12);}
+
+.half-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,5.5vw,48px);letter-spacing:2px;line-height:.95;margin-bottom:10px;}
+.half-hotel .half-title{color:var(--crema);}
+.half-ristorante .half-title{color:var(--nero);}
+
+.half-title span{color:var(--oro);}
+
+.half-subtitle{font-family:'DM Serif Display',serif;font-style:italic;font-size:17px;margin-bottom:22px;}
+.half-hotel .half-subtitle{color:rgba(245,240,234,.45);}
+.half-ristorante .half-subtitle{color:var(--grigio);}
+
+.half-metrics{display:flex;gap:20px;margin-bottom:26px;}
+.hm{display:flex;flex-direction:column;gap:3px;}
+.hm-n{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--oro);letter-spacing:1px;line-height:1;}
+.hm-l{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:500;line-height:1.4;}
+.half-hotel .hm-l{color:rgba(245,240,234,.35);}
+.half-ristorante .hm-l{color:#777;}
+
+.half-includes{list-style:none;margin-bottom:32px;display:flex;flex-direction:column;gap:10px;}
+.half-includes li{font-size:15px;line-height:1.5;display:flex;align-items:flex-start;gap:10px;}
+.half-hotel .half-includes li{color:rgba(245,240,234,.65);}
+.half-ristorante .half-includes li{color:#444;}
+.half-includes li::before{content:'→';color:var(--oro);flex-shrink:0;font-size:13px;margin-top:2px;}
+
+/* CTA BLOCK */
+.cta-block{margin-top:auto;}
+
+.btn-wa{display:flex;align-items:center;gap:12px;padding:18px 22px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer;border:none;width:100%;justify-content:center;}
+.btn-wa-hotel{background:var(--oro);color:var(--nero);}
+.btn-wa-ristorante{background:var(--nero);color:var(--crema);}
+.btn-wa::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-101%);transition:transform .5s ease;}
+.btn-wa:hover::before{transform:translateX(101%);}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,169,110,.3);}
+.btn-wa svg,.btn-wa-text{position:relative;z-index:1;}
+
+/* Email optional */
+.email-opt{margin-top:14px;}
+.email-opt-label{font-size:13px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.half-hotel .email-opt-label{color:rgba(245,240,234,.4);}
+.half-ristorante .email-opt-label{color:#666;}
+.email-opt-label::before{content:'✉';font-size:13px;}
+.email-row{display:flex;gap:8px;}
+.email-input{flex:1;background:transparent;border:1px solid;padding:12px 16px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;outline:none;transition:border-color .3s;}
+.half-hotel .email-input{border-color:rgba(245,240,234,.15);color:var(--crema);}
+.half-hotel .email-input::placeholder{color:rgba(245,240,234,.2);}
+.half-hotel .email-input:focus{border-color:rgba(201,169,110,.4);}
+.half-ristorante .email-input{border-color:rgba(8,8,8,.15);color:var(--nero);}
+.half-ristorante .email-input::placeholder{color:#aaa;}
+.half-ristorante .email-input:focus{border-color:rgba(201,169,110,.5);}
+.email-send{background:transparent;border:1px solid;padding:10px 16px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all .3s;white-space:nowrap;}
+.half-hotel .email-send{border-color:rgba(201,169,110,.3);color:var(--oro);}
+.half-hotel .email-send:hover{background:var(--oro);color:var(--nero);border-color:var(--oro);}
+.half-ristorante .email-send{border-color:rgba(8,8,8,.2);color:var(--nero);}
+.half-ristorante .email-send:hover{background:var(--nero);color:var(--crema);border-color:var(--nero);}
+
+/* DIVIDER — simple top border inside each half */
+.split-divider{display:none;}
+.split-label-bar{display:none;}
+.split-label-pill{display:none;}
+
+/* SEZIONE COME FUNZIONA */
+.how-section{padding:72px 32px;background:white;border-top:1px solid rgba(201,169,110,.12);}
+.hw-tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.hw-tag::before{content:'';width:20px;height:1px;background:var(--oro);}
+.hw-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,52px);letter-spacing:2px;line-height:.95;color:var(--nero);margin-bottom:8px;}
+.hw-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:var(--grigio);margin-bottom:36px;}
+
+.hw-steps{display:flex;flex-direction:column;gap:0;position:relative;}
+.hw-steps::before{content:'';position:absolute;left:19px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,rgba(201,169,110,.35),rgba(201,169,110,.08));}
+.hw-step{display:flex;gap:24px;padding-bottom:32px;}
+.hw-step:last-child{padding-bottom:0;}
+.hw-step-num{width:38px;height:38px;border-radius:50%;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--oro);flex-shrink:0;position:relative;z-index:1;}
+.hw-step-content{padding-top:6px;}
+.hw-step-tag{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--oro);font-weight:600;margin-bottom:6px;}
+.hw-step-title{font-size:16px;letter-spacing:.5px;font-weight:600;color:var(--nero);margin-bottom:6px;}
+.hw-step-desc{font-size:15px;line-height:1.75;color:#444;font-weight:300;}
+
+/* FOOTER */
+.footer{background:var(--nero);padding:52px 32px 60px;text-align:center;position:relative;overflow:hidden;}
+.footer::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(201,169,110,.1) 0%,transparent 60%);animation:fglow 4s ease-in-out infinite alternate;}
+@keyframes fglow{from{opacity:.6;}to{opacity:1;}}
+.footer-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:16px;position:relative;}
+.footer-hl{font-family:'DM Serif Display',serif;font-size:clamp(20px,4vw,30px);line-height:1.4;color:var(--crema);margin-bottom:24px;position:relative;}
+.footer-hl em{color:var(--oro);font-style:italic;}
+.btn-footer-wa{display:inline-flex;align-items:center;gap:12px;background:var(--oro);color:var(--nero);text-decoration:none;padding:16px 28px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.btn-footer-wa::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-101%);transition:transform .5s ease;}
+.btn-footer-wa:hover::before{transform:translateX(101%);}
+.btn-footer-wa:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(201,169,110,.3);}
+.btn-footer-wa svg,.btn-footer-wa span{position:relative;z-index:1;}
+.footer-bottom{margin-top:48px;padding-top:24px;border-top:1px solid rgba(245,240,234,.07);}
+.footer-nav{display:flex;justify-content:center;gap:24px;margin-bottom:14px;flex-wrap:wrap;}
+.footer-nav a{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,240,234,.2);text-decoration:none;transition:color .3s;}
+.footer-nav a:hover{color:var(--oro);}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(245,240,234,.15);margin-bottom:6px;}
+.footer-contacts{font-size:11px;color:rgba(245,240,234,.12);font-weight:300;line-height:1.9;}
+
+/* Toast notifications */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--nero);color:var(--crema);padding:14px 24px;border-radius:100px;font-size:12px;letter-spacing:1px;border:1px solid rgba(201,169,110,.3);opacity:0;transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .4s ease;z-index:9999;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+@media(min-width:768px){
+  .how-section,.footer{padding-left:10%;padding-right:10%;}
+  .half{padding:64px 52px;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <div class="logo-block">
+    <span class="logo-name">Hospitality Lab</span>
+    <span class="logo-sub">by Nathalia Acosta</span>
+  </div>
+  <a href="/" class="header-back">Home</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Guida Gratuita · Hospitality Lab</div>
+  <div style="overflow:hidden"><span class="hero-title">I 7 Peccati Mortali</span></div>
+  <div style="overflow:hidden"><span class="hero-title-gold">che stai commettendo ogni giorno</span></div>
+  <p class="hero-desc">Scopri gli errori che stanno costando migliaia di euro al tuo <strong>hotel o ristorante</strong> — e le azioni prioritarie per correggerli subito. Gratis, immediato, in italiano.</p>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- SPLIT — TWO GUIDES -->
+<div class="split" id="guide">
+
+  <!-- HOTEL -->
+  <div class="half half-hotel">
+    <div class="half-label">Per Hotel Indipendenti</div>
+    <span class="half-num">7</span>
+    <div class="half-title">PECCATI MORTALI<br>DEGLI <span>HOTEL</span><br>3–4 STELLE</div>
+    <div class="half-subtitle">Lombardia · Lago di Como · Svizzera</div>
+
+    <div class="half-metrics">
+      <div class="hm"><div class="hm-n">–25%</div><div class="hm-l">Commissioni OTA risparmiate</div></div>
+      <div class="hm"><div class="hm-n">+55%</div><div class="hm-l">Prenotazioni dirette in 6 mesi</div></div>
+    </div>
+
+    <ul class="half-includes">
+      <li>Sito lento che fa fuggire i clienti</li>
+      <li>Nessun booking engine diretto</li>
+      <li>Dipendenza totale dalle OTA</li>
+      <li>Foto scadenti che non convertono</li>
+      <li>Sito solo in italiano</li>
+      <li>Mobile disastroso</li>
+      <li>Google ignorato</li>
+    </ul>
+
+    <div class="cta-block">
+      <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Ho%20visto%20la%20landing%20dei%207%20Peccati%20Mortali.%20Puoi%20inviarmi%20la%20guida%20per%20HOTEL%3F%20Mi%20chiamo%20%5BNome%5D%20e%20ho%20un%20hotel%20a%20%5BZona%5D" class="btn-wa btn-wa-hotel" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span class="btn-wa-text">Ricevi la Guida Hotel →</span>
+      </a>
+      <div class="email-opt">
+        <div class="email-opt-label">Vuoi anche la versione PDF per email?</div>
+        <div class="email-row">
+          <input type="email" class="email-input" id="emailHotel" placeholder="la-tua@email.it">
+          <button class="email-send" onclick="sendEmail('hotel')">Invia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISTORANTE -->
+  <div class="half half-ristorante">
+    <div class="half-label">Per Ristoranti Indipendenti</div>
+    <span class="half-num">7</span>
+    <div class="half-title">PECCATI MORTALI<br>DEI <span>RISTORANTI</span><br>INDIPENDENTI</div>
+    <div class="half-subtitle">Lombardia · Lago di Como · Svizzera</div>
+
+    <div class="half-metrics">
+      <div class="hm"><div class="hm-n">–30%</div><div class="hm-l">Commissioni TheFork risparmiate</div></div>
+      <div class="hm"><div class="hm-n">+45%</div><div class="hm-l">Prenotazioni dirette in 4 mesi</div></div>
+    </div>
+
+    <ul class="half-includes">
+      <li>Dipendenza totale da TheFork</li>
+      <li>Menù digitale inesistente o obsoleto</li>
+      <li>Recensioni ignorate su Google</li>
+      <li>Nessun sistema di prenotazione diretta</li>
+      <li>Social media senza strategia</li>
+      <li>Zero automazione post-visita</li>
+      <li>Invisibilità su Google Maps</li>
+    </ul>
+
+    <div class="cta-block">
+      <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Ho%20visto%20la%20landing%20dei%207%20Peccati%20Mortali.%20Puoi%20inviarmi%20la%20guida%20per%20RISTORANTI%3F%20Mi%20chiamo%20%5BNome%5D%20e%20ho%20un%20ristorante%20a%20%5BZona%5D" class="btn-wa btn-wa-ristorante" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span class="btn-wa-text">Ricevi la Guida Ristoranti →</span>
+      </a>
+      <div class="email-opt">
+        <div class="email-opt-label">Vuoi anche la versione PDF per email?</div>
+        <div class="email-row">
+          <input type="email" class="email-input" id="emailRistorante" placeholder="la-tua@email.it">
+          <button class="email-send" onclick="sendEmail('ristorante')">Invia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- COME FUNZIONA -->
+<section class="how-section">
+  <div class="hw-tag">Come funziona</div>
+  <div class="hw-title">In 3 Passi</div>
+  <div class="hw-sub">Dalla guida alla tua strategia personalizzata</div>
+  <div class="hw-steps">
+    <div class="hw-step">
+      <div class="hw-step-num">1</div>
+      <div class="hw-step-content">
+        <div class="hw-step-tag">Immediato · Gratis</div>
+        <div class="hw-step-title">Ricevi la tua guida</div>
+        <div class="hw-step-desc">Clicca il bottone WhatsApp, Nathalia ti invia la guida in pochi minuti. Nessun form complicato, nessun abbonamento.</div>
+      </div>
+    </div>
+    <div class="hw-step">
+      <div class="hw-step-num">2</div>
+      <div class="hw-step-content">
+        <div class="hw-step-tag">Da fare subito</div>
+        <div class="hw-step-title">Identifica i tuoi peccati</div>
+        <div class="hw-step-desc">Leggi la guida e scopri esattamente quali dei 7 peccati sta commettendo la tua struttura — e quanto ti stanno costando in euro reali.</div>
+      </div>
+    </div>
+    <div class="hw-step">
+      <div class="hw-step-num">3</div>
+      <div class="hw-step-content">
+        <div class="hw-step-tag">Opzionale · Consigliato</div>
+        <div class="hw-step-title">Prenota la Diagnosi Gratuita</div>
+        <div class="hw-step-desc">Se vuoi un piano personalizzato per eliminare i tuoi peccati specifici, prenota una chiamata gratuita di 15 minuti con Nathalia. Nessun impegno.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+  <div class="footer-eye">Hai già la guida?</div>
+  <h2 class="footer-hl">Prenota la diagnosi.<br><em>È gratuita e senza impegno.</em></h2>
+  <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Ho%20letto%20la%20guida%20dei%207%20Peccati%20Mortali%20e%20vorrei%20prenotare%20la%20diagnosi%20gratuita" class="btn-footer-wa" target="_blank">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span>Prenota ora — è gratuita</span>
+  </a>
+  <div class="footer-bottom">
+    <div class="footer-nav">
+      <a href="/protocolli">I Protocolli</a>
+      <a href="/alchimia">L'Alchimia</a>
+      <a href="/">Home</a>
+    </div>
+    <div class="footer-logo">HOSPITALITY LAB · BY NATHALIA ACOSTA</div>
+    <div class="footer-contacts">nathalia.acostav@gmail.com · +39 375 558 69 68<br>Italia · Svizzera · Lago di Como</div>
+  </div>
+</section>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  // PROGRESS
+  const pb=document.getElementById('progressBar');
+  window.addEventListener('scroll',()=>{pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+
+  // HEADER
+  const hdr=document.getElementById('mainHeader');
+  window.addEventListener('scroll',()=>{hdr.classList.toggle('scrolled',window.scrollY>60);},{passive:true});
+
+  // EMAIL SEND
+  window.sendEmail=function(tipo){
+    const id=tipo==='hotel'?'emailHotel':'emailRistorante';
+    const email=document.getElementById(id).value.trim();
+    if(!email||!email.includes('@')){
+      showToast('Inserisci un indirizzo email valido');
+      return;
+    }
+    const subject=encodeURIComponent('Richiesta Guida 7 Peccati Mortali — '+(tipo==='hotel'?'Hotel':'Ristoranti'));
+    const body=encodeURIComponent('Ciao Nathalia,\n\nHo visto la tua landing page e vorrei ricevere la guida "I 7 Peccati Mortali" per '+(tipo==='hotel'?'Hotel':'Ristoranti')+'.\n\nIl mio indirizzo email è: '+email+'\n\nGrazie!');
+    window.location.href='mailto:nathalia.acostav@gmail.com?subject='+subject+'&body='+body;
+    document.getElementById(id).value='';
+    showToast('✓ Apertura email in corso…');
+  };
+
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),3000);
+  }
+})();
+</script>
+</body>
+</html>
