@@ -3,930 +3,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hospitality Lab – Guida Gratuita</title>
+<title>Hospitality Lab — Automazione e IA per Hotel e Ristoranti Indipendenti</title>
+<meta name="description" content="Riduci la dipendenza dalle OTA e aumenta le prenotazioni dirette in 30 giorni. Strategie digitali, automazione e IA per hotel e ristoranti indipendenti in Lombardia e Svizzera.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #080808;
-    --white: #F5F0EA;
-    --gold: #C9A96E;
-    --gold-light: #E8D5B0;
-    --navy: #1A1A2E;
-    --cream: #F0EBE3;
-    --gray: #666666;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.35;
-  }
-
-  /* ── GOLD LINE TOP ── */
-  .gold-bar {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  /* ── NAV ── */
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 60px;
-    border-bottom: 1px solid rgba(201,169,110,0.15);
-  }
-
-  .logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 15px;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    text-transform: uppercase;
-  }
-
-  .logo span {
-    font-style: italic;
-    color: var(--white);
-  }
-
-  .nav-tag {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gray);
-  }
-
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    min-height: 92vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 80px 60px;
-    gap: 60px;
-    overflow: hidden;
-  }
-
-  /* Decorative grid dots */
-  .hero::after {
-    content: '';
-    position: absolute;
-    right: -40px;
-    top: 10%;
-    width: 320px;
-    height: 320px;
-    background-image: radial-gradient(circle, rgba(201,169,110,0.2) 1px, transparent 1px);
-    background-size: 22px 22px;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  /* Vertical gold bar */
-  .hero::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background: linear-gradient(180deg, transparent, rgba(201,169,110,0.25), transparent);
-    z-index: 0;
-  }
-
-  .hero-left {
-    position: relative;
-    z-index: 1;
-  }
-
-  .eyebrow {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 28px;
-    border-left: 2px solid var(--gold);
-    padding-left: 14px;
-  }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(56px, 7vw, 96px);
-    line-height: 0.95;
-    letter-spacing: 0.04em;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-
-  .hero-title .gold-word {
-    color: var(--gold);
-    display: block;
-  }
-
-  .hero-subtitle {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: clamp(18px, 2.2vw, 26px);
-    color: var(--gold-light);
-    margin-bottom: 32px;
-    line-height: 1.3;
-  }
-
-  .hero-desc {
-    font-size: 15px;
-    line-height: 1.8;
-    color: rgba(245,240,234,0.65);
-    max-width: 440px;
-    margin-bottom: 48px;
-  }
-
-  .hero-desc strong {
-    color: var(--white);
-    font-weight: 500;
-  }
-
-  /* ── CTA BUTTON ── */
-  .btn-primary {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--black);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    padding: 18px 44px;
-    text-decoration: none;
-    position: relative;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-  }
-
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    border: 1px solid rgba(8,8,8,0.3);
-    pointer-events: none;
-  }
-
-  .btn-primary:hover {
-    background: var(--gold-light);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(201,169,110,0.3);
-  }
-
-  .guarantee {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    color: var(--gray);
-  }
-
-  .guarantee::before {
-    content: '✦';
-    color: var(--gold);
-    font-size: 10px;
-  }
-
-  /* ── HERO RIGHT – EBOOK MOCKUP ── */
-  .hero-right {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .book-wrap {
-    position: relative;
-    width: 280px;
-  }
-
-  .book-shadow {
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 220px;
-    height: 40px;
-    background: radial-gradient(ellipse, rgba(201,169,110,0.35), transparent 70%);
-    filter: blur(8px);
-  }
-
-  .book-cover {
-    width: 100%;
-    aspect-ratio: 3/4;
-    background: linear-gradient(145deg, var(--navy) 0%, #0d0d1f 100%);
-    border: 1px solid rgba(201,169,110,0.4);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 36px 32px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: -8px 12px 40px rgba(0,0,0,0.6), 4px 0 0 rgba(201,169,110,0.15);
-  }
-
-  .book-cover::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  .book-cover::after {
-    content: '';
-    position: absolute;
-    bottom: 80px; right: -20px;
-    width: 180px;
-    height: 180px;
-    background-image: radial-gradient(circle, rgba(201,169,110,0.08) 1px, transparent 1px);
-    background-size: 16px 16px;
-  }
-
-  .book-tag {
-    font-size: 9px;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    z-index: 1;
-  }
-
-  .book-title-cover {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 34px;
-    line-height: 1;
-    letter-spacing: 0.05em;
-    color: var(--white);
-    z-index: 1;
-  }
-
-  .book-title-cover .gold-line {
-    color: var(--gold);
-    display: block;
-    font-size: 28px;
-  }
-
-  .book-author {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 12px;
-    color: var(--gold-light);
-    z-index: 1;
-    letter-spacing: 0.05em;
-  }
-
-  .book-pages {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gray);
-    z-index: 1;
-  }
-
-  /* floating badge */
-  .badge {
-    position: absolute;
-    top: -18px;
-    right: -18px;
-    width: 80px;
-    height: 80px;
-    background: var(--gold);
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    box-shadow: 0 6px 24px rgba(201,169,110,0.4);
-  }
-
-  .badge span:first-child {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    color: var(--black);
-    line-height: 1;
-  }
-
-  .badge span:last-child {
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--black);
-    font-weight: 500;
-  }
-
-  /* ── STATS BAR ── */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid rgba(201,169,110,0.15);
-    border-bottom: 1px solid rgba(201,169,110,0.15);
-  }
-
-  .stat-item {
-    padding: 36px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    border-right: 1px solid rgba(201,169,110,0.15);
-  }
-
-  .stat-item:last-child { border-right: none; }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
-    color: var(--gold);
-    line-height: 1;
-    letter-spacing: 0.03em;
-  }
-
-  .stat-label {
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gray);
-  }
-
-  /* ── WHAT YOU GET ── */
-  .section {
-    padding: 100px 60px;
-  }
-
-  .section-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .section-eyebrow::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(201,169,110,0.4), transparent);
-    max-width: 160px;
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(42px, 5vw, 72px);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    margin-bottom: 60px;
-  }
-
-  .chapters-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    background: rgba(201,169,110,0.1);
-    border: 1px solid rgba(201,169,110,0.15);
-  }
-
-  .chapter-card {
-    background: var(--black);
-    padding: 40px;
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    transition: background 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .chapter-card::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    height: 1px;
-    width: 0;
-    background: var(--gold);
-    transition: width 0.4s ease;
-  }
-
-  .chapter-card:hover::before { width: 100%; }
-  .chapter-card:hover { background: rgba(26,26,46,0.6); }
-
-  .chapter-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
-    color: rgba(201,169,110,0.2);
-    line-height: 1;
-    flex-shrink: 0;
-    width: 50px;
-    transition: color 0.3s;
-  }
-
-  .chapter-card:hover .chapter-num { color: var(--gold); }
-
-  .chapter-content h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px;
-    color: var(--white);
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-
-  .chapter-content p {
-    font-size: 14px;
-    line-height: 1.7;
-    color: rgba(245,240,234,0.55);
-  }
-
-  /* ── FOR WHO ── */
-  .for-who {
-    background: var(--navy);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .for-who::before {
-    content: '';
-    position: absolute;
-    top: -100px; right: -100px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(201,169,110,0.06), transparent 60%);
-    pointer-events: none;
-  }
-
-  .for-who-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-  }
-
-  .for-who-left {}
-
-  .checklist {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 40px;
-  }
-
-  .check-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    font-size: 15px;
-    line-height: 1.6;
-    color: rgba(245,240,234,0.8);
-  }
-
-  .check-icon {
-    width: 22px;
-    height: 22px;
-    border: 1px solid var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-    color: var(--gold);
-    font-size: 12px;
-  }
-
-  .quote-block {
-    background: rgba(201,169,110,0.06);
-    border-left: 3px solid var(--gold);
-    padding: 36px 40px;
-    position: relative;
-  }
-
-  .quote-text {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 24px);
-    line-height: 1.5;
-    color: var(--white);
-    margin-bottom: 20px;
-  }
-
-  .quote-author {
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  /* ── FORM ── */
-  .form-section {
-    background: var(--cream);
-    color: var(--black);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .form-section::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  .form-inner {
-    max-width: 560px;
-  }
-
-  .form-section .section-eyebrow { color: var(--gold); }
-  .form-section .section-eyebrow::after { background: linear-gradient(90deg, rgba(201,169,110,0.4), transparent); }
-
-  .form-section .section-title { color: var(--black); }
-
-  .form-desc {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #444;
-    margin-bottom: 40px;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .form-label {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gray);
-    font-weight: 500;
-  }
-
-  .form-input {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(8,8,8,0.25);
-    padding: 14px 0;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    color: var(--black);
-    outline: none;
-    transition: border-color 0.3s;
-    width: 100%;
-  }
-
-  .form-input::placeholder { color: rgba(8,8,8,0.3); }
-
-  .form-input:focus {
-    border-bottom-color: var(--gold);
-  }
-
-  .form-note {
-    font-size: 12px;
-    color: var(--gray);
-    margin-top: 16px;
-    letter-spacing: 0.05em;
-  }
-
-  .form-note a { color: var(--gold); }
-
-  /* success state */
-  .success-msg {
-    display: none;
-    background: rgba(201,169,110,0.1);
-    border: 1px solid var(--gold);
-    padding: 28px 32px;
-    margin-top: 24px;
-  }
-
-  .success-msg p {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 18px;
-    color: var(--black);
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--black);
-    padding: 48px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid rgba(201,169,110,0.15);
-  }
-
-  .footer-logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 14px;
-    color: var(--gold);
-    letter-spacing: 0.1em;
-  }
-
-  .footer-copy {
-    font-size: 12px;
-    color: var(--gray);
-    letter-spacing: 0.1em;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-left > * {
-    animation: fadeUp 0.8s ease both;
-  }
-  .eyebrow          { animation-delay: 0.1s; }
-  .hero-title       { animation-delay: 0.25s; }
-  .hero-subtitle    { animation-delay: 0.35s; }
-  .hero-desc        { animation-delay: 0.45s; }
-  .btn-primary      { animation-delay: 0.55s; }
-  .guarantee        { animation-delay: 0.65s; }
-
-  .hero-right {
-    animation: fadeUp 0.9s 0.4s ease both;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 20px 28px; }
-
-    .hero {
-      grid-template-columns: 1fr;
-      padding: 60px 28px;
-      min-height: auto;
-      gap: 60px;
-    }
-
-    .hero::before, .hero::after { display: none; }
-
-    .hero-right { order: -1; }
-
-    .book-wrap { width: 200px; }
-
-    .stats-bar { grid-template-columns: 1fr; }
-    .stat-item { border-right: none; border-bottom: 1px solid rgba(201,169,110,0.15); padding: 28px; }
-
-    .section { padding: 60px 28px; }
-
-    .chapters-grid { grid-template-columns: 1fr; }
-
-    .for-who-grid { grid-template-columns: 1fr; }
-
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-  }
+:root{
+  --nero:#080808;
+  --crema:#F5F0EA;
+  --crema-soft:#F0EBE3;
+  --oro:#C9A96E;
+  --oro-chiaro:#E8D5B0;
+  --grigio:#666;
+  --grigio-light:#999;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--crema);color:var(--nero);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:auto;}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.4;}
+
+/* CURSOR */
+.cursor{position:fixed;width:8px;height:8px;background:var(--oro);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);opacity:0;mix-blend-mode:multiply;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,169,110,.45);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);opacity:0;transition:width .35s cubic-bezier(.25,.46,.45,.94),height .35s,border-color .3s;}
+.cursor.hov{width:14px;height:14px;}
+.cursor-ring.hov{width:52px;height:52px;border-color:rgba(201,169,110,.8);}
+body.cr{cursor:none;}
+.cr a,.cr button,.cr .card-sistema,.cr .proof-card,.cr .pill-tag{cursor:none;}
+
+/* PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));z-index:9999;}
+
+/* ── HEADER ── */
+header{padding:20px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(245,240,234,.93);backdrop-filter:blur(16px);z-index:100;border-bottom:1px solid rgba(201,169,110,.15);transition:transform .4s ease,box-shadow .4s ease;}
+header.scrolled{box-shadow:0 4px 24px rgba(8,8,8,.06);}
+header.hidden{transform:translateY(-100%);}
+.logo-block{display:flex;flex-direction:column;gap:2px;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--nero);line-height:1;}
+.logo-sub{font-size:9px;letter-spacing:4px;color:var(--oro);text-transform:uppercase;}
+.nav-links{display:none;align-items:center;gap:28px;}
+.nav-links a{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--grigio);text-decoration:none;transition:color .3s;font-weight:500;}
+.nav-links a:hover{color:var(--oro);}
+@media(min-width:768px){.nav-links{display:flex;}}
+.nav-cta{font-size:10px;letter-spacing:2px;text-transform:uppercase;background:var(--nero);color:var(--crema);padding:9px 18px;border-radius:100px;text-decoration:none;font-weight:500;transition:background .3s;}
+.nav-cta:hover{background:var(--oro);color:var(--nero);}
+
+/* ── HERO ── */
+.hero{min-height:calc(100vh - 64px);padding:56px 32px 48px;position:relative;overflow:hidden;display:flex;align-items:center;}
+.hero-bg-orb{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.05) 0%,transparent 65%);right:-120px;top:-80px;animation:orbFloat 10s ease-in-out infinite;pointer-events:none;}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-20px,15px) scale(1.04);}}
+
+/* Two column layout on desktop */
+.hero-inner{position:relative;width:100%;display:flex;flex-direction:column;gap:40px;}
+@media(min-width:900px){
+  .hero-inner{flex-direction:row;align-items:center;gap:80px;}
+  .hero-left{flex:0 0 auto;width:320px;}
+  .hero-right{flex:1;}
+}
+
+/* LEFT — the number */
+.hero-left{}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:20px;font-weight:500;animation:fadeIn .6s .1s ease both;}
+.eyebrow-pulse{width:5px;height:5px;border-radius:50%;background:var(--oro);animation:pulse 2s ease-in-out infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.4);}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,18vw,140px);line-height:.85;letter-spacing:2px;display:block;animation:fadeIn .7s .2s ease both;}
+.hero-stat-num .num-gold{color:var(--oro);}
+.hero-stat-num .num-black{color:var(--nero);}
+.hero-stat-source{font-size:11px;color:#777;font-weight:400;margin-top:10px;line-height:1.6;max-width:280px;animation:fadeIn .7s .35s ease both;}
+
+/* Divider between cols on mobile */
+.hero-divider-line{width:40px;height:1px;background:rgba(201,169,110,.3);animation:fadeIn .7s .4s ease both;}
+@media(min-width:900px){.hero-divider-line{display:none;}}
+
+/* RIGHT — headline + copy + cta */
+.hero-right{}
+.hero-kicker{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#888;font-weight:500;margin-bottom:14px;animation:fadeIn .7s .3s ease both;}
+.hero-headline{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,28px);line-height:1.45;color:var(--nero);font-weight:400;margin-bottom:20px;animation:fadeIn .8s .4s ease both;}
+.hero-headline strong{font-weight:600;color:var(--nero);}
+.hero-sub{font-size:13.5px;line-height:1.8;color:#666;font-weight:300;margin-bottom:32px;animation:fadeIn .8s .5s ease both;max-width:460px;}
+.hero-cta-wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center;animation:fadeIn .8s .6s ease both;}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--nero);color:var(--crema);text-decoration:none;padding:15px 26px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.btn-primary::before{content:'';position:absolute;inset:0;background:var(--oro);transform:translateX(-101%);transition:transform .45s cubic-bezier(.16,1,.3,1);}
+.btn-primary:hover::before{transform:translateX(0);}
+.btn-primary:hover{color:var(--nero);box-shadow:0 8px 28px rgba(201,169,110,.3);}
+.btn-primary span{position:relative;z-index:1;}
+.btn-secondary{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--grigio);text-decoration:none;padding:15px 4px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:400;border:none;transition:color .3s;}
+.btn-secondary::after{content:'→';transition:transform .3s;}
+.btn-secondary:hover{color:var(--oro);}
+.btn-secondary:hover::after{transform:translateX(4px);}
+.hero-urgency{margin-top:20px;display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#777;font-weight:500;animation:fadeIn .8s .75s ease both;}
+.urgency-dot{width:6px;height:6px;border-radius:50%;background:#e05c5c;animation:pulse 1.5s ease-in-out infinite;flex-shrink:0;}
+
+/* ── NUMBERS STRIP ── */
+.numbers-strip{background:var(--nero);padding:0 32px;display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(201,169,110,.1);}
+.numbers-strip::-webkit-scrollbar{display:none;}
+.num-item{flex:0 0 auto;padding:28px 32px;border-right:1px solid rgba(201,169,110,.1);min-width:200px;position:relative;overflow:hidden;transition:background .3s;}
+.num-item:hover{background:rgba(201,169,110,.04);}
+.num-item:last-child{border-right:none;}
+.num-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--oro),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.num-item:hover::after{transform:scaleX(1);}
+.num-big{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:1px;color:var(--oro);line-height:1;margin-bottom:4px;}
+.num-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,234,.4);font-weight:500;margin-bottom:6px;}
+.num-context{font-size:11px;line-height:1.5;color:rgba(245,240,234,.25);font-weight:300;}
+
+/* ── IL PROBLEMA ── */
+.problema-section{padding:72px 32px;background:var(--crema-soft);position:relative;overflow:hidden;}
+.problema-section::before{content:'';position:absolute;right:-60px;top:-60px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(201,169,110,.1);animation:ringPulse 4s ease-in-out infinite;}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.5;}50%{transform:scale(1.07);opacity:.2;}}
+
+.section-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.section-tag::before{content:'';width:20px;height:1px;background:var(--oro);}
+.section-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,56px);letter-spacing:2px;line-height:.95;color:var(--nero);margin-bottom:8px;}
+.section-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:17px;color:var(--grigio);margin-bottom:32px;}
+
+.problema-grid{display:flex;flex-direction:column;gap:16px;}
+.problema-card{background:white;border-radius:18px;padding:24px 22px;border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .4s;}
+.problema-card:hover{transform:translateY(-4px);box-shadow:0 20px 48px rgba(8,8,8,.07);border-color:rgba(201,169,110,.28);}
+.problema-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
+.problema-card:hover::before{transform:scaleX(1);}
+.problema-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--oro);line-height:1;margin-bottom:6px;letter-spacing:1px;}
+.problema-title{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--nero);font-weight:600;margin-bottom:8px;}
+.problema-desc{font-size:13px;line-height:1.7;color:#555;font-weight:300;}
+.problema-desc strong{color:var(--nero);font-weight:500;}
+.problema-source{font-size:10px;color:var(--grigio-light);margin-top:10px;letter-spacing:.5px;}
+
+/* ── IL SISTEMA ── */
+.sistema-section{padding:72px 32px;background:var(--nero);position:relative;overflow:hidden;}
+.sistema-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,169,110,.07) 0%,transparent 55%),radial-gradient(ellipse at 10% 80%,rgba(201,169,110,.04) 0%,transparent 50%);}
+.sistema-section::after{content:'SISTEMA';position:absolute;right:-30px;bottom:10px;font-family:'Bebas Neue',sans-serif;font-size:120px;color:white;opacity:.02;letter-spacing:10px;pointer-events:none;animation:textDrift 20s linear infinite;}
+@keyframes textDrift{from{transform:translateX(0);}to{transform:translateX(-60px);}}
+
+.sistema-intro{font-size:14px;line-height:1.8;color:rgba(245,240,234,.45);max-width:520px;margin-top:16px;margin-bottom:40px;font-weight:300;}
+.sistema-intro strong{color:rgba(245,240,234,.8);font-weight:500;}
+
+.sistema-grid{display:flex;flex-direction:column;gap:20px;position:relative;}
+
+.card-sistema{border-radius:20px;padding:28px 24px;position:relative;overflow:hidden;text-decoration:none;display:block;transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .4s;}
+.card-sistema.free{background:rgba(255,255,255,.03);border:1px solid rgba(201,169,110,.12);}
+.card-sistema.entry{background:rgba(255,255,255,.04);border:1px solid rgba(201,169,110,.18);}
+.card-sistema.premium{background:linear-gradient(135deg,rgba(201,169,110,.08) 0%,rgba(255,255,255,.02) 100%);border:1px solid rgba(201,169,110,.3);}
+.card-sistema:hover{transform:translateY(-4px);}
+.card-sistema.entry:hover{border-color:rgba(201,169,110,.4);}
+.card-sistema.premium:hover{border-color:rgba(201,169,110,.6);}
+.card-sistema::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--oro),transparent);transform:scaleX(0);transition:transform .5s ease;}
+.card-sistema:hover::before{transform:scaleX(1);}
+
+.cs-level{font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.cs-level::before{content:'';width:12px;height:1px;background:rgba(201,169,110,.4);}
+.cs-icon{font-size:24px;margin-bottom:12px;display:block;}
+.cs-name{font-family:'DM Serif Display',serif;font-size:22px;color:var(--crema);margin-bottom:4px;line-height:1.2;}
+.cs-tagline{font-size:11px;letter-spacing:.5px;color:rgba(245,240,234,.3);font-style:italic;margin-bottom:14px;font-weight:300;}
+.cs-desc{font-size:13px;line-height:1.65;color:rgba(245,240,234,.45);font-weight:300;margin-bottom:18px;}
+.cs-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(201,169,110,.1);}
+.cs-price{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--oro);letter-spacing:1px;line-height:1;}
+.cs-price small{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(201,169,110,.45);letter-spacing:0;font-weight:300;margin-left:3px;}
+.cs-cta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,169,110,.6);font-weight:500;display:flex;align-items:center;gap:5px;transition:color .3s;}
+.cs-cta::after{content:'→';}
+.card-sistema:hover .cs-cta{color:var(--oro);}
+.cs-badge{position:absolute;top:16px;right:16px;background:var(--oro);color:var(--nero);font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:4px 10px;border-radius:20px;animation:badgePulse 2.5s ease-in-out infinite;}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.4);}50%{box-shadow:0 0 0 6px rgba(201,169,110,0);}}
+
+/* ── URGENCY BANNER ── */
+.urgency-banner{background:rgba(201,169,110,.08);border-top:1px solid rgba(201,169,110,.15);border-bottom:1px solid rgba(201,169,110,.15);padding:20px 32px;display:flex;align-items:flex-start;gap:16px;}
+.urgency-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.urgency-text{font-size:13px;line-height:1.7;color:#555;max-width:680px;}
+.urgency-text strong{color:var(--nero);font-weight:500;}
+
+/* ── PROOF ── */
+.proof-section{padding:72px 32px;background:var(--crema);position:relative;}
+.proof-disclaimer{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grigio-light);margin-bottom:28px;font-style:italic;}
+.proof-grid{display:flex;flex-direction:column;gap:16px;}
+.proof-card{background:white;border-radius:18px;padding:24px 22px;border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;}
+.proof-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(8,8,8,.07);}
+.proof-type{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--oro);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.proof-type::before{content:'';width:12px;height:1px;background:var(--oro);}
+.proof-quote{font-family:'DM Serif Display',serif;font-size:17px;line-height:1.5;color:var(--nero);margin-bottom:14px;}
+.proof-quote em{color:var(--oro);font-style:italic;}
+.proof-metrics{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
+.proof-metric{display:flex;flex-direction:column;gap:2px;}
+.proof-metric-num{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--nero);letter-spacing:1px;line-height:1;}
+.proof-metric-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grigio-light);}
+.proof-source{font-size:11px;color:var(--grigio-light);font-style:italic;}
+
+/* ── PROCESSO ── */
+.processo-section{padding:72px 32px;background:var(--crema-soft);}
+.steps-home{display:flex;flex-direction:column;gap:0;margin-top:32px;position:relative;}
+.steps-home::before{content:'';position:absolute;left:17px;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,rgba(201,169,110,.25),rgba(201,169,110,.05));}
+.step-home{display:flex;gap:24px;padding-bottom:28px;}
+.step-home:last-child{padding-bottom:0;}
+.step-home-num{width:34px;height:34px;border-radius:50%;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.25);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--oro);flex-shrink:0;position:relative;z-index:1;}
+.step-home-content{padding-top:5px;}
+.step-home-title{font-size:13px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--nero);margin-bottom:5px;}
+.step-home-desc{font-size:13px;line-height:1.7;color:#555;font-weight:300;}
+
+/* ── AUTHOR ── */
+.author-section{padding:72px 32px 64px;background:white;border-top:1px solid rgba(201,169,110,.12);}
+.author-inner{display:flex;flex-direction:column;gap:24px;}
+@media(min-width:768px){.author-inner{flex-direction:row;align-items:flex-start;gap:40px;}}
+.author-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--oro),var(--oro-chiaro));display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:32px;color:var(--nero);flex-shrink:0;animation:avatarGlow 3s ease-in-out infinite;}
+@keyframes avatarGlow{0%,100%{box-shadow:0 0 0 3px rgba(201,169,110,.2);}50%{box-shadow:0 0 0 7px rgba(201,169,110,.08),0 0 24px rgba(201,169,110,.1);}}
+.author-text{}
+.author-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.author-tag::before{content:'';width:16px;height:1px;background:var(--oro);}
+.author-name{font-family:'DM Serif Display',serif;font-size:26px;color:var(--nero);margin-bottom:4px;}
+.author-role{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:14px;}
+.author-bio{font-size:14px;line-height:1.85;color:#555;font-weight:300;max-width:520px;}
+.author-bio strong{color:var(--nero);font-weight:500;}
+.author-langs{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.lang-pill{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grigio);border:1px solid rgba(8,8,8,.15);padding:5px 12px;border-radius:20px;font-weight:500;}
+
+/* ── FOOTER CTA ── */
+.footer-cta{background:var(--nero);padding:72px 32px 80px;text-align:center;position:relative;overflow:hidden;}
+.footer-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(201,169,110,.1) 0%,transparent 60%);animation:footerGlow 5s ease-in-out infinite alternate;}
+@keyframes footerGlow{from{opacity:.6;}to{opacity:1;}}
+.footer-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:18px;position:relative;}
+.footer-headline{font-family:'DM Serif Display',serif;font-size:clamp(22px,5vw,36px);line-height:1.35;color:var(--crema);margin-bottom:12px;position:relative;}
+.footer-headline em{color:var(--oro);font-style:italic;}
+.footer-sub{font-size:13px;color:rgba(245,240,234,.35);margin-bottom:32px;font-weight:300;position:relative;}
+.btn-wa{display:inline-flex;align-items:center;gap:12px;background:var(--oro);color:var(--nero);text-decoration:none;padding:17px 30px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.btn-wa::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-101%);transition:transform .5s ease;}
+.btn-wa:hover::before{transform:translateX(101%);}
+.btn-wa:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,169,110,.35);}
+.btn-wa svg,.btn-wa-text{position:relative;z-index:1;}
+.footer-note{margin-top:16px;font-size:11px;color:rgba(245,240,234,.2);position:relative;}
+.footer-bottom{margin-top:56px;padding-top:24px;border-top:1px solid rgba(245,240,234,.07);position:relative;}
+.footer-nav{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap;}
+.footer-nav a{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,240,234,.2);text-decoration:none;transition:color .3s;}
+.footer-nav a:hover{color:var(--oro);}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(245,240,234,.15);margin-bottom:6px;}
+.footer-contacts{font-size:11px;color:rgba(245,240,234,.12);font-weight:300;line-height:1.9;}
+
+/* DESKTOP */
+@media(min-width:768px){
+  .hero{padding:100px 10% 80px;}
+  .numbers-strip{padding:0 10%;}
+  .num-item{min-width:220px;}
+  .problema-section,.sistema-section,.proof-section,.processo-section,.author-section,.footer-cta{padding-left:10%;padding-right:10%;}
+  .urgency-banner{padding:24px 10%;}
+  .problema-grid{flex-direction:row;}
+  .problema-card{flex:1;}
+  .sistema-grid{flex-direction:row;}
+  .card-sistema{flex:1;}
+  .proof-grid{flex-direction:row;}
+  .proof-card{flex:1;}
+}
 </style>
 </head>
 <body>
 
-<div class="gold-bar"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar"></div>
 
-<nav>
-  <div class="logo">Hospitality Lab <span>by Nathalia Acosta</span></div>
-  <div class="nav-tag">Guida Gratuita · Free Guide</div>
-</nav>
-
-<!-- ══════════════ HERO ══════════════ -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="eyebrow">Guida Gratuita · Edizione 2026</div>
-
-    <h1 class="hero-title">
-      Smetti di<br>
-      Riempire
-      <span class="gold-word">Feed.</span>
-      Riempi<br>
-      Tavoli.
-    </h1>
-
-    <p class="hero-subtitle">
-      La guida che ogni hotel e ristorante<br>indipendente stava aspettando.
-    </p>
-
-    <p class="hero-desc">
-      <strong>12 strategie di automazione e IA</strong> per trasformare la tua presenza digitale in prenotazioni reali. Niente teoria, niente magia — solo <strong>metodo applicabile dal lunedì</strong>.
-    </p>
-
-    <a href="#form" class="btn-primary">Scarica Gratis Adesso</a>
-    <div class="guarantee">100% gratuito · Nessuna carta di credito</div>
+<!-- HEADER -->
+<header id="mainHeader">
+  <div class="logo-block">
+    <span class="logo-name">Hospitality Lab</span>
+    <span class="logo-sub">by Nathalia Acosta</span>
   </div>
+  <nav class="nav-links">
+    <a href="/protocolli">I Protocolli</a>
+    <a href="/alchimia">L'Alchimia</a>
+    <a href="#sistema">Il Sistema</a>
+  </nav>
+  <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Vorrei%20saperne%20di%20più%20su%20Hospitality%20Lab" class="nav-cta" target="_blank">Scrivimi →</a>
+</header>
 
-  <div class="hero-right">
-    <div class="book-wrap">
-      <div class="badge">
-        <span>100%</span>
-        <span>Free</span>
-      </div>
-      <div class="book-cover">
-        <div class="book-tag">Hospitality Lab · 2026</div>
-        <div>
-          <div class="book-title-cover">
-            Smetti di<br>Riempire
-            <span class="gold-line">Feed.</span>
-            Riempi<br>Tavoli.
-          </div>
-        </div>
-        <div>
-          <div class="book-author">by Nathalia Acosta</div>
-          <div class="book-pages" style="margin-top:8px;">12 Strategie · IA + Automazione</div>
-        </div>
-      </div>
-      <div class="book-shadow"></div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-orb"></div>
+  <div class="hero-inner">
+
+    <!-- LEFT: the number -->
+    <div class="hero-left">
+      <div class="hero-eyebrow"><span class="eyebrow-pulse"></span>Hotel &amp; Ristoranti · Lombardia &amp; Svizzera</div>
+      <span class="hero-stat-num"><span class="num-gold">63</span><span class="num-black">%</span></span>
+      <p class="hero-stat-source">delle prenotazioni degli hotel indipendenti va alle OTA<br>Cloudbeds Report 2026</p>
     </div>
+
+    <div class="hero-divider-line"></div>
+
+    <!-- RIGHT: headline + copy + cta -->
+    <div class="hero-right">
+      <div class="hero-kicker">Il costo reale della dipendenza OTA</div>
+      <h1 class="hero-headline">
+        Ogni prenotazione ti costa il 15–30% di commissione.<br>
+        <strong>Quanto stai regalando ogni mese a Booking e TheFork?</strong>
+      </h1>
+      <p class="hero-sub">Riduci la dipendenza dalle OTA e aumenta le prenotazioni dirette in 30 giorni — senza perdere occupazione né coperti. Strategie digitali, automazione e IA per hotel e ristoranti indipendenti.</p>
+      <div class="hero-cta-wrap">
+        <a href="/protocolli" class="btn-primary"><span>Scopri i Protocolli →</span></a>
+        <a href="/alchimia" class="btn-secondary">L'Alchimia · Consulenza 1:1</a>
+      </div>
+      <div class="hero-urgency">
+        <span class="urgency-dot"></span>
+        Solo 5 posti al mese · Prezzi lancio 2026
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- ══════════════ STATS ══════════════ -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-num">12</div>
-    <div class="stat-label">Strategie Operative</div>
+<!-- NUMBERS STRIP -->
+<div class="numbers-strip">
+  <div class="num-item">
+    <div class="num-big">15–30%</div>
+    <div class="num-label">Commissione media OTA</div>
+    <div class="num-context">Per una camera da €200: paghi fino a €60 a Booking ad ogni prenotazione</div>
   </div>
-  <div class="stat-item">
-    <div class="stat-num">3×</div>
-    <div class="stat-label">Più Prenotazioni Dirette</div>
+  <div class="num-item">
+    <div class="num-big">21,8%</div>
+    <div class="num-label">Cancellazioni OTA</div>
+    <div class="num-context">Vs solo 10,6% sulle prenotazioni dirette — più del doppio dell'instabilità</div>
   </div>
-  <div class="stat-item">
-    <div class="stat-num">0€</div>
-    <div class="stat-label">Costo · Completamente Gratuito</div>
+  <div class="num-item">
+    <div class="num-big">+30%</div>
+    <div class="num-label">Prenotazioni dirette</div>
+    <div class="num-context">Risultato medio atteso nei primi 90 giorni con i nostri Protocolli</div>
+  </div>
+  <div class="num-item">
+    <div class="num-big">–70%</div>
+    <div class="num-label">Lavoro manuale</div>
+    <div class="num-context">Riduzione media grazie all'automazione WhatsApp e dei flussi digitali</div>
   </div>
 </div>
 
-<!-- ══════════════ CHAPTERS ══════════════ -->
-<section class="section">
-  <div class="section-eyebrow">Cosa trovi dentro</div>
-  <h2 class="section-title">12 CAPITOLI.<br>ZERO TEORIE.</h2>
+<!-- IL PROBLEMA -->
+<section class="problema-section">
+  <div class="section-tag">Il problema reale</div>
+  <div class="section-headline">Quello che le OTA<br>non ti dicono</div>
+  <div class="section-sub">Dati reali, costi reali — per hotel e ristoranti</div>
+  <div class="problema-grid">
+    <div class="problema-card">
+      <div class="problema-num">63,4%</div>
+      <div class="problema-title">Dipendenza OTA</div>
+      <p class="problema-desc">Oltre <strong>6 prenotazioni su 10</strong> negli hotel indipendenti arrivano tramite OTA. In alcuni mercati supera l'80%. Ogni prenotazione porta via una fetta del tuo margine operativo.</p>
+      <div class="problema-source">Fonte: Cloudbeds State of Independent Hotels Report 2026</div>
+    </div>
+    <div class="problema-card">
+      <div class="problema-num">€30–60</div>
+      <div class="problema-title">Costo per prenotazione</div>
+      <p class="problema-desc">Per una camera da €200, paghi fino a €60 a Booking.com ad ogni prenotazione. <strong>Per un tavolo da €120 di ticket medio</strong>, TheFork si prende una parte importante del tuo margine già ridotto.</p>
+      <div class="problema-source">Commissioni medie: Booking.com 15–25% · Expedia fino al 30%</div>
+    </div>
+    <div class="problema-card">
+      <div class="problema-num">2×</div>
+      <div class="problema-title">Cancellazioni OTA</div>
+      <p class="problema-desc">Il tasso di cancellazione via OTA è del <strong>21,8%</strong> contro il 10,6% delle prenotazioni dirette. Più del doppio dell'instabilità — revenue persa, camere vuote, pianificazione impossibile.</p>
+      <div class="problema-source">Fonte: Cloudbeds State of Independent Hotels Report 2026</div>
+    </div>
+  </div>
+</section>
 
-  <div class="chapters-grid">
-    <div class="chapter-card">
-      <div class="chapter-num">01</div>
-      <div class="chapter-content">
-        <h3>Il Problema dei Feed</h3>
-        <p>Perché postare tanto non equivale a prenotare tanto. Il nuovo algoritmo della visibilità nel 2026.</p>
+<!-- IL SISTEMA -->
+<section class="sistema-section" id="sistema">
+  <div class="section-tag" style="color:rgba(201,169,110,.6);">Il nostro sistema</div>
+  <div class="section-headline" style="color:var(--crema);">Tre livelli.<br>Un obiettivo.</div>
+  <div class="section-sub" style="color:rgba(245,240,234,.4);">Riprendi il controllo delle tue prenotazioni</div>
+  <p class="sistema-intro">Che tu voglia iniziare con uno strumento preciso o trasformare completamente il tuo ecosistema digitale, <strong>c'è un percorso fatto per te</strong>.</p>
+
+  <div class="sistema-grid">
+
+    <!-- FREE -->
+    <a href="/diagnosi" class="card-sistema free">
+      <div class="cs-level">Punto di partenza · Gratuito</div>
+      <span class="cs-icon">🔍</span>
+      <div class="cs-name">La Diagnosi</div>
+      <div class="cs-tagline">I 7 Peccati Mortali della Distribuzione Digitale</div>
+      <p class="cs-desc">Scopri gli errori che stanno costando prenotazioni al tuo hotel o ristorante. La guida gratuita per iniziare la tua redenzione digitale.</p>
+      <div class="cs-footer">
+        <div class="cs-price">Gratis<small></small></div>
+        <div class="cs-cta">Scarica ora</div>
+      </div>
+    </a>
+
+    <!-- ENTRY -->
+    <a href="/protocolli" class="card-sistema entry">
+      <div class="cs-level">Sistemi operativi · Da €7</div>
+      <span class="cs-icon">⚗️</span>
+      <div class="cs-name">I Protocolli</div>
+      <div class="cs-tagline">Sistemi di Redenzione · Strumenti precisi</div>
+      <p class="cs-desc">4 protocolli operativi per eliminare le inefficienze digitali. Dall'OTA escape alla gestione delle recensioni — ogni protocollo risolve un problema specifico.</p>
+      <div class="cs-footer">
+        <div class="cs-price">Da €7<small>una tantum</small></div>
+        <div class="cs-cta">Esplora i Protocolli</div>
+      </div>
+    </a>
+
+    <!-- PREMIUM -->
+    <a href="/alchimia" class="card-sistema premium">
+      <div class="cs-badge">✦ Premium</div>
+      <div class="cs-level">Consulenza 1:1 · Lancio 2026</div>
+      <span class="cs-icon">✨</span>
+      <div class="cs-name">L'Alchimia</div>
+      <div class="cs-tagline">Transformation Path · Consulenza Privata</div>
+      <p class="cs-desc">Percorso personalizzato con audit completo, diagnosi e roadmap operativa. +30% prenotazioni dirette e –70% lavoro manuale in 90 giorni.</p>
+      <div class="cs-footer">
+        <div class="cs-price">Da €497<small>prezzo lancio</small></div>
+        <div class="cs-cta">Scopri L'Alchimia</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- URGENCY BANNER -->
+<div class="urgency-banner">
+  <span class="urgency-icon">⏳</span>
+  <p class="urgency-text"><strong>La stagione alta 2026 si avvicina.</strong> Solo 5 posti disponibili al mese per la consulenza L'Alchimia. Prezzi di lancio validi per i primi 10 clienti — dopo aumenteranno a €997–€1.497. <strong>Non farti trovare impreparato.</strong></p>
+</div>
+
+<!-- PROOF -->
+<section class="proof-section">
+  <div class="section-tag">Risultati attesi</div>
+  <div class="section-headline">Cosa cambia<br>in 90 giorni</div>
+  <div class="section-sub">Proiezioni basate su dati reali di settore</div>
+  <p class="proof-disclaimer">* Proiezioni basate su benchmark di settore (Cloudbeds 2026, SiteMinder, OTA Insight). I risultati individuali dipendono dalla struttura e dall'implementazione.</p>
+  <div class="proof-grid">
+    <div class="proof-card">
+      <div class="proof-type">Hotel · Lago di Como</div>
+      <p class="proof-quote">Un hotel di <em>40 camere</em> che applica il Protocollo OTA Escape + automazione WhatsApp può aspettarsi una riduzione significativa delle commissioni già nei primi 60 giorni.</p>
+      <div class="proof-metrics">
+        <div class="proof-metric"><div class="proof-metric-num">–28%</div><div class="proof-metric-label">Commissioni OTA</div></div>
+        <div class="proof-metric"><div class="proof-metric-num">+35%</div><div class="proof-metric-label">Prenotazioni dirette</div></div>
+        <div class="proof-metric"><div class="proof-metric-num">60 gg</div><div class="proof-metric-label">Tempo medio</div></div>
+      </div>
+      <div class="proof-source">* Proiezione basata su benchmark di settore</div>
+    </div>
+    <div class="proof-card">
+      <div class="proof-type">Ristorante · Lombardia</div>
+      <p class="proof-quote">Un ristorante medio-alto che riduce la dipendenza da TheFork con un sistema di prenotazione diretta + gestione recensioni può <em>recuperare margine operativo</em> già dal primo mese.</p>
+      <div class="proof-metrics">
+        <div class="proof-metric"><div class="proof-metric-num">–40%</div><div class="proof-metric-label">Commissioni TheFork</div></div>
+        <div class="proof-metric"><div class="proof-metric-num">4.8★</div><div class="proof-metric-label">Google Rating medio</div></div>
+        <div class="proof-metric"><div class="proof-metric-num">30 gg</div><div class="proof-metric-label">Tempo medio</div></div>
+      </div>
+      <div class="proof-source">* Proiezione basata su benchmark di settore</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section class="processo-section">
+  <div class="section-tag">Come iniziare</div>
+  <div class="section-headline">3 Passi</div>
+  <div class="section-sub">Dal primo contatto al sistema operativo</div>
+  <div class="steps-home">
+    <div class="step-home">
+      <div class="step-home-num">1</div>
+      <div class="step-home-content">
+        <div class="step-home-title">Scarica La Diagnosi gratuita</div>
+        <div class="step-home-desc">I 7 Peccati Mortali della Distribuzione Digitale — identifica subito dove stai perdendo prenotazioni e margine. Gratis, immediato, pratico.</div>
       </div>
     </div>
-    <div class="chapter-card">
-      <div class="chapter-num">02</div>
-      <div class="chapter-content">
-        <h3>IA per la Reputazione Online</h3>
-        <p>Come rispondere alle recensioni in 3 lingue in meno di 2 minuti usando strumenti gratuiti.</p>
+    <div class="step-home">
+      <div class="step-home-num">2</div>
+      <div class="step-home-content">
+        <div class="step-home-title">Scegli il tuo Protocollo</div>
+        <div class="step-home-desc">4 sistemi operativi da €7 a €50. Ogni protocollo risolve un problema specifico — OTA, revenue, reputazione o il sistema completo.</div>
       </div>
     </div>
-    <div class="chapter-card">
-      <div class="chapter-num">03</div>
-      <div class="chapter-content">
-        <h3>Automatizza il Follow-Up</h3>
-        <p>Il sequenza email post-soggiorno che trasforma ospiti in clienti abituali (e li fa tornare).</p>
-      </div>
-    </div>
-    <div class="chapter-card">
-      <div class="chapter-num">04</div>
-      <div class="chapter-content">
-        <h3>Sfuggire alle Commissioni Booking</h3>
-        <p>3 tattiche concrete per spostare prenotazioni dal canale OTA al tuo sito diretto.</p>
-      </div>
-    </div>
-    <div class="chapter-card">
-      <div class="chapter-num">05</div>
-      <div class="chapter-content">
-        <h3>Google My Business come Arma</h3>
-        <p>Il profilo che vedi nei ristoranti pieni non è quello dei ristoranti vuoti. Ecco la differenza.</p>
-      </div>
-    </div>
-    <div class="chapter-card">
-      <div class="chapter-num">06</div>
-      <div class="chapter-content">
-        <h3>Contenuti che Vendono (senza filmare tutto)</h3>
-        <p>Il sistema in 20 minuti al giorno per produrre contenuti che convertono, non solo che piacciono.</p>
+    <div class="step-home">
+      <div class="step-home-num">3</div>
+      <div class="step-home-content">
+        <div class="step-home-title">Prenota L'Alchimia (opzionale)</div>
+        <div class="step-home-desc">Se vuoi un percorso personalizzato con audit completo e accompagnamento 1:1, prenota la chiamata di scoperta gratuita di 15 minuti.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ FOR WHO ══════════════ -->
-<section class="section for-who">
-  <div class="for-who-grid">
-    <div class="for-who-left">
-      <div class="section-eyebrow">Per chi è</div>
-      <h2 class="section-title" style="color:var(--white)">QUESTA GUIDA<br>È PER TE SE…</h2>
-
-      <div class="checklist">
-        <div class="check-item">
-          <div class="check-icon">✓</div>
-          <span>Gestisci un hotel indipendente 3-4 stelle in Lombardia o Svizzera e vuoi ridurre la dipendenza da Booking.com</span>
-        </div>
-        <div class="check-item">
-          <div class="check-icon">✓</div>
-          <span>Hai un ristorante medio-alto e senti che i social non si traducono mai in tavoli prenotati</span>
-        </div>
-        <div class="check-item">
-          <div class="check-icon">✓</div>
-          <span>Publichi contenuti online ma non vedi un ritorno misurabile in prenotazioni o coperti</span>
-        </div>
-        <div class="check-item">
-          <div class="check-icon">✓</div>
-          <span>Vuoi usare l'IA nel tuo lavoro quotidiano senza diventare un esperto di tecnologia</span>
-        </div>
-        <div class="check-item">
-          <div class="check-icon">✓</div>
-          <span>Cerchi strategie concrete — non ispirazione — applicabili questa settimana stessa</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="for-who-right">
-      <div class="quote-block">
-        <p class="quote-text">"La differenza tra un ristorante pieno e uno vuoto oggi non è il cibo… è chi li vede per primo."</p>
-        <div class="quote-author">— Nathalia Acosta · Hospitality Lab</div>
+<!-- AUTHOR -->
+<section class="author-section">
+  <div class="section-tag">Chi c'è dietro</div>
+  <div class="author-inner">
+    <div class="author-avatar">N</div>
+    <div class="author-text">
+      <div class="author-name">Nathalia Acosta Vélez</div>
+      <div class="author-role">Fondatrice · Hospitality Lab</div>
+      <p class="author-bio">Nathalia Acosta Vélez è la Fondatrice di Hospitality Lab e consulente digitale specializzata in <strong>revenue strategy, marketing digitale e intelligenza artificiale</strong> per l'ospitalità indipendente. Aiuta hotel e ristoranti 3–4 stelle in Lombardia e Svizzera a sviluppare strategie di crescita dei ricavi diretti, modernizzare il proprio ecosistema digitale, implementare automazioni avanzate e <strong>ridurre drasticamente la dipendenza dalle OTA</strong> — grazie a soluzioni pratiche, scalabili e basate su IA.</p>
+      <div class="author-langs">
+        <span class="lang-pill">🇮🇹 Italiano</span>
+        <span class="lang-pill">🇬🇧 English</span>
+        <span class="lang-pill">🇪🇸 Español</span>
+        <span class="lang-pill">🇩🇪 Deutsch</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ FORM ══════════════ -->
-<section class="section form-section" id="form">
-  <div class="form-inner">
-    <div class="section-eyebrow">Accesso gratuito</div>
-    <h2 class="section-title">SCARICA<br>ADESSO.</h2>
-    <p class="form-desc">
-      Inserisci i tuoi dati e ricevi la guida direttamente nella tua inbox — in italiano, in pochi secondi.
-    </p>
-
-    <form id="lead-form" action="https://formspree.io/f/xreyzjlk" method="POST">
-  <!-- Anti-spam honeypot -->
-  <input type="text" name="_gotcha" style="display:none" />
-  <input type="hidden" name="_subject" value="New lead — Hospitality Lab" />
-  <input type="hidden" name="_redirect" value="https://nathalia-acosta.github.io/hospitality-lab-site/thanks.html" />
-
-  <div class="form-group">
-    <label class="form-label" for="nome">Nome</label>
-    <input class="form-input" type="text" id="nome" name="nome" placeholder="Il tuo nome" required>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label" for="email">Email</label>
-    <input class="form-input" type="email" id="email" name="email" placeholder="tua@email.com" required>
-  </div>
-
-  <div class="form-group">
-    <label class="form-label" for="ruolo">Sei un…</label>
-    <select class="form-input" id="ruolo" name="ruolo" required style="cursor:pointer; appearance:none; background:transparent;">
-      <option value="" disabled selected>Seleziona</option>
-      <option value="hotel">Hotel / B&B</option>
-      <option value="ristorante">Ristorante / Bistrot</option>
-      <option value="entrambi">Entrambi</option>
-    </select>
-  </div>
-
-  <br>
-  <button type="submit" class="btn-primary">Invia &amp; Scarica Gratis →</button>
-  <p class="form-note">✦ Zero spam. Puoi cancellarti quando vuoi. <a href="#">Privacy Policy</a></p>
-</form>
-
-    <div class="success-msg" id="success-msg">
-      <p>✦ Perfetto, <span id="user-name"></span>! Controlla la tua inbox — la guida è in arrivo.</p>
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <div class="footer-eyebrow">Inizia oggi</div>
+  <h2 class="footer-headline">
+    Non aspettare la fine stagione.<br>
+    <em>Ogni mese di commissioni è soldi persi.</em>
+  </h2>
+  <p class="footer-sub">Chiamata di scoperta gratuita — 15 minuti per capire da dove iniziare.</p>
+  <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Ho%20visto%20Hospitality%20Lab%20e%20vorrei%20saperne%20di%20più" class="btn-wa" target="_blank">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="btn-wa-text">Scrivimi su WhatsApp</span>
+  </a>
+  <p class="footer-note">Oppure scrivimi a <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d2bcb3a6bab3bebbb3fcb3b1bda1a6b3a492b5bfb3bbbefcb1bdbf">[email&#160;protected]</a> · Rispondo entro 24h</p>
+  <div class="footer-bottom">
+    <div class="footer-nav">
+      <a href="/protocolli">I Protocolli</a>
+      <a href="/alchimia">L'Alchimia</a>
+      <a href="/diagnosi">La Diagnosi</a>
     </div>
+    <div class="footer-logo">HOSPITALITY LAB · BY NATHALIA ACOSTA</div>
+    <div class="footer-contacts"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7a141b0e121b16131b541b1915090e1b0c3a1d171b131654191517">[email&#160;protected]</a> · +39 375 558 69 68<br>Italia · Svizzera · Lago di Como</div>
   </div>
 </section>
 
-<!-- ══════════════ FOOTER ══════════════ -->
-<footer>
-  <div class="footer-logo">Hospitality Lab · by Nathalia Acosta</div>
-  <div class="footer-copy">© 2026 · Automatizzazione intelligente per l'hospitality italiana</div>
-</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  // CURSOR
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0,ready=false;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=mx+'px';cur.style.top=my+'px';
+    if(!ready){ready=true;document.body.classList.add('cr');cur.style.opacity='1';ring.style.opacity='1';}
+  });
+  (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.card-sistema,.problema-card,.proof-card,.nav-cta').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.classList.add('hov');ring.classList.add('hov');});
+    el.addEventListener('mouseleave',()=>{cur.classList.remove('hov');ring.classList.remove('hov');});
+  });
 
-<script>
-  
-</script>
+  // PROGRESS
+  const pb=document.getElementById('progressBar');
+  window.addEventListener('scroll',()=>{pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
 
-</body>
-</html>
+  // HEADER
+  const hdr=document.getElementById('mainHeader');let last=0;
+  window.addEventListener('scroll',()=>{const c=window.scrollY;hdr.classList.toggle('scrolled',c>80);hdr.classList.toggle('hidden',c>last&&c>220);last=c;},{passive:true});
 
+  // COUNT UP on hero stat
+  const statEl=document.querySelector('.hero-stat-num span');
+  if(statEl){
+    let done=false;
+    const io=new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting&&!done){
+        done=true;
+        let st=null;
+        (function step(ts){
+          if(!st)st=ts;
+          const 
