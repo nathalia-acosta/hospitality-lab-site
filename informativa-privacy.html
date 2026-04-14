@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informativa sulla Privacy — Hospitality Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F8F5EF;
+    --ink: #1C1A17;
+    --ink-soft: #4A4640;
+    --ink-muted: #8A857C;
+    --gold: #B8965A;
+    --gold-light: #E8D9BC;
+    --border: #E0D9CE;
+    --white: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .logo span { color: var(--gold); }
+
+  .back-link {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--gold); }
+
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .page-header {
+    margin-bottom: 3.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  .meta {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+
+  .toc {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 1.5rem 2rem;
+    margin-bottom: 3rem;
+    border-radius: 2px;
+  }
+
+  .toc-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 2rem;
+  }
+
+  .toc li {
+    counter-increment: toc;
+    font-size: 0.9rem;
+  }
+
+  .toc li::before {
+    content: counter(toc) ". ";
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  .toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--gold); }
+
+  section { margin-bottom: 3rem; }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  h2 .num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  p {
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+    font-weight: 300;
+  }
+
+  ul, ol {
+    color: var(--ink-soft);
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  li {
+    margin-bottom: 0.4rem;
+    font-weight: 300;
+  }
+
+  .highlight-box {
+    background: var(--white);
+    border: 1px solid var(--gold-light);
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+    border-radius: 2px;
+  }
+  .highlight-box p { margin-bottom: 0; }
+
+  strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  a:hover { border-bottom-color: var(--gold); }
+
+  .cookie-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    font-size: 0.875rem;
+  }
+
+  .cookie-table th {
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cookie-table td {
+    padding: 0.7rem 0.75rem;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .cookie-table tr:last-child td { border-bottom: none; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  .badge-analytics { background: #E8F4FD; color: #185FA5; }
+  .badge-functional { background: #FAEEDA; color: #854F0B; }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 600px) {
+    .toc ol { grid-template-columns: 1fr; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    header { padding: 1rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="https://hospitalitylab.co">Hospitality<span>Lab</span></a>
+  <a class="back-link" href="https://hospitalitylab.co">← Torna alla home</a>
+</header>
+
+<main>
+  <div class="page-header">
+    <span class="label">Legale</span>
+    <h1>Informativa sulla Privacy</h1>
+    <p class="meta">Ultimo aggiornamento: 14 aprile 2025 &nbsp;·&nbsp; hospitalitylab.co</p>
+  </div>
+
+  <nav class="toc" aria-label="Indice dei contenuti">
+    <div class="toc-title">Contenuti</div>
+    <ol>
+      <li><a href="#titolare">Titolare del trattamento</a></li>
+      <li><a href="#dati">Dati che raccogliamo</a></li>
+      <li><a href="#finalita">Finalità del trattamento</a></li>
+      <li><a href="#cookie">Cookie e Google Analytics</a></li>
+      <li><a href="#base-legale">Base giuridica</a></li>
+      <li><a href="#trasferimenti">Trasferimenti internazionali</a></li>
+      <li><a href="#conservazione">Conservazione dei dati</a></li>
+      <li><a href="#diritti">I tuoi diritti</a></li>
+      <li><a href="#sicurezza">Sicurezza</a></li>
+      <li><a href="#modifiche">Modifiche all'informativa</a></li>
+    </ol>
+  </nav>
+
+  <section id="titolare">
+    <h2><span class="num">01</span> Titolare del trattamento</h2>
+    <p>Il titolare del trattamento dei dati personali raccolti tramite questo sito web è:</p>
+    <div class="highlight-box">
+      <p><strong>Hospitality Lab</strong><br>
+      Sito web: <a href="https://hospitalitylab.co">hospitalitylab.co</a><br>
+      Contatto privacy: <a href="mailto:privacy@hospitalitylab.co">privacy@hospitalitylab.co</a></p>
+    </div>
+  </section>
+
+  <section id="dati">
+    <h2><span class="num">02</span> Dati che raccogliamo</h2>
+    <p>A seconda di come interagisci con il nostro sito, possiamo raccogliere le seguenti categorie di informazioni:</p>
+    <ul>
+      <li><strong>Dati di navigazione:</strong> indirizzo IP (anonimizzato), tipo di browser, sistema operativo, pagine visitate, tempo di permanenza e fonte di provenienza.</li>
+      <li><strong>Dati dei moduli:</strong> nome, indirizzo e-mail e qualsiasi altro dato che ci fornisci volontariamente contattandoci o iscrivendoti.</li>
+      <li><strong>Dati da cookie analitici:</strong> informazioni statistiche sull'utilizzo del sito raccolte tramite Google Analytics (vedi sezione 4).</li>
+    </ul>
+    <p>Non raccogliamo categorie particolari di dati (salute, origine etnica, dati biometrici, ecc.).</p>
+  </section>
+
+  <section id="finalita">
+    <h2><span class="num">03</span> Finalità del trattamento</h2>
+    <p>Trattiamo i tuoi dati per le seguenti finalità:</p>
+    <ul>
+      <li>Gestire la tua navigazione e garantire il corretto funzionamento del sito web.</li>
+      <li>Rispondere a richieste di informazioni o contatti che ci invii.</li>
+      <li>Analizzare il comportamento degli utenti in forma aggregata e anonima per migliorare i contenuti e l'esperienza del sito (solo con il tuo previo consenso).</li>
+      <li>Inviarti comunicazioni commerciali se ci hai fornito il tuo consenso esplicito.</li>
+    </ul>
+  </section>
+
+  <section id="cookie">
+    <h2><span class="num">04</span> Cookie e Google Analytics</h2>
+    <p>Questo sito web utilizza cookie. Un cookie è un piccolo file di testo salvato sul tuo dispositivo quando visiti un sito web.</p>
+
+    <p><strong>Google Analytics</strong> è un servizio di analisi web fornito da Google LLC. Utilizziamo questo strumento per capire come i visitatori interagiscono con il nostro sito. Google Analytics viene attivato solo se accetti i cookie analitici nel banner di consenso.</p>
+
+    <p>Abbiamo configurato Google Analytics con le seguenti misure di privacy:</p>
+    <ul>
+      <li>Anonimizzazione dell'IP attivata (<code>anonymize_ip</code>).</li>
+      <li>Nessuna condivisione di dati con Google per la pubblicità personalizzata.</li>
+      <li>Segnali Google disattivati.</li>
+    </ul>
+
+    <table class="cookie-table">
+      <thead>
+        <tr>
+          <th>Cookie</th>
+          <th>Fornitore</th>
+          <th>Durata</th>
+          <th>Tipo</th>
+          <th>Scopo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>_ga</code></td>
+          <td>Google Analytics</td>
+          <td>2 anni</td>
+          <td><span class="badge badge-analytics">Analitico</span></td>
+          <td>Distingue gli utenti unici assegnando un identificatore casuale.</td>
+        </tr>
+        <tr>
+          <td><code>_ga_XXXXXXXX</code></td>
+          <td>Google Analytics</td>
+          <td>2 anni</td>
+          <td><span class="badge badge-analytics">Analitico</span></td>
+          <td>Memorizza lo stato della sessione per Google Analytics 4.</td>
+        </tr>
+        <tr>
+          <td><code>hl_consent</code></td>
+          <td>hospitalitylab.co</td>
+          <td>6 mesi</td>
+          <td><span class="badge badge-functional">Funzionale</span></td>
+          <td>Memorizza la tua preferenza di consenso ai cookie.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Puoi revocare il tuo consenso in qualsiasi momento cliccando su "Gestisci cookie" nel piè di pagina o eliminando i cookie dal tuo browser.</p>
+    <p>Per maggiori informazioni su come Google tratta i dati, consulta la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">privacy policy di Google</a>.</p>
+  </section>
+
+  <section id="base-legale">
+    <h2><span class="num">05</span> Base giuridica del trattamento</h2>
+    <ul>
+      <li><strong>Consenso</strong> (art. 6.1.a GDPR): per l'utilizzo di cookie analitici e l'invio di comunicazioni commerciali.</li>
+      <li><strong>Legittimo interesse</strong> (art. 6.1.f GDPR): per il corretto funzionamento tecnico del sito e la sua sicurezza.</li>
+      <li><strong>Esecuzione di un contratto</strong> (art. 6.1.b GDPR): quando il trattamento è necessario per fornirti un servizio da te richiesto.</li>
+    </ul>
+  </section>
+
+  <section id="trasferimenti">
+    <h2><span class="num">06</span> Trasferimenti internazionali di dati</h2>
+    <p>Google LLC è situata negli Stati Uniti. Il trasferimento dei dati a Google è disciplinato dalle clausole contrattuali standard approvate dalla Commissione Europea e dall'EU-U.S. Data Privacy Framework, che garantiscono un livello adeguato di protezione.</p>
+  </section>
+
+  <section id="conservazione">
+    <h2><span class="num">07</span> Conservazione dei dati</h2>
+    <ul>
+      <li>I dati di analisi web vengono conservati per <strong>26 mesi</strong> in Google Analytics (impostazione predefinita di GA4).</li>
+      <li>I dati di contatto vengono conservati per il tempo necessario a gestire la tua richiesta e successivamente per il periodo di prescrizione legale applicabile (generalmente 10 anni secondo il Codice Civile italiano).</li>
+      <li>Le preferenze di consenso ai cookie vengono memorizzate per <strong>6 mesi</strong>.</li>
+    </ul>
+  </section>
+
+  <section id="diritti">
+    <h2><span class="num">08</span> I tuoi diritti</h2>
+    <p>Ai sensi del GDPR e del Codice in materia di protezione dei dati personali (D.Lgs. 196/2003 e ss.mm.ii.), hai diritto a:</p>
+    <ul>
+      <li><strong>Accesso:</strong> sapere quali tuoi dati personali trattiamo.</li>
+      <li><strong>Rettifica:</strong> correggere dati inesatti o incompleti.</li>
+      <li><strong>Cancellazione:</strong> richiedere l'eliminazione dei tuoi dati ("diritto all'oblio").</li>
+      <li><strong>Opposizione:</strong> opporti al trattamento dei tuoi dati.</li>
+      <li><strong>Limitazione:</strong> richiedere la sospensione del trattamento.</li>
+      <li><strong>Portabilità:</strong> ricevere i tuoi dati in formato strutturato e leggibile da dispositivo automatico.</li>
+      <li><strong>Revoca del consenso:</strong> senza che ciò pregiudichi la liceità del trattamento precedente.</li>
+    </ul>
+    <p>Puoi esercitare questi diritti inviando un'e-mail a <a href="mailto:privacy@hospitalitylab.co">privacy@hospitalitylab.co</a>. Risponderemo entro un massimo di <strong>30 giorni</strong>.</p>
+    <p>Se non ricevi una risposta soddisfacente, hai diritto di presentare un reclamo al <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">Garante per la protezione dei dati personali</a>.</p>
+  </section>
+
+  <section id="sicurezza">
+    <h2><span class="num">09</span> Sicurezza</h2>
+    <p>Adottiamo misure tecniche e organizzative adeguate per proteggere i tuoi dati da accessi non autorizzati, perdita accidentale o divulgazione, incluso l'utilizzo del protocollo HTTPS in tutte le comunicazioni.</p>
+  </section>
+
+  <section id="modifiche">
+    <h2><span class="num">10</span> Modifiche all'informativa</h2>
+    <p>Possiamo aggiornare questa informativa sulla privacy per riflettere modifiche alle nostre pratiche o alla normativa applicabile. Ti informeremo delle modifiche significative tramite un avviso visibile sul sito web. Ti consigliamo di consultare periodicamente questa pagina.</p>
+  </section>
+</main>
+
+<footer>
+  © 2025 Hospitality Lab · <a href="https://hospitalitylab.co/note-legali">Note legali</a> · <a href="javascript:void(0)" onclick="hlOpenCookieSettings()">Gestisci cookie</a>
+</footer>
+
+</body>
+</html>
