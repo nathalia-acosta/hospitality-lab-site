@@ -572,7 +572,7 @@ header.hidden{transform:translateY(-100%);}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1WRYDTHEHJ"></script>
 
 <style>
-#hl-cookie-overlay{position:fixed;inset:0;background:rgba(28,26,23,.45);z-index:9998;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);}
+#hl-cookie-overlay{position:fixed;inset:0;background:rgba(28,26,23,.45);z-index:9998;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);transition:opacity .3s ease;}
 #hl-cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#fff;border-top:1px solid #E0D9CE;box-shadow:0 -8px 40px rgba(28,26,23,.12);font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);}
 #hl-cookie-banner.hl-visible{transform:translateY(0);}
 #hl-cookie-banner.hl-hidden{transform:translateY(100%);pointer-events:none;}
@@ -681,7 +681,7 @@ header.hidden{transform:translateY(-100%);}
   }
   function hideBanner(){
     var b=document.getElementById('hl-cookie-banner'),o=document.getElementById('hl-cookie-overlay');
-    b.classList.remove('hl-visible');b.classList.add('hl-hidden');o.style.display='none';
+    b.classList.remove('hl-visible');b.classList.add('hl-hidden');o.style.display='none';o.style.opacity='0';o.style.pointerEvents='none';
   }
   function showBanner(){
     var b=document.getElementById('hl-cookie-banner'),o=document.getElementById('hl-cookie-overlay');
