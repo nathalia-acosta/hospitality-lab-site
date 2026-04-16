@@ -247,8 +247,8 @@ header.hidden{transform:translateY(-100%);}
   .urgency-banner{padding:24px 10%;}
   .problema-grid{flex-direction:row;}
   .problema-card{flex:1;}
-  .sistema-grid{flex-direction:row;}
-  .card-sistema{flex:1;}
+  .sistema-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .card-sistema{flex:unset;}
   .proof-grid{flex-direction:row;}
   .proof-card{flex:1;}
 }
@@ -269,6 +269,7 @@ header.hidden{transform:translateY(-100%);}
   <nav class="nav-links">
     <a href="/quick-wins">Quick Wins</a>
     <a href="/alchimia">L'Alchimia</a>
+    <a href="/laboratorio">Il Laboratorio</a>
     <a href="/boutique">Boutique</a>
     <a href="/diagnosi">La Diagnosi</a>
   </nav>
@@ -364,14 +365,14 @@ header.hidden{transform:translateY(-100%);}
 <!-- IL SISTEMA -->
 <section class="sistema-section" id="sistema">
   <div class="section-tag" style="color:rgba(201,169,110,.6);">Come funziona</div>
-  <div class="section-headline" style="color:var(--crema);">Quattro livelli.<br>Un obiettivo.</div>
+  <div class="section-headline" style="color:var(--crema);">Cinque livelli.<br>Un obiettivo.</div>
   <div class="section-sub" style="color:rgba(245,240,234,.4);">Dal primo passo alla trasformazione completa</div>
   <p class="sistema-intro">Che tu voglia iniziare con una diagnosi gratuita o trasformare completamente il tuo ecosistema digitale, <strong>c'è un percorso fatto per te</strong>.</p>
 
   <div class="sistema-grid">
 
-    <!-- DIAGNOSI FREE -->
-    <a href="/diagnosi" class="card-sistema free">
+    <!-- DIAGNOSI FREE — full width -->
+    <a href="/diagnosi" class="card-sistema free" style="grid-column:span 2;">
       <div class="cs-level">Punto di partenza · Gratuito</div>
       <span class="cs-icon">🔍</span>
       <div class="cs-name">La Diagnosi</div>
@@ -396,19 +397,30 @@ header.hidden{transform:translateY(-100%);}
       </div>
     </a>
 
-    <!-- L'ALCHIMIA PREMIUM -->
-    <a href="/alchimia" class="card-sistema premium">
-      <div class="cs-level">Trasformazione completa · Da €2.497</div>
-      <span class="cs-icon">✨</span>
+    <!-- L'ALCHIMIA -->
+    <a href="/alchimia" class="card-sistema entry">
+      <div class="cs-level">Consulenza 1:1 · Da €497</div>
+      <span class="cs-icon">⚗️</span>
       <div class="cs-name">L'Alchimia</div>
+      <div class="cs-tagline">Transformation Path · Consulenza Privata</div>
+      <p class="cs-desc">Percorso personalizzato con audit completo, diagnosi e roadmap operativa. Sessioni 1:1 con Nathalia per chi vuole una guida esperta al proprio fianco.</p>
+      <div class="cs-footer">
+        <div class="cs-price">Da €497<small>prezzo lancio</small></div>
+        <div class="cs-cta">Scopri L'Alchimia</div>
+      </div>
+    </a>
+
+    <!-- IL LABORATORIO -->
+    <a href="/laboratorio" class="card-sistema premium" style="grid-column:span 2;">
+      <div class="cs-badge">✦ Premium</div>
+      <div class="cs-level">Trasformazione completa · Da €2.497</div>
+      <span class="cs-icon">🔬</span>
+      <div class="cs-name">Il Laboratorio</div>
       <div class="cs-tagline">The Alchemy · The Lab · The Transformation</div>
       <p class="cs-desc">Tre percorsi di trasformazione digitale completa — dalla consulenza personalizzata all'ecosistema autonomo full stack. Risultati misurabili in 90–120 giorni.</p>
       <div class="cs-footer">
         <div class="cs-price">Da €2.497<small>Italia · CHF 2.790 Svizzera</small></div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-          <div class="cs-badge">✦ Premium</div>
-          <div class="cs-cta">Scopri L'Alchimia</div>
-        </div>
+        <div class="cs-cta">Scopri Il Laboratorio</div>
       </div>
     </a>
 
@@ -517,6 +529,7 @@ header.hidden{transform:translateY(-100%);}
     <div class="footer-nav">
       <a href="/quick-wins">Quick Wins</a>
       <a href="/alchimia">L'Alchimia</a>
+      <a href="/laboratorio">Il Laboratorio</a>
       <a href="/boutique">Boutique</a>
       <a href="/diagnosi">La Diagnosi</a>
     </div>
