@@ -52,23 +52,32 @@ header.hidden{transform:translateY(-100%);}
 .hero{min-height:calc(100vh - 64px);padding:56px 32px 48px;position:relative;overflow:hidden;display:flex;align-items:center;}
 .hero-bg-orb{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.05) 0%,transparent 65%);right:-120px;top:-80px;animation:orbFloat 10s ease-in-out infinite;pointer-events:none;}
 @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-20px,15px) scale(1.04);}}
+
+/* Two column layout on desktop */
 .hero-inner{position:relative;width:100%;display:flex;flex-direction:column;gap:40px;}
 @media(min-width:900px){
   .hero-inner{flex-direction:row;align-items:center;gap:80px;}
   .hero-left{flex:0 0 auto;width:320px;}
   .hero-right{flex:1;}
 }
+
+/* LEFT — the number */
 .hero-left{}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);margin-bottom:20px;font-weight:500;animation:fadeIn .6s .1s ease both;}
 .eyebrow-pulse{width:5px;height:5px;border-radius:50%;background:var(--oro);animation:pulse 2s ease-in-out infinite;flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.4);}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
 .hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,18vw,140px);line-height:.85;letter-spacing:2px;display:block;animation:fadeIn .7s .2s ease both;}
 .hero-stat-num .num-gold{color:var(--oro);}
 .hero-stat-num .num-black{color:var(--nero);}
 .hero-stat-source{font-size:11px;color:#777;font-weight:400;margin-top:10px;line-height:1.6;max-width:280px;animation:fadeIn .7s .35s ease both;}
+
+/* Divider between cols on mobile */
 .hero-divider-line{width:40px;height:1px;background:rgba(201,169,110,.3);animation:fadeIn .7s .4s ease both;}
 @media(min-width:900px){.hero-divider-line{display:none;}}
+
+/* RIGHT — headline + copy + cta */
 .hero-right{}
 .hero-kicker{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#888;font-weight:500;margin-bottom:14px;animation:fadeIn .7s .3s ease both;}
 .hero-headline{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,28px);line-height:1.45;color:var(--nero);font-weight:400;margin-bottom:20px;animation:fadeIn .8s .4s ease both;}
@@ -103,10 +112,12 @@ header.hidden{transform:translateY(-100%);}
 .problema-section{padding:72px 32px;background:var(--crema-soft);position:relative;overflow:hidden;}
 .problema-section::before{content:'';position:absolute;right:-60px;top:-60px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(201,169,110,.1);animation:ringPulse 4s ease-in-out infinite;}
 @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.5;}50%{transform:scale(1.07);opacity:.2;}}
+
 .section-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
 .section-tag::before{content:'';width:20px;height:1px;background:var(--oro);}
 .section-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,56px);letter-spacing:2px;line-height:.95;color:var(--nero);margin-bottom:8px;}
 .section-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:20px;color:var(--grigio);margin-bottom:32px;}
+
 .problema-grid{display:flex;flex-direction:column;gap:16px;}
 .problema-card{background:white;border-radius:18px;padding:24px 22px;border:1px solid rgba(201,169,110,.12);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .4s;}
 .problema-card:hover{transform:translateY(-4px);box-shadow:0 20px 48px rgba(8,8,8,.07);border-color:rgba(201,169,110,.28);}
@@ -123,9 +134,12 @@ header.hidden{transform:translateY(-100%);}
 .sistema-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,169,110,.07) 0%,transparent 55%),radial-gradient(ellipse at 10% 80%,rgba(201,169,110,.04) 0%,transparent 50%);}
 .sistema-section::after{content:'SISTEMA';position:absolute;right:-30px;bottom:10px;font-family:'Bebas Neue',sans-serif;font-size:120px;color:white;opacity:.02;letter-spacing:10px;pointer-events:none;animation:textDrift 20s linear infinite;}
 @keyframes textDrift{from{transform:translateX(0);}to{transform:translateX(-60px);}}
+
 .sistema-intro{font-size:14px;line-height:1.8;color:rgba(245,240,234,.45);max-width:520px;margin-top:16px;margin-bottom:40px;font-weight:300;}
 .sistema-intro strong{color:rgba(245,240,234,.8);font-weight:500;}
+
 .sistema-grid{display:flex;flex-direction:column;gap:20px;position:relative;}
+
 .card-sistema{border-radius:20px;padding:28px 24px;position:relative;overflow:hidden;text-decoration:none;display:block;transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .4s;}
 .card-sistema.free{background:rgba(255,255,255,.03);border:1px solid rgba(201,169,110,.12);}
 .card-sistema.entry{background:rgba(255,255,255,.04);border:1px solid rgba(201,169,110,.18);}
@@ -135,6 +149,7 @@ header.hidden{transform:translateY(-100%);}
 .card-sistema.premium:hover{border-color:rgba(201,169,110,.6);}
 .card-sistema::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--oro),transparent);transform:scaleX(0);transition:transform .5s ease;}
 .card-sistema:hover::before{transform:scaleX(1);}
+
 .cs-level{font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
 .cs-level::before{content:'';width:12px;height:1px;background:rgba(201,169,110,.4);}
 .cs-icon{font-size:24px;margin-bottom:12px;display:block;}
@@ -237,50 +252,6 @@ header.hidden{transform:translateY(-100%);}
   .proof-grid{flex-direction:row;}
   .proof-card{flex:1;}
 }
-
-/* ── COOKIE BANNER ── */
-#hl-cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#fff;border-top:1px solid #E0D9CE;box-shadow:0 -8px 40px rgba(28,26,23,.12);font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);}
-#hl-cookie-banner.hl-visible{transform:translateY(0);}
-#hl-cookie-banner.hl-hidden{transform:translateY(100%);pointer-events:none;}
-.hl-banner-inner{max-width:960px;margin:0 auto;padding:1.5rem 2rem;display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:center;}
-.hl-banner-logo{font-family:'DM Serif Display',Georgia,serif;font-size:.9rem;color:#1C1A17;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;}
-.hl-banner-logo span{color:#C9A96E;}
-.hl-banner-logo::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:#C9A96E;flex-shrink:0;}
-.hl-banner-text{font-size:.875rem;color:#4A4640;line-height:1.6;font-weight:300;}
-.hl-banner-text a{color:#C9A96E;text-decoration:none;border-bottom:1px solid #E8D5B0;}
-.hl-actions{display:flex;flex-direction:column;gap:.6rem;min-width:210px;}
-.hl-btn{display:block;width:100%;padding:.65rem 1.25rem;font-family:inherit;font-size:.825rem;font-weight:400;letter-spacing:.06em;text-transform:uppercase;text-align:center;border:1px solid transparent;border-radius:2px;cursor:pointer;transition:background .2s,color .2s,border-color .2s;}
-.hl-btn-accept{background:#1C1A17;color:#F8F5EF;border-color:#1C1A17;}
-.hl-btn-accept:hover{background:#C9A96E;border-color:#C9A96E;}
-.hl-btn-reject{background:transparent;color:#4A4640;border-color:#E0D9CE;}
-.hl-btn-reject:hover{background:#F8F5EF;border-color:#8A857C;}
-.hl-btn-settings{background:transparent;color:#8A857C;border-color:transparent;font-size:.75rem;padding:.3rem;text-decoration:underline;text-underline-offset:3px;}
-.hl-btn-settings:hover{color:#C9A96E;}
-#hl-cookie-settings{display:none;position:fixed;inset:0;z-index:100000;align-items:center;justify-content:center;padding:1rem;background:rgba(8,8,8,.5);}
-#hl-cookie-settings.hl-open{display:flex;}
-.hl-settings-panel{background:#fff;border:1px solid #E0D9CE;border-radius:4px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:2rem;position:relative;box-shadow:0 20px 60px rgba(28,26,23,.2);}
-.hl-settings-title{font-family:'DM Serif Display',Georgia,serif;font-size:1.2rem;color:#1C1A17;margin-bottom:.5rem;}
-.hl-settings-desc{font-size:.85rem;color:#8A857C;font-weight:300;margin-bottom:1.5rem;line-height:1.6;}
-.hl-setting-item{border-top:1px solid #E0D9CE;padding:1rem 0;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;}
-.hl-setting-label{font-size:.875rem;font-weight:400;color:#1C1A17;margin-bottom:.2rem;}
-.hl-setting-desc-text{font-size:.8rem;color:#8A857C;font-weight:300;line-height:1.5;}
-.hl-toggle{position:relative;width:40px;height:22px;flex-shrink:0;margin-top:2px;}
-.hl-toggle input{opacity:0;width:0;height:0;position:absolute;}
-.hl-toggle-track{position:absolute;inset:0;background:#E0D9CE;border-radius:22px;cursor:pointer;transition:background .2s;}
-.hl-toggle-track::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
-.hl-toggle input:checked+.hl-toggle-track{background:#C9A96E;}
-.hl-toggle input:checked+.hl-toggle-track::after{transform:translateX(18px);}
-.hl-toggle input:disabled+.hl-toggle-track{background:#C9A96E;opacity:.6;cursor:not-allowed;}
-.hl-toggle input:disabled+.hl-toggle-track::after{transform:translateX(18px);}
-.hl-settings-actions{margin-top:1.5rem;display:flex;gap:.75rem;}
-.hl-settings-actions .hl-btn{flex:1;}
-.hl-close-btn{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:#8A857C;font-size:1.25rem;line-height:1;padding:.25rem;}
-@media(max-width:640px){
-  .hl-banner-inner{grid-template-columns:1fr;gap:1rem;padding:1.25rem;}
-  .hl-actions{flex-direction:row;flex-wrap:wrap;}
-  .hl-btn{flex:1;min-width:120px;}
-  .hl-btn-settings{width:100%;text-align:center;}
-}
 </style>
 </head>
 <body>
@@ -296,23 +267,29 @@ header.hidden{transform:translateY(-100%);}
     <span class="logo-sub">by Nathalia Acosta</span>
   </div>
   <nav class="nav-links">
-    <a href="/protocolli">I Protocolli</a>
+    <a href="/quick-wins">Quick Wins</a>
     <a href="/alchimia">L'Alchimia</a>
-    <a href="#sistema">Il Sistema</a>
+    <a href="/boutique">Boutique</a>
+    <a href="/diagnosi">La Diagnosi</a>
   </nav>
-  <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Vorrei%20saperne%20di%20più%20su%20Hospitality%20Lab" class="nav-cta" target="_blank">Scrivimi →</a>
+  <a href="/diagnosi" class="nav-cta">Prenota la Diagnosi →</a>
 </header>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg-orb"></div>
   <div class="hero-inner">
+
+    <!-- LEFT: the number -->
     <div class="hero-left">
       <div class="hero-eyebrow"><span class="eyebrow-pulse"></span>Hotel &amp; Ristoranti · Lombardia &amp; Svizzera</div>
       <span class="hero-stat-num"><span class="num-gold">63</span><span class="num-black">%</span></span>
       <p class="hero-stat-source">delle prenotazioni degli hotel indipendenti va alle OTA<br>Cloudbeds Report 2026</p>
     </div>
+
     <div class="hero-divider-line"></div>
+
+    <!-- RIGHT: headline + copy + cta -->
     <div class="hero-right">
       <div class="hero-kicker">Il costo reale della dipendenza OTA</div>
       <h1 class="hero-headline">
@@ -321,14 +298,15 @@ header.hidden{transform:translateY(-100%);}
       </h1>
       <p class="hero-sub">Riduci la dipendenza dalle OTA e aumenta le prenotazioni dirette in 30 giorni — senza perdere occupazione né coperti. Strategie digitali, automazione e IA per hotel e ristoranti indipendenti.</p>
       <div class="hero-cta-wrap">
-        <a href="/protocolli" class="btn-primary"><span>Scopri i Protocolli →</span></a>
-        <a href="/alchimia" class="btn-secondary">L'Alchimia · Consulenza 1:1</a>
+        <a href="/diagnosi" class="btn-primary"><span>Prenota la Diagnosi Gratuita →</span></a>
+        <a href="/alchimia" class="btn-secondary">L'Alchimia · Servizi Premium</a>
       </div>
       <div class="hero-urgency">
         <span class="urgency-dot"></span>
-        Solo 5 posti al mese · Prezzi lancio 2026
+        Solo 5 posti al mese · Diagnosi gratuita
       </div>
     </div>
+
   </div>
 </section>
 
@@ -385,52 +363,60 @@ header.hidden{transform:translateY(-100%);}
 
 <!-- IL SISTEMA -->
 <section class="sistema-section" id="sistema">
-  <div class="section-tag" style="color:rgba(201,169,110,.6);">Il nostro sistema</div>
-  <div class="section-headline" style="color:var(--crema);">Tre livelli.<br>Un obiettivo.</div>
-  <div class="section-sub" style="color:rgba(245,240,234,.4);">Riprendi il controllo delle tue prenotazioni</div>
-  <p class="sistema-intro">Che tu voglia iniziare con uno strumento preciso o trasformare completamente il tuo ecosistema digitale, <strong>c'è un percorso fatto per te</strong>.</p>
+  <div class="section-tag" style="color:rgba(201,169,110,.6);">Come funziona</div>
+  <div class="section-headline" style="color:var(--crema);">Quattro livelli.<br>Un obiettivo.</div>
+  <div class="section-sub" style="color:rgba(245,240,234,.4);">Dal primo passo alla trasformazione completa</div>
+  <p class="sistema-intro">Che tu voglia iniziare con una diagnosi gratuita o trasformare completamente il tuo ecosistema digitale, <strong>c'è un percorso fatto per te</strong>.</p>
+
   <div class="sistema-grid">
+
+    <!-- DIAGNOSI FREE -->
     <a href="/diagnosi" class="card-sistema free">
       <div class="cs-level">Punto di partenza · Gratuito</div>
       <span class="cs-icon">🔍</span>
       <div class="cs-name">La Diagnosi</div>
-      <div class="cs-tagline">I 7 Peccati Mortali della Distribuzione Digitale</div>
-      <p class="cs-desc">Scopri gli errori che stanno costando prenotazioni al tuo hotel o ristorante. La guida gratuita per iniziare la tua redenzione digitale.</p>
+      <div class="cs-tagline">I 7 Peccati Mortali · Guida gratuita</div>
+      <p class="cs-desc">Scopri gli errori che stanno costando prenotazioni al tuo hotel o ristorante. Il punto di partenza per ogni trasformazione digitale.</p>
       <div class="cs-footer">
         <div class="cs-price">Gratis<small></small></div>
         <div class="cs-cta">Scarica ora</div>
       </div>
     </a>
-    <a href="/protocolli" class="card-sistema entry">
-      <div class="cs-level">Sistemi operativi · Da €7</div>
-      <span class="cs-icon">⚗️</span>
-      <div class="cs-name">I Protocolli</div>
-      <div class="cs-tagline">Sistemi di Redenzione · Strumenti precisi</div>
-      <p class="cs-desc">4 protocolli operativi per eliminare le inefficienze digitali. Dall'OTA escape alla gestione delle recensioni — ogni protocollo risolve un problema specifico.</p>
+
+    <!-- QUICK WINS -->
+    <a href="/quick-wins" class="card-sistema entry">
+      <div class="cs-level">Implementazione rapida · Da €497</div>
+      <span class="cs-icon">⚡</span>
+      <div class="cs-name">Quick Wins</div>
+      <div class="cs-tagline">Risultati concreti in 48–72 ore</div>
+      <p class="cs-desc">Servizi di implementazione immediata per risolvere un problema specifico — reputazione, automazione WhatsApp, menù digitale. Setup veloce, ROI immediato.</p>
       <div class="cs-footer">
-        <div class="cs-price">Da €7<small>una tantum</small></div>
-        <div class="cs-cta">Esplora i Protocolli</div>
+        <div class="cs-price">Da €497<small>setup unico</small></div>
+        <div class="cs-cta">Scopri i Quick Wins</div>
       </div>
     </a>
+
+    <!-- L'ALCHIMIA PREMIUM -->
     <a href="/alchimia" class="card-sistema premium">
       <div class="cs-badge">✦ Premium</div>
-      <div class="cs-level">Consulenza 1:1 · Lancio 2026</div>
+      <div class="cs-level">Trasformazione completa · Da €2.497</div>
       <span class="cs-icon">✨</span>
       <div class="cs-name">L'Alchimia</div>
-      <div class="cs-tagline">Transformation Path · Consulenza Privata</div>
-      <p class="cs-desc">Percorso personalizzato con audit completo, diagnosi e roadmap operativa. +30% prenotazioni dirette e –70% lavoro manuale in 90 giorni.</p>
+      <div class="cs-tagline">The Alchemy · The Lab · The Transformation</div>
+      <p class="cs-desc">Tre percorsi di trasformazione digitale completa — dalla consulenza personalizzata all'ecosistema autonomo full stack. Risultati misurabili in 90–120 giorni.</p>
       <div class="cs-footer">
-        <div class="cs-price">Da €497<small>prezzo lancio</small></div>
+        <div class="cs-price">Da €2.497<small>Italia · CHF 2.790 Svizzera</small></div>
         <div class="cs-cta">Scopri L'Alchimia</div>
       </div>
     </a>
+
   </div>
 </section>
 
 <!-- URGENCY BANNER -->
 <div class="urgency-banner">
   <span class="urgency-icon">⏳</span>
-  <p class="urgency-text"><strong>La stagione alta 2026 si avvicina.</strong> Solo 5 posti disponibili al mese per la consulenza L'Alchimia. Prezzi di lancio validi per i primi 10 clienti — dopo aumenteranno a €997–€1.497. <strong>Non farti trovare impreparato.</strong></p>
+  <p class="urgency-text"><strong>La stagione alta 2026 si avvicina.</strong> Solo 5 posti disponibili al mese per i servizi premium L'Alchimia. <strong>Prenota la tua Diagnosi Gratuita prima che si riempiano.</strong></p>
 </div>
 
 <!-- PROOF -->
@@ -524,178 +510,51 @@ header.hidden{transform:translateY(-100%);}
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     <span class="btn-wa-text">Scrivimi su WhatsApp</span>
   </a>
-  <p class="footer-note">Oppure scrivimi a info@hospitalitylab.co · Rispondo entro 24h</p>
+  <p class="footer-note">Oppure scrivimi a <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d2bcb3a6bab3bebbb3fcb3b1bda1a6b3a492b5bfb3bbbefcb1bdbf">[email&#160;protected]</a> · Rispondo entro 24h</p>
   <div class="footer-bottom">
     <div class="footer-nav">
-      <a href="/protocolli">I Protocolli</a>
+      <a href="/quick-wins">Quick Wins</a>
       <a href="/alchimia">L'Alchimia</a>
+      <a href="/boutique">Boutique</a>
       <a href="/diagnosi">La Diagnosi</a>
-      <a href="/informativa-privacy.html">Privacy</a>
     </div>
     <div class="footer-logo">HOSPITALITY LAB · BY NATHALIA ACOSTA</div>
-    <div class="footer-contacts">info@hospitalitylab.co · +39 375 558 69 68<br>Italia · Svizzera · Lago di Como</div>
+    <div class="footer-contacts"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7a141b0e121b16131b541b1915090e1b0c3a1d171b131654191517">[email&#160;protected]</a> · +39 375 558 69 68<br>Italia · Svizzera · Lago di Como</div>
   </div>
 </section>
 
-<!-- COOKIE BANNER HTML -->
-<div id="hl-cookie-banner" role="dialog" aria-label="Informativa sui cookie">
-  <div class="hl-banner-inner">
-    <div>
-      <div class="hl-banner-logo">Hospitality<span>Lab</span></div>
-      <p class="hl-banner-text">
-        Utilizziamo cookie analitici (Google Analytics) per capire come viene utilizzato il nostro sito e migliorarlo. Li attiveremo solo con il tuo consenso.
-        Consulta la nostra <a href="/informativa-privacy.html">Informativa sulla Privacy</a>.
-      </p>
-    </div>
-    <div class="hl-actions">
-      <button class="hl-btn hl-btn-accept" id="hl-accept-all">Accetta tutti</button>
-      <button class="hl-btn hl-btn-reject" id="hl-reject-all">Solo essenziali</button>
-      <button class="hl-btn hl-btn-settings" id="hl-open-settings">Personalizza →</button>
-    </div>
-  </div>
-</div>
-
-<div id="hl-cookie-settings" role="dialog" aria-modal="true" aria-label="Preferenze cookie">
-  <div class="hl-settings-panel">
-    <button class="hl-close-btn" id="hl-close-settings" aria-label="Chiudi">✕</button>
-    <h2 class="hl-settings-title">Preferenze cookie</h2>
-    <p class="hl-settings-desc">Puoi attivare o disattivare ogni categoria. I cookie essenziali non possono essere disattivati perché necessari al funzionamento del sito.</p>
-    <div class="hl-setting-item">
-      <div>
-        <div class="hl-setting-label">Cookie essenziali</div>
-        <div class="hl-setting-desc-text">Necessari per la navigazione e il funzionamento di base del sito.</div>
-      </div>
-      <label class="hl-toggle"><input type="checkbox" checked disabled><span class="hl-toggle-track"></span></label>
-    </div>
-    <div class="hl-setting-item">
-      <div>
-        <div class="hl-setting-label">Cookie analitici <span style="font-size:.7rem;color:#8A857C;">(Google Analytics)</span></div>
-        <div class="hl-setting-desc-text">Ci aiutano a capire come i visitatori utilizzano il sito. Dati aggregati e anonimi.</div>
-      </div>
-      <label class="hl-toggle"><input type="checkbox" id="hl-analytics-toggle"><span class="hl-toggle-track"></span></label>
-    </div>
-    <div class="hl-settings-actions">
-      <button class="hl-btn hl-btn-reject" id="hl-save-settings">Salva preferenze</button>
-      <button class="hl-btn hl-btn-accept" id="hl-accept-all-settings">Accetta tutti</button>
-    </div>
-  </div>
-</div>
-
-<!-- Google tag (gtag.js) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('consent', 'default', {
-    analytics_storage: 'denied',
-    ad_storage: 'denied',
-    wait_for_update: 500
-  });
-  gtag('js', new Date());
-  gtag('config', 'G-1WRYDTHEHJ', { anonymize_ip: true });
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1WRYDTHEHJ"></script>
-
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
-  var KEY='hl_consent', DAYS=180;
-
-  function getCookie(n){
-    var m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)'));
-    return m?decodeURIComponent(m[2]):null;
-  }
-  function setCookie(n,v,d){
-    var e=new Date();
-    e.setTime(e.getTime()+d*864e5);
-    document.cookie=n+'='+encodeURIComponent(v)+';expires='+e.toUTCString()+';path=/;SameSite=Lax';
-  }
-  function activateGA(){
-    gtag('consent','update',{analytics_storage:'granted'});
-  }
-  function denyGA(){
-    gtag('consent','update',{analytics_storage:'denied'});
-    document.cookie.split(';').forEach(function(c){
-      var n=c.trim().split('=')[0];
-      if(n==='_ga'||n==='_gid'||n==='_gat'||n.indexOf('_ga_')===0){
-        document.cookie=n+'=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain='+location.hostname;
-        document.cookie=n+'=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.'+location.hostname;
-      }
-    });
-  }
-  function hideBanner(){
-    document.getElementById('hl-cookie-banner').classList.remove('hl-visible');
-    document.getElementById('hl-cookie-banner').classList.add('hl-hidden');
-  }
-  function showBanner(){
-    var b=document.getElementById('hl-cookie-banner');
-    b.offsetHeight;
-    b.classList.add('hl-visible');
-  }
-  function saveConsent(analytics){
-    setCookie(KEY,JSON.stringify({analytics:analytics,ts:Date.now()}),DAYS);
-    if(analytics){activateGA();}else{denyGA();}
-    hideBanner();
-  }
-
-  var stored=getCookie(KEY);
-  if(stored){
-    try{if(JSON.parse(stored).analytics)activateGA();}catch(e){}
-  } else {
-    window.addEventListener('DOMContentLoaded',function(){setTimeout(showBanner,600);});
-  }
-
-  document.addEventListener('DOMContentLoaded',function(){
-    var at=document.getElementById('hl-analytics-toggle');
-    var sp=document.getElementById('hl-cookie-settings');
-
-    document.getElementById('hl-accept-all').addEventListener('click',function(){saveConsent(true);});
-    document.getElementById('hl-reject-all').addEventListener('click',function(){saveConsent(false);});
-    document.getElementById('hl-open-settings').addEventListener('click',function(){sp.classList.add('hl-open');});
-    document.getElementById('hl-close-settings').addEventListener('click',function(){sp.classList.remove('hl-open');});
-    document.getElementById('hl-save-settings').addEventListener('click',function(){
-      sp.classList.remove('hl-open');
-      saveConsent(at?at.checked:false);
-    });
-    document.getElementById('hl-accept-all-settings').addEventListener('click',function(){
-      if(at)at.checked=true;
-      sp.classList.remove('hl-open');
-      saveConsent(true);
-    });
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')sp.classList.remove('hl-open');});
-    try{
-      var s=getCookie(KEY);
-      if(s&&at)at.checked=!!JSON.parse(s).analytics;
-    }catch(e){}
-  });
-
-  window.hlOpenCookieSettings=function(){
-    document.getElementById('hl-cookie-banner').classList.add('hl-visible');
-    document.getElementById('hl-cookie-banner').classList.remove('hl-hidden');
-  };
-})();
-
-// CURSOR
-(function(){
-  var cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
-  var mx=0,my=0,rx=0,ry=0,ready=false;
-  document.addEventListener('mousemove',function(e){
+  // CURSOR
+  const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0,ready=false;
+  document.addEventListener('mousemove',e=>{
     mx=e.clientX;my=e.clientY;
     cur.style.left=mx+'px';cur.style.top=my+'px';
     if(!ready){ready=true;document.body.classList.add('cr');cur.style.opacity='1';ring.style.opacity='1';}
   });
   (function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
-  document.querySelectorAll('a,button,.card-sistema,.problema-card,.proof-card,.nav-cta').forEach(function(el){
-    el.addEventListener('mouseenter',function(){cur.classList.add('hov');ring.classList.add('hov');});
-    el.addEventListener('mouseleave',function(){cur.classList.remove('hov');ring.classList.remove('hov');});
+  document.querySelectorAll('a,button,.card-sistema,.problema-card,.proof-card,.nav-cta').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.classList.add('hov');ring.classList.add('hov');});
+    el.addEventListener('mouseleave',()=>{cur.classList.remove('hov');ring.classList.remove('hov');});
   });
-})();
 
-// PROGRESS
-var pb=document.getElementById('progressBar');
-window.addEventListener('scroll',function(){pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  // PROGRESS
+  const pb=document.getElementById('progressBar');
+  window.addEventListener('scroll',()=>{pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
 
-// HEADER
-var hdr=document.getElementById('mainHeader');var last=0;
-window.addEventListener('scroll',function(){var c=window.scrollY;hdr.classList.toggle('scrolled',c>80);hdr.classList.toggle('hidden',c>last&&c>220);last=c;},{passive:true});
-</script>
-</body>
-</html>
+  // HEADER
+  const hdr=document.getElementById('mainHeader');let last=0;
+  window.addEventListener('scroll',()=>{const c=window.scrollY;hdr.classList.toggle('scrolled',c>80);hdr.classList.toggle('hidden',c>last&&c>220);last=c;},{passive:true});
+
+  // COUNT UP on hero stat
+  const statEl=document.querySelector('.hero-stat-num span');
+  if(statEl){
+    let done=false;
+    const io=new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting&&!done){
+        done=true;
+        let st=null;
+        (function step(ts){
+          if(!st)st=ts;
+          const 
