@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Laboratorio — Trasformazioni Digitali Complete · Hospitality Lab</title>
+<meta name="description" content="Tre percorsi di trasformazione digitale completa per hotel e ristoranti indipendenti in Lombardia e Svizzera. The Alchemy, The Lab, The Transformation.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nero:#080808;--crema:#F5F0EA;--crema-soft:#F0EBE3;
+  --oro:#C9A96E;--oro-chiaro:#E8D5B0;--grigio:#666;
+  --grigio-light:#999;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--crema);color:var(--nero);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.4;}
+
+/* PROGRESS */
+.progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));z-index:9999;transition:width .1s;}
+
+/* HEADER */
+header{padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(245,240,234,.93);backdrop-filter:blur(16px);z-index:100;border-bottom:1px solid rgba(201,169,110,.15);transition:box-shadow .4s;}
+header.scrolled{box-shadow:0 4px 24px rgba(8,8,8,.06);}
+.logo-block{display:flex;flex-direction:column;gap:2px;text-decoration:none;}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--nero);line-height:1;}
+.logo-sub{font-size:9px;letter-spacing:4px;color:var(--oro);text-transform:uppercase;}
+.nav-links{display:none;}
+@media(min-width:768px){
+  .nav-links{display:flex;gap:28px;}
+  .nav-links a{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--grigio);text-decoration:none;transition:color .3s;font-weight:500;}
+  .nav-links a:hover,.nav-links a.active{color:var(--nero);}
+}
+.nav-cta{font-size:10px;letter-spacing:2px;text-transform:uppercase;background:var(--nero);color:var(--crema);padding:11px 20px;border-radius:100px;text-decoration:none;font-weight:500;transition:background .3s,transform .3s;white-space:nowrap;}
+.nav-cta:hover{background:#222;transform:translateY(-1px);}
+
+/* HERO */
+.hero{background:var(--nero);padding:80px 32px 72px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 0%,rgba(201,169,110,.1) 0%,transparent 55%),radial-gradient(ellipse at 10% 100%,rgba(201,169,110,.06) 0%,transparent 50%);}
+.hero-accent{position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,transparent,var(--oro),transparent);}
+.hero-inner{position:relative;z-index:1;max-width:800px;}
+.hero-eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.6);font-weight:500;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:rgba(201,169,110,.5);}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,88px);line-height:.88;letter-spacing:2px;color:var(--crema);margin-bottom:6px;}
+.hero-title span{color:var(--oro);}
+.hero-subtitle{font-family:'DM Serif Display',serif;font-style:italic;font-size:clamp(18px,3vw,26px);color:rgba(245,240,234,.45);margin-bottom:28px;line-height:1.3;}
+.hero-desc{font-size:16px;line-height:1.8;color:rgba(245,240,234,.55);max-width:580px;font-weight:300;margin-bottom:36px;}
+.hero-desc strong{color:rgba(245,240,234,.85);font-weight:500;}
+.hero-gate{display:flex;align-items:center;gap:12px;padding:16px 20px;background:rgba(201,169,110,.08);border:1px solid rgba(201,169,110,.2);border-radius:12px;max-width:520px;}
+.hero-gate-icon{font-size:20px;flex-shrink:0;}
+.hero-gate-text{font-size:13px;line-height:1.6;color:rgba(245,240,234,.5);}
+.hero-gate-text strong{color:var(--oro);font-weight:500;}
+
+/* SERVICES */
+.services-section{padding:72px 32px 80px;background:var(--crema);}
+@media(min-width:768px){.services-section{padding:80px 10% 96px;}}
+
+.services-intro{margin-bottom:56px;}
+.s-tag{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.s-tag::before{content:'';width:20px;height:1px;background:var(--oro);}
+.s-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,56px);letter-spacing:2px;line-height:.95;color:var(--nero);margin-bottom:8px;}
+.s-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:var(--grigio);}
+
+/* SERVICE CARD */
+.service-card{background:white;border-radius:20px;border:1px solid rgba(201,169,110,.15);overflow:hidden;margin-bottom:24px;transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .4s;}
+.service-card:hover{transform:translateY(-4px);box-shadow:0 24px 56px rgba(8,8,8,.08);border-color:rgba(201,169,110,.3);}
+.service-card:last-child{margin-bottom:0;}
+
+.sc-top{padding:36px 36px 0;}
+.sc-level{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--oro);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.sc-level::before{content:'';width:16px;height:1px;background:var(--oro);}
+
+.sc-header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:20px;flex-wrap:wrap;}
+.sc-title-wrap{}
+.sc-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,52px);letter-spacing:2px;color:var(--nero);line-height:.9;margin-bottom:4px;}
+.sc-name-it{font-family:'DM Serif Display',serif;font-style:italic;font-size:16px;color:var(--grigio);margin-bottom:0;}
+.sc-prices{text-align:right;flex-shrink:0;}
+.sc-price-main{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--oro);letter-spacing:1px;line-height:1;}
+.sc-price-ch{font-size:12px;color:var(--grigio-light);margin-top:2px;letter-spacing:.5px;}
+
+.sc-tagline{font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:var(--grigio);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(201,169,110,.1);line-height:1.6;}
+
+.sc-body{display:flex;gap:32px;flex-wrap:wrap;}
+@media(min-width:768px){.sc-body{flex-wrap:nowrap;}}
+
+.sc-includes{flex:1.2;}
+.sc-includes-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--nero);font-weight:600;margin-bottom:14px;}
+.sc-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.sc-list li{font-size:14px;line-height:1.6;color:#444;display:flex;align-items:flex-start;gap:10px;font-weight:300;}
+.sc-list li::before{content:'✓';color:var(--oro);font-size:13px;flex-shrink:0;margin-top:2px;font-weight:600;}
+
+.sc-results{flex:1;background:var(--crema-soft);border-radius:12px;padding:20px;}
+.sc-results-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--nero);font-weight:600;margin-bottom:14px;}
+.sc-result-item{display:flex;flex-direction:column;gap:3px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(201,169,110,.12);}
+.sc-result-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.sc-result-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--oro);letter-spacing:1px;line-height:1;}
+.sc-result-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#666;font-weight:500;}
+
+/* Fix legibility */
+.sc-level{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#8B6535;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.sc-level::before{content:'';width:16px;height:1px;background:#8B6535;}
+.sc-price-ch{font-size:12px;color:#777;margin-top:2px;letter-spacing:.5px;}
+
+.sc-bottom{padding:24px 36px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid rgba(201,169,110,.1);margin-top:24px;}
+.sc-not-for{font-size:12px;color:#777;font-style:normal;max-width:400px;line-height:1.6;letter-spacing:.5px;}
+.sc-not-for strong{color:#555;font-weight:600;}
+.sc-cta{display:inline-flex;align-items:center;gap:10px;background:var(--nero);color:var(--crema);padding:14px 24px;border-radius:100px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;transition:transform .3s,box-shadow .3s;white-space:nowrap;position:relative;overflow:hidden;}
+.sc-cta::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);transform:translateX(-101%);transition:transform .5s ease;}
+.sc-cta:hover::before{transform:translateX(101%);}
+.sc-cta:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(8,8,8,.2);}
+.sc-cta span{position:relative;z-index:1;}
+
+/* FLAGSHIP card gets gold accent */
+.service-card.flagship{border-color:rgba(201,169,110,.3);}
+.service-card.flagship .sc-top{position:relative;}
+.service-card.flagship .sc-top::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--oro),var(--oro-chiaro));}
+.flagship-badge{display:inline-flex;align-items:center;gap:6px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--nero);background:var(--oro);padding:5px 12px;border-radius:100px;font-weight:600;margin-bottom:14px;}
+
+/* GATE SECTION */
+.gate-section{background:var(--nero);padding:72px 32px 80px;text-align:center;position:relative;overflow:hidden;}
+.gate-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(201,169,110,.1) 0%,transparent 60%);}
+@media(min-width:768px){.gate-section{padding:80px 10%;}}
+.gate-inner{position:relative;z-index:1;}
+.gate-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(201,169,110,.5);font-weight:500;margin-bottom:16px;}
+.gate-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,56px);letter-spacing:2px;color:var(--crema);margin-bottom:8px;line-height:.95;}
+.gate-title span{color:var(--oro);}
+.gate-sub{font-family:'DM Serif Display',serif;font-style:italic;font-size:18px;color:rgba(245,240,234,.4);margin-bottom:32px;}
+.gate-steps{display:flex;flex-direction:column;gap:12px;max-width:480px;margin:0 auto 36px;text-align:left;}
+@media(min-width:768px){.gate-steps{flex-direction:row;gap:0;max-width:680px;}}
+.gate-step{flex:1;display:flex;align-items:flex-start;gap:14px;padding:16px;}
+@media(min-width:768px){
+  .gate-step{flex-direction:column;gap:10px;padding:20px;text-align:center;align-items:center;border-right:1px solid rgba(201,169,110,.1);}
+  .gate-step:last-child{border-right:none;}
+}
+.gate-step-num{width:32px;height:32px;border-radius:50%;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.25);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--oro);flex-shrink:0;}
+.gate-step-text{font-size:13px;line-height:1.6;color:rgba(245,240,234,.45);}
+.gate-step-text strong{color:rgba(245,240,234,.8);font-weight:500;display:block;margin-bottom:3px;}
+.gate-btn{display:inline-flex;align-items:center;gap:12px;background:var(--oro);color:var(--nero);padding:17px 32px;border-radius:100px;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.gate-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.18);transform:translateX(-101%);transition:transform .5s ease;}
+.gate-btn:hover::before{transform:translateX(101%);}
+.gate-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(201,169,110,.3);}
+.gate-btn span{position:relative;z-index:1;}
+.gate-note{margin-top:16px;font-size:11px;color:rgba(245,240,234,.2);}
+
+/* FOOTER */
+.footer{background:var(--nero);padding:32px;border-top:1px solid rgba(201,169,110,.08);}
+.footer-nav{display:flex;justify-content:center;gap:24px;margin-bottom:14px;flex-wrap:wrap;}
+.footer-nav a{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,240,234,.2);text-decoration:none;transition:color .3s;}
+.footer-nav a:hover{color:var(--oro);}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:rgba(245,240,234,.15);margin-bottom:6px;text-align:center;}
+.footer-contacts{font-size:11px;color:rgba(245,240,234,.12);font-weight:300;line-height:1.9;text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <a href="/" class="logo-block">
+    <span class="logo-name">Hospitality Lab</span>
+    <span class="logo-sub">by Nathalia Acosta</span>
+  </a>
+  <nav class="nav-links">
+    <a href="/quick-wins">Quick Wins</a>
+    <a href="/alchimia">L'Alchimia</a>
+    <a href="/laboratorio" class="active">Il Laboratorio</a>
+    <a href="/boutique">Boutique</a>
+    <a href="/diagnosi">La Diagnosi</a>
+  </nav>
+  <a href="/diagnosi" class="nav-cta">Prenota la Diagnosi →</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Trasformazioni Digitali Complete · Hospitality Lab</div>
+    <h1 class="hero-title">IL<br><span>LABORATORIO</span></h1>
+    <div class="hero-subtitle">Tre percorsi. Un solo obiettivo.</div>
+    <p class="hero-desc">Non vendiamo software. Non vendiamo consulenze generiche.<br><strong>Costruiamo il sistema digitale che fa girare il tuo hotel anche mentre dormi.</strong></p>
+    <div class="hero-gate">
+      <span class="hero-gate-icon">🔒</span>
+      <div class="hero-gate-text">L'accesso al Laboratorio parte dalla <strong>Diagnosi Gratuita</strong> — una chiamata di 15 minuti per capire da dove iniziare e quale percorso è giusto per te.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="services-intro">
+    <div class="s-tag">I Percorsi</div>
+    <div class="s-headline">Scegli la tua<br>trasformazione</div>
+    <div class="s-sub">Dal primo setup premium alla trasformazione completa</div>
+  </div>
+
+  <!-- THE ALCHEMY -->
+  <div class="service-card">
+    <div class="sc-top">
+      <div class="sc-level">Percorso 01 · Il primo passo premium</div>
+      <div class="sc-header">
+        <div class="sc-title-wrap">
+          <div class="sc-name">The Alchemy</div>
+          <div class="sc-name-it">Alchimia Digitale Starter</div>
+        </div>
+        <div class="sc-prices">
+          <div class="sc-price-main">€2.497</div>
+          <div class="sc-price-ch">CHF 2.790 · Svizzera</div>
+        </div>
+      </div>
+      <div class="sc-tagline">"Le tue prime 3 automazioni operative — quelle che liberano più tempo subito."</div>
+      <div class="sc-body">
+        <div class="sc-includes">
+          <div class="sc-includes-title">Cosa include</div>
+          <ul class="sc-list">
+            <li>Audit digitale completo — sito, reputazione, booking engine, social</li>
+            <li>Roadmap strategica personalizzata 60 giorni</li>
+            <li>Implementazione delle 3 automazioni operative prioritarie (WhatsApp + Reputazione + una custom)</li>
+            <li>3 sessioni di formazione 1:1</li>
+            <li>Dashboard iniziale KPI</li>
+            <li>2 mesi di supporto prioritario post-lancio</li>
+          </ul>
+        </div>
+        <div class="sc-results">
+          <div class="sc-results-title">Risultati attesi</div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">+25–40%</div>
+            <div class="sc-result-label">Prenotazioni dirette in 90–120 giorni</div>
+          </div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">–60%</div>
+            <div class="sc-result-label">Tempo manuale nelle comunicazioni</div>
+          </div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">60 gg</div>
+            <div class="sc-result-label">Tempo medio per i primi risultati visibili</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sc-bottom">
+      <div class="sc-not-for"><strong>Non è per te se</strong> cerchi risultati in 24 ore, hai meno di 10 camere, o non sei disposto a dedicare 2 ore/settimana al progetto.</div>
+      <a href="/diagnosi" class="sc-cta"><span>Inizia con la Diagnosi Gratuita →</span></a>
+    </div>
+  </div>
+
+  <!-- THE LAB -->
+  <div class="service-card">
+    <div class="sc-top">
+      <div class="sc-level">Percorso 02 · L'ecosistema autonomo</div>
+      <div class="sc-header">
+        <div class="sc-title-wrap">
+          <div class="sc-name">The Lab</div>
+          <div class="sc-name-it">Laboratorio di Automazione Hospitality</div>
+        </div>
+        <div class="sc-prices">
+          <div class="sc-price-main">€4.497</div>
+          <div class="sc-price-ch">CHF 4.990 · Svizzera</div>
+        </div>
+      </div>
+      <div class="sc-tagline">"Il tuo hotel lavora anche mentre dormi."</div>
+      <div class="sc-body">
+        <div class="sc-includes">
+          <div class="sc-includes-title">Cosa include</div>
+          <ul class="sc-list">
+            <li>Tutto di The Alchemy, più profondo e completo</li>
+            <li>Integrazione completa web + motore prenotazioni + WhatsApp Business API</li>
+            <li>IA per risposte automatiche, conferme e upselling</li>
+            <li>CRM base integrato con raccolta dati clienti</li>
+            <li>Flussi pre e post-soggiorno completi</li>
+            <li>Analisi predittiva base della domanda</li>
+            <li>Formazione intensiva del team</li>
+            <li>4 mesi di supporto e ottimizzazione continua</li>
+          </ul>
+        </div>
+        <div class="sc-results">
+          <div class="sc-results-title">Risultati attesi</div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">+40%</div>
+            <div class="sc-result-label">Prenotazioni dirette sostenibili</div>
+          </div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">–70%</div>
+            <div class="sc-result-label">Attività manuali di comunicazione</div>
+          </div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">24/7</div>
+            <div class="sc-result-label">Operatività autonoma del sistema</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sc-bottom">
+      <div class="sc-not-for"><strong>Non è per te se</strong> non hai ancora un sito funzionante, non hai personale che possa essere formato, o stai cercando una soluzione temporanea.</div>
+      <a href="/diagnosi" class="sc-cta"><span>Inizia con la Diagnosi Gratuita →</span></a>
+    </div>
+  </div>
+
+  <!-- THE TRANSFORMATION -->
+  <div class="service-card flagship">
+    <div class="sc-top">
+      <div class="flagship-badge">★ Flagship · Massimo impatto</div>
+      <div class="sc-level">Percorso 03 · La trasformazione totale</div>
+      <div class="sc-header">
+        <div class="sc-title-wrap">
+          <div class="sc-name">The Transformation</div>
+          <div class="sc-name-it">Hub di Trasformazione Digitale Completa</div>
+        </div>
+        <div class="sc-prices">
+          <div class="sc-price-main">€7.997</div>
+          <div class="sc-price-ch">CHF 8.900 · Svizzera</div>
+        </div>
+      </div>
+      <div class="sc-tagline">"Revisione a 120 giorni con dati reali — se i KPI non si muovono, continuiamo fino a quando si muovono."</div>
+      <div class="sc-body">
+        <div class="sc-includes">
+          <div class="sc-includes-title">Cosa include</div>
+          <ul class="sc-list">
+            <li>Consultoría strategica profonda + audit esaustivo di tutti i canali</li>
+            <li>Implementazione full stack — tutte le automazioni + IA avanzata</li>
+            <li>IA predittiva per analisi della domanda e ottimizzazione revenue</li>
+            <li>Generazione automatica di contenuti per social e reputazione</li>
+            <li>Integrazione totale di tutti i canali digitali</li>
+            <li>Formazione completa del team (front office + management)</li>
+            <li>6 mesi di supporto dedicato</li>
+            <li>Garanzia di risultati misurabili — revisione a 120 giorni inclusa</li>
+          </ul>
+        </div>
+        <div class="sc-results">
+          <div class="sc-results-title">Risultati attesi</div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">50–60%</div>
+            <div class="sc-result-label">Riduzione dipendenza OTA</div>
+          </div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">4–6×</div>
+            <div class="sc-result-label">ROI medio nel primo anno</div>
+          </div>
+          <div class="sc-result-item">
+            <div class="sc-result-num">120 gg</div>
+            <div class="sc-result-label">Garanzia di revisione KPI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sc-bottom">
+      <div class="sc-not-for"><strong>Non è per te se</strong> non sei il decision maker dell'hotel, non puoi investire tempo nelle prime 4 settimane di onboarding, o stai attraversando una crisi operativa.</div>
+      <a href="/diagnosi" class="sc-cta" style="background:var(--oro);color:var(--nero);"><span>Inizia con la Diagnosi Gratuita →</span></a>
+    </div>
+  </div>
+
+</section>
+
+<!-- GATE -->
+<section class="gate-section">
+  <div class="gate-inner">
+    <div class="gate-eyebrow">Come si accede</div>
+    <div class="gate-title">Tutto parte dalla<br><span>Diagnosi Gratuita</span></div>
+    <div class="gate-sub">15 minuti che cambiano la stagione</div>
+    <div class="gate-steps">
+      <div class="gate-step">
+        <div class="gate-step-num">1</div>
+        <div class="gate-step-text"><strong>Prenoti la chiamata</strong>Gratuita, senza impegno. 15 minuti via WhatsApp o video.</div>
+      </div>
+      <div class="gate-step">
+        <div class="gate-step-num">2</div>
+        <div class="gate-step-text"><strong>Analizziamo insieme</strong>Identifichiamo i tuoi peccati digitali e il percorso più adatto.</div>
+      </div>
+      <div class="gate-step">
+        <div class="gate-step-num">3</div>
+        <div class="gate-step-text"><strong>Ricevi la proposta</strong>Una roadmap personalizzata con il percorso giusto per il tuo hotel.</div>
+      </div>
+    </div>
+    <a href="https://wa.me/393755586968?text=Ciao%20Nathalia!%20Ho%20visto%20Il%20Laboratorio%20e%20vorrei%20prenotare%20la%20Diagnosi%20Gratuita%20per%20capire%20quale%20percorso%20è%20giusto%20per%20me." class="gate-btn" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span>Prenota la Diagnosi Gratuita</span>
+    </a>
+    <p class="gate-note">Nessun impegno · Risposta entro 24h · Italia e Svizzera</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-nav">
+    <a href="/quick-wins">Quick Wins</a>
+    <a href="/alchimia">L'Alchimia</a>
+    <a href="/laboratorio">Il Laboratorio</a>
+    <a href="/boutique">Boutique</a>
+    <a href="/diagnosi">La Diagnosi</a>
+  </div>
+  <div class="footer-logo">HOSPITALITY LAB · BY NATHALIA ACOSTA</div>
+  <div class="footer-contacts">nathalia.acostav@gmail.com · +39 375 558 69 68<br>Italia · Svizzera · Lago di Como</div>
+</footer>
+
+<script>
+(function(){
+  const pb=document.getElementById('progressBar');
+  window.addEventListener('scroll',()=>{pb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  const hdr=document.getElementById('mainHeader');
+  window.addEventListener('scroll',()=>{hdr.classList.toggle('scrolled',window.scrollY>60);},{passive:true});
+})();
+</script>
+</body>
+</html>
